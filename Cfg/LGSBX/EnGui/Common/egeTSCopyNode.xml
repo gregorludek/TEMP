@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Kopírování diagramů" ValidationLevel="1" EntityType="Enif.Gui.TSCopy.Common.Entities.TSCopyNode,EnifTSCopyCommon" ProgId="Enif.Gui.TSCopy.Gui.Behaviors.egeTSCopyNode,EnifTSCopyGui">
+  <FieldSection Name="Default" Caption="Základní">
+    <Field Name="Name" Caption="Název" Selector="Name" SelectorType="Path" FieldType="Text" IsRequired="True" />
+    <Field Name="Description" Caption="Popis" Selector="Description" SelectorType="Path" FieldType="Text" />
+    <Field Name="CopyType" Caption="Typ rozsahu" FieldType="EnumField" SelectorType="Path" Selector="CopyType" IsRequired="True">
+      <Params>
+        <Param Name="Enum">
+          <Param Name="Podle rozsahu vstupních řad">0</Param>
+          <Param Name="V rozsahu zvolených časů">1</Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Name="RozsahKopirovani" Caption="Dle data"> <!--  Visibility="{IsVisible}&#x9;Path;CopyType as CopyType&#x9;Exp;bool IsVisible=(CopyType==1)" -->
+    <Field Name="Timezone" Caption="Čas" FieldType="EnumField" SelectorType="Path" Selector="TimezoneFK" IsRequired="True" />
+    <Field Name="FromDateTime" Caption="Rozsah času od" FieldType="DateTime" SelectorType="Path" Selector="FromDateTime"/>
+    <Field Name="ToDateTime" Caption="Rozsah času do" FieldType="DateTime" SelectorType="Path" Selector="ToDateTime" />
+    <Field Name="IsToDateTimeIncluded" Caption="Včetně času do" FieldType="BoolField" SelectorType="Path" Selector="IsToDateTimeIncluded" />
+  </FieldSection>
+  <FieldSection Name="Diagramy" Caption="Vstupy/Výstupy">
+    <Field Name="Diagramy" Caption="Vstupní/Výstupní diagramy" FieldType="Grid" SelectorType="Path" Selector="bagTSCopyItem" Occupation="Block">
+      <DetailsButton IsVisible="True" Form="egeTSCopyItem" UnionTransaction="True" Target="@SelfDetail" />
+      <Params>
+        <Param Name="AskOnDelete">Opravdu odstranit?</Param>
+        <Param Name="DeleteMode">Multi</Param>
+        <Param Name="Columns">
+          <Param Name="Zdrojový diagram">
+            <Param Name="Field">SourceTSNodePath</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+          <Param Name="Cílový diagram">
+            <Param Name="Field">TargetTSNodePath</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <Params>
+    <Param Name="Buttons">
+      <Param Name="Run">Spustit</Param>
+    </Param>
+  </Params>
+</Form>

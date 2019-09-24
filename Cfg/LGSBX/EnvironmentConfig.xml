@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EnvironmentConfig>
+  <TimeZones>
+    <TimeZone Name="CEST" Path="encal.CZ.ini" ShortCaption="SELČ" Caption="Středoevropský letní čas" Visible="true" />
+    <TimeZone Name="CESTm6" Path="encal.CZ.ini" ShortCaption="Plyn. den" Caption="Plynárenský den" Visible="true" />
+    <TimeZone Name="CET" ShortCaption="SEČ" Caption="Středoevropský čas" Visible="true" />
+    <TimeZone Name="UTC" ShortCaption="UTC" Caption="Univerzální koordinovaný čas" Visible="true" />
+  </TimeZones>
+  <EnCals>
+    <EnCal Name="CZ" Path="encal.CZ.ini" ShortCaption="CZ" Caption="Energetický kalendář pro české luhy a háje." Visible="true" />
+    <EnCal Name="Empty" ShortCaption="Prázdný" Caption="Prázdný kalendář bez svátků." Visible="true" />
+  </EnCals>
+  <Samples>
+<Sample Name="Sec" ShortCaption="sec." Caption="sekundové" Visible="true" />
+<Sample Name="Sec10" ShortCaption="10sec." Caption="10-sekundové" Visible="true" />
+<Sample Name="Min" ShortCaption="min." Caption="minutové" Visible="true" />
+<Sample Name="Min3" ShortCaption="3min." Caption="3-minutové" Visible="true" />
+<Sample Name="Min5" ShortCaption="5min." Caption="5-minutové" Visible="true" />
+<Sample Name="Min10" ShortCaption="10min." Caption="10-minutové" Visible="true" />
+<Sample Name="Min15" ShortCaption="15min." Caption="15-minutové" Visible="true" />
+<Sample Name="Min30" ShortCaption="30min." Caption="30-minutové" Visible="true" />
+<Sample Name="Hour" ShortCaption="hod." Caption="hodinové" Visible="true" />
+<Sample Name="Day" ShortCaption="den" Caption="denní" Visible="true" />
+<Sample Name="WeekSat" ShortCaption="tyd.so" Caption="týdenní" Visible="true" />
+<Sample Name="WeekSun" ShortCaption="tyd.ne" Caption="týdenní" Visible="true" />
+<Sample Name="WeekMon" ShortCaption="tyd.po" Caption="týdenní" Visible="true" />
+<Sample Name="Decade" ShortCaption="dec" Caption="dekáda" Visible="true" />
+<Sample Name="Month" ShortCaption="měs." Caption="měsíční" Visible="true" />
+<Sample Name="QYear" ShortCaption="čtvtrletní" Caption="čtvrtletní" Visible="true" />
+<Sample Name="HYear" ShortCaption="půlroční" Caption="půlroční" Visible="true" />
+<Sample Name="Year" ShortCaption="roční" Caption="roční" Visible="true" />
+<Sample Name="Const" ShortCaption="konst." Caption="konstanta" Visible="true" />
+  </Samples>
+  <CatClasses>
+    <Class ProgId="Enif.Category.CEnifCatLibrarySim,EnifData">
+      <Params>
+        <Param Name="GuiInfos">
+          <Param Name="PracNeprac">
+            <Param Name="Visible">true</Param>
+            <Param Name="Caption">Pracovní/nepracovní</Param>
+            <Param Name="ShortCaption">PN</Param>
+            <Param Name="Desc">Pracovní/nepracovní dny</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Class>
+  </CatClasses>
+  <Units>
+    <UnitDefinitions>
+      <Unit Name=" " Caption=" " Visible="true"/>
+      <Unit Name="kWh" Caption="kWh" Visible="true"/>
+      <Unit Name="MWh" Caption="MWh" Visible="true"/>
+      <Unit Name="kW" Caption="kW" Visible="true"/>
+      <Unit Name="MW" Caption="MW" Visible="true"/>
+    </UnitDefinitions>
+  </Units>
+	<LPrints>
+		<LPrint Name="xls" ProgId="CygSegPrintXLS.CLPrintExcel,CygSegPrintXLS" />
+	</LPrints>
+</EnvironmentConfig>

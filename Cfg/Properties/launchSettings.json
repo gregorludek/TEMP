@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Cfg": {
+      "commandName": "Executable",
+      "executablePath": "I:\\gitRepos\\TEMP\\Enif.Debug\\EnifClient.exe",
+      "commandLineArgs": "I:\\gitRepos\\TEMP\\Cfg\\LGSBX\\"
+    }
+  }
+}

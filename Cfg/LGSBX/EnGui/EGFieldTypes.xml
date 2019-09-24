@@ -1,0 +1,143 @@
+﻿<Config>
+  <FieldTypes>
+    <FieldType Name="AvalonEdit" ProgId="EGSpecFields.EGFieldAvalonEditor" />
+    <FieldType Name="FilePathField" ProgId="EGBaseFields.EGFieldFilePath" BaseType="String"/>
+    <FieldType Name="CurrencyField" ProgId="EGBaseFields.EGFieldNum" >
+      <Params>
+        <Param Name="Format" Value="{0:C2}" />
+      </Params>
+    </FieldType>
+    <FieldType Name="ShortText" ProgId="EGBaseFields.EGFieldText">
+      <Params>
+        <Param Name="MaxLen">32</Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="Text" ProgId="EGBaseFields.EGFieldText" BaseType="String"/>
+    <FieldType Name="Entity" ProgId="EGBaseFields.EGFieldEntity" BaseType="Entity"/>
+    <FieldType Name="Address" ProgId="EGBaseFields.EGFieldEntity">
+      <DetailsButton IsVisible="True" Form="egeAddress" UnionTransaction="True" />
+      <Params>
+        <Param Name="Format" Value="{City??NoCity} {Postcode??Space}, {Street??NoStreet} {DescriptiveNumber??Missing}/{OrientationNumber??Missing}" />
+        <Param Name="Arguments">
+          <Param Name="Path;City as City" />
+          <Param Name="Path;Postcode as Postcode" />
+          <Param Name="Path;Street as Street" />
+          <Param Name="Path;DescriptiveNumber as DescriptiveNumber" />
+          <Param Name="Path;OrientationNumber as OrientationNumber" />
+          <Param Name="Const;  as Space" />
+          <Param Name="Const;- as Missing" />
+          <Param Name="Const;(bez města) as NoCity" />
+          <Param Name="Const;(bez ulice) as NoStreet" />
+        </Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="Number" ProgId="EGBaseFields.EGFieldNum" />
+    <FieldType Name="TestNumber" ProgId="TestControls.TestField"/>
+    <FieldType Name="Integer" ProgId="EGBaseFields.EGFieldNum">
+      <Params>
+        <Param Name="Format" Value="{0:D}" />
+      </Params>
+    </FieldType>
+    <FieldType Name="Time" ProgId="EGBaseFields.EGFieldDateTime">
+      <Params>
+        <Param Name="Mode">Time</Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="DateTime" ProgId="EGBaseFields.EGFieldDateTime">
+      <Params>
+        <Param Name="Mode">DateTime</Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="Date" ProgId="EGBaseFields.EGFieldDateTime">
+      <Params>
+        <Param Name="Mode">Date</Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="FileField" ProgId="EGBaseFields.EGFieldFile" />
+    <FieldType Name="BoolField" ProgId="EGBaseFields.EGFieldBool"/>
+    <FieldType Name="EnumField" ProgId="EGBaseFields.EGFieldEditableEnum"/>
+    <FieldType Name="CalendarField" ProgId="EGBaseFields.EGFieldCalendar"/>
+    <FieldType Name="ButtonsField" ProgId="EGBaseFields.EGFieldButtons"/>
+    <FieldType Name="FormButtons" ProgId="EGBaseFields.EGFieldOpenFormButtons"/>
+    <FieldType Name="ETSButtons" ProgId="EGBaseFields.EGFieldOpenFormButtons">
+      <Params>
+        <Param Name="Buttons">
+          <Param Name="ButtonChart">
+            <Param Name="Value">Graf</Param>
+            <Param Name="ToolTip">Ukaž graf</Param>
+            <Param Name="Form">egpChart</Param>
+            <Param Name="Params" >
+              <Param Name="LWParams">
+                <Param Name="Type">ColumnsNotSum</Param>
+              </Param>
+            </Param>
+          </Param>
+          <Param Name="ButtonTable">
+            <Param Name="Value">Tabulka</Param>
+            <Param Name="ToolTip">Ukaž tabulku</Param>
+            <Param Name="Form">egpGridEditor</Param>
+            <Param Name="Params" />
+          </Param>
+          <Param Name="Button2DTable">
+            <Param Name="Value">2D Tabulka</Param>
+            <Param Name="ToolTip">Ukaž 2D tabulku</Param>
+            <Param Name="Form">egp2DGridEditor</Param>
+            <Param Name="Params" />
+          </Param>
+        </Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="Gender" ProgId="EGBaseFields.EGFieldEnum">
+      <Params>
+        <Param Name="Enum">
+          <Param Name="Žena">0</Param>
+          <Param Name="Muž">1</Param>
+          <Param Name="Nevím">2</Param>
+        </Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="Grid" ProgId="EGBaseFields.EGFieldGrid" />
+	  <FieldType Name="HistoryField" ProgId="EGBaseFields.EGFieldHistoryInfo" />
+    <FieldType Name="ETS" ProgId="EGBaseFields.EGFieldETS">
+      <Params>
+        <Param Name="LWParams">
+        </Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="MultiSelector" ProgId="EGBaseFields.EGFieldMultiSelector">
+    </FieldType>
+    <FieldType Name="ETSSet" ProgId="EGBaseFields.EGFieldETSSet,EGBaseFields">
+      <Params>
+        <Param Name="Tabs">
+          <Param Name="Graf">
+            <Param Name="Shape">Chart</Param>
+            <Param Name="ProgID">Enif.Gui.Chart.LWChart,EnifChart</Param>
+            <Param Name="LWParams"/>
+          </Param>
+          <Param Name="Tabulka">
+            <Param Name="Shape">EnifGridEditor</Param>
+            <Param Name="ProgID">EnifGridEditor.GridEditor</Param>
+            <Param Name="LWParams"/>
+          </Param>
+        </Param>
+      </Params>
+    </FieldType>
+    <FieldType Name="DocumentDMS" ProgId="EGBaseFields.EGFieldDocumentDMS,EGBaseFields">
+      <Params>
+        <Param Name="EntityType" Value="Enif.EDA.Entities.Document,EnifGECommon"/>
+        <Param Name="MaxSizeMB" Value="50"/>
+      </Params>
+    </FieldType>
+  </FieldTypes>
+  <BaseTypes>
+    <BaseType SystemType="Double" FieldType="Number" />
+    <BaseType SystemType="String" FieldType="Text" />
+    <BaseType SystemType="Entity" FieldType="Entity" />
+    <BaseType SystemType="Int16" FieldType="Integer" />
+    <BaseType SystemType="Int32" FieldType="Integer" />
+    <BaseType SystemType="Int64" FieldType="Integer" />
+    <BaseType SystemType="DateTime" FieldType="DateTime" />
+    <BaseType SystemType="Boolean" FieldType="BoolField" />
+    <BaseType SystemType="Collection" FieldType="Grid" />
+  </BaseTypes>
+</Config>

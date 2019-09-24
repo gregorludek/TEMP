@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Přihlášení uživatelé" ProgId="EnifNHGuiEG.Identities.egbUserSessions" WindowCaption="Přihlášení uživatelé" EntityType="EnifNHCommon.EnifManual.EMUserSession,EnifNHCommon" IsReadOnly="true" Scale="1.5" ValidationLevel="0" GridGroupableDisable="false" SelectMode="Multi">
+  <!--<DetailsButton IsVisible="true" ToolTip="Zobrazit uživatele" Form="egeUser" UnionTransaction="true" />
+  <SelectButton IsVisible="true" ToolTip="Nový uživatel" Form="egeUser" UnionTransaction="false" />-->
+  <Params>
+    <Param Name="ViewType">LINQ</Param>
+    <!--varianta pro distinct loginy-->
+    <!--<Param Name="ViewName">.GroupBy(a=>a.Name).Select(b=>b.First()).ToList();</Param>-->
+    <!--<Param Name="ViewName">.Select(a=>new {Id=a.EMIdentity.Id,Name=a.EMIdentity.Name,FirstName=a.EMIdentity.FirstName,LastName=a.EMIdentity.LastName}).Distinct().ToList();</Param>-->
+    
+    <!--varianta pro distinct loginy + pocet prihlaseni-->
+    <!--<Param Name="ViewName">.GroupBy(b=>b.Name).Select(a=>new {Id=a.First().Id,Name=a.First().Name,FirstName=a.First().FirstName,LastName=a.First().LastName,Count=a.Count()}).Distinct().ToList();</Param>-->
+    
+    <!--varianta pro vsechny sessiony-->
+    <Param Name="ViewName">.OrderBy(a=>a.LoginTime).OrderBy(a=>a.Name).ToList();</Param>
+    
+    <Param Name="PrimaryKeyName">Id</Param>
+    <Param Name="WhereCondition"></Param>
+    <Param Name="DynamicLoading">false</Param>
+    <Param Name="Buttons">
+    </Param>
+    <Param Name="Export">
+      <Param Name="Export do xls"></Param>
+    </Param>
+    <Param Name="Columns">
+      <Param Name="Name">
+        <Param Name="Label">Login</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="FirstName">
+        <Param Name="Label">Jméno</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="LastName">
+        <Param Name="Label">Příjmení</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="LoginTime">
+        <Param Name="Label">Přihlášen od</Param>
+        <Param Name="DataType">DateTime</Param>
+        <Param Name="Format">dd.MM HH:mm:ss</Param>
+        <Param Name="Width">1*</Param>
+        <Param Name="Alignment">Right</Param>
+      </Param>
+      <!--<Param Name="Count">
+        <Param Name="Label">Počet přihlášení</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>-->
+    </Param>
+    <Param Name="RefreshOnNotifyEnabled">true</Param>
+  </Params>
+</Form>

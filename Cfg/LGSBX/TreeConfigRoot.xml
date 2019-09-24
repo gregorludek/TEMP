@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <ModContainer Name="Global">
+    <Mods>
+      <ModCommand Name="LWProperties" ModProgId="EnifCommon.CModCommandAddToBegin" Type="Tab" ProgId="EnifGui.LWProperties" Caption="Vlastnosti">
+        <Params>
+          <Param Name="ShowCommands">true</Param>
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer Name="Static">
+    <ModCommand Name="llwLeftTree" Type="LeftPanel" ProgId="EnifGui.LWLeftTree" Caption="">
+      <Params>
+        <Param Name="OrderByCaption" Value="false"/>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="sbProgress">
+      <Type>StatusbarItem</Type>
+      <ProgId>EnifGui.CCommandSbProgressBar</ProgId>
+    </ModCommand>
+  </ModContainer>
+
+  <NodeType Id="100" Name="[ERROR]">
+    <NodeProgId>Enif.Tree.CNodeError</NodeProgId>
+    <ModFormat>
+      <ForeColor>White</ForeColor>
+      <BackColor>Crimson</BackColor>
+      <FontStyleChange>Bold1</FontStyleChange>
+      <IconParams>Error</IconParams>
+      <IconOperation>Set</IconOperation>
+    </ModFormat>
+    <ModCommand Name="LWError">
+      <Type>Tab</Type>
+      <ProgId>Enif.Tree.LWErrorNode,Enif</ProgId>
+      <Caption>Informace</Caption>
+    </ModCommand>
+  </NodeType>
+  <NodeType Id="200" Name="[ROOT]">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModFormat>
+      <ForeColor>Black</ForeColor>
+      <FontStyleChange>Bold1</FontStyleChange>
+      <IconParams>Root</IconParams>
+      <IconOperation>Set</IconOperation>
+    </ModFormat>
+  </NodeType>
+  <NodeType Id="300" Name="Folder">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Commands"/>
+    <ModContainerRef Ref="Visuals"/>
+  </NodeType>
+
+  <ModContainer Name="Visuals" ModProgId="EnifCommon.CModContainerFilterTemplateId">
+    <ModFormat>
+      <ModParams>
+        <Param Name="TemplateId">Disconnect</Param>
+      </ModParams>
+      <IconParams>vd_logout</IconParams>
+      <IconOperation>Set</IconOperation>
+    </ModFormat>
+  </ModContainer>
+
+  <ModContainer Name="Commands" ModProgId="EnifCommon.CModContainerFilterTemplateId">
+    <Mods>
+      <ModCommand Icon="PlusCreate" ProgId="EnifClient.CCommandLogOff" Type="DirectCommand">
+        <ModParams>
+          <Param Name="TemplateId">Disconnect</Param>
+        </ModParams>
+      </ModCommand>
+      <ModCommand Name="LoggedUsers" ProgId="EGCore.CExEGWindow,EGCore" Caption="Přihlášení uživatelé" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId">LoggedUsers</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">EnifManual</Param>
+          <Param Name="TestForm">Identity.eggUserSessions</Param>
+          <Param Name="Mode">7</Param>
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+
+  <NodeTemplate Id="[ROOT]" ProgId="EnifCommon.CNTConst" NodeType="[ROOT]">
+    <NodeTemplate Caption="Systém" Id="System" ProgId="EnifCommon.CNTConst" NodeType="Folder">
+      <NodeTemplate Caption="Odhlásit" ProgId="EnifCommon.CNTConst" Id="Disconnect" NodeType="Folder">
+        <Params>
+          <Param Name="HasChildren">false</Param>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Caption="Přihlášení uživatelé" ProgId="EnifCommon.CNTConst" Id="LoggedUsers" NodeType="Folder">
+        <Params>
+          <Param Name="HasChildren">false</Param>
+        </Params>
+      </NodeTemplate>
+      <ConTemplate Id="Identities" ProgId="EnifCommon.CCTFixed">
+        <Params>
+          <Param Name="Parent">
+            <Param Name="AId" Value="[ROOT]"/>
+          </Param>
+          <Param Name="Child">
+            <Param Name="AId" Value=""/>
+            <Param Name="TemplateId" Value="Root"/>
+            <Param Name="ConfigName" Value="ICConfig"/>
+          </Param>
+        </Params>
+      </ConTemplate>
+    </NodeTemplate>
+    <ConTemplate Id="Workspace" ProgId="EnifCommon.CCTFixed">
+      <Params>
+        <Param Name="CheckChildConfigPresent">1</Param>
+        <Param Name="Parent">
+          <Param Name="AId" Value="[ROOT]"/>
+        </Param>
+        <Param Name="Child">
+          <Param Name="AId" Value="1"/>
+          <Param Name="TemplateId" Value="Fo"/>
+          <Param Name="ConfigName" Value="Workspace"/>
+        </Param>
+      </Params>
+    </ConTemplate>
+  </NodeTemplate>
+</TreeConfig>

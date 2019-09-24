@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TreeConfig xmlns="Enif.TreeConfig"> 
+  <NodeType Id="1" Name="ICRoot">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModContainerRef Ref ="ICRootMod"/>
+    </Mods>
+  </NodeType>
+  <NodeType Id="2" Name="ICIdentity">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModContainerRef Ref ="ICIdentityMod"/>
+    </Mods>
+  </NodeType>
+  <ModContainer Name="ICRootMod">
+    <ModProgId>EnifCommon.CModContainerFilterTemplateId</ModProgId>
+    <Mods>
+      <ModCommand Name="LWEGUsers" ProgId="EGCore.CExEGWindow,EGCore">
+        <ModParams>
+          <Param Name="TemplateId">
+            <Param>U</Param>
+          </Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <Icon>vd_identity.ico</Icon>
+        <Caption>EnGUI uživatelé</Caption>
+        <Params>
+          <Param Name="SessionFactory">EnifManual</Param>
+          <Param Name="TestForm">Identity.eggUsers</Param>
+        </Params>        
+      </ModCommand>
+      <ModCommand Name="LWEGGroups" ProgId="EGCore.CExEGWindow,EGCore">
+        <ModParams>
+          <Param Name="TemplateId">
+            <Param>G</Param>
+          </Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <Icon>vd_group.ico</Icon>
+        <Caption>EnGUI skupiny</Caption>
+        <Params>
+          <Param Name="SessionFactory">EnifManual</Param>
+          <Param Name="TestForm">Identity.eggGroups</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWEGRoles" ProgId="EGCore.CExEGWindow,EGCore">
+        <ModParams>
+          <Param Name="TemplateId">
+            <Param>R</Param>
+          </Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <Icon>vd_role.ico</Icon>
+        <Caption>EnGUI Role</Caption>
+        <Params>
+          <Param Name="SessionFactory">EnifManual</Param>
+          <Param Name="TestForm">Identity.eggRoles</Param>
+        </Params>
+      </ModCommand>
+
+ 	<!--
+      <ModCommand Name="Properties">
+        <ModParams>
+          <Param Name="TemplateId">
+            <Param>U</Param>
+            <Param>G</Param>
+            <Param>R</Param>
+          </Param>
+        </ModParams>  
+        <Type>Tab</Type>
+        <ProgId>EnifGui.LWEmpty</ProgId>
+        <Icon>vd_root.ico</Icon>
+        <Params>
+          <Param Name="ShowCommands">true</Param>
+        </Params>
+        <Caption>Vlastnosti</Caption>
+      </ModCommand>      
+	  -->
+      <ModFormat>
+        <ModParams>
+          <Param Name="Not">true</Param>
+        </ModParams>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_root</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+	  <!--
+      <ModCommand Name="IdentityOrder">
+        <ModParams>
+          <Param Name="TemplateId">Root</Param>
+        </ModParams>  
+        <Type>Tab</Type>
+        <ProgId>Enif.Identities.LWIdentityOrder,EnifGui</ProgId>
+        <Caption>Pořadí identit</Caption>
+        <Icon>vd_root</Icon>
+      </ModCommand>
+      <ModCommand>
+        <ModParams>
+          <Param Name="TemplateId">U</Param>
+        </ModParams>
+        <Type>AddCommand</Type>
+        <ProgId>Enif.Identities.CCommandAddIdentity,EnifGui</ProgId>
+        <Params>
+          <Param Name="Type">User</Param>
+        </Params>
+        <Caption>Přidat uživatele</Caption>
+        <Icon>vd_user.ico</Icon>
+      </ModCommand>
+      <ModCommand>
+        <ModParams>
+          <Param Name="TemplateId">G</Param>
+        </ModParams>
+        <Type>AddCommand</Type>
+        <ProgId>Enif.Identities.CCommandAddIdentity,EnifGui</ProgId>
+        <Params>
+          <Param Name="Type">Group</Param>
+        </Params>
+        <Caption>Přidat skupinu</Caption>
+        <Icon>vd_group.ico</Icon>
+      </ModCommand>
+      <ModCommand>
+        <ModParams>
+          <Param Name="TemplateId">R</Param>
+        </ModParams>
+        <Type>AddCommand</Type>
+        <ProgId>Enif.Identities.CCommandAddIdentity,EnifGui</ProgId>
+        <Params>
+          <Param Name="Type">Role</Param>
+        </Params>
+        <Caption>Přidat roli</Caption>
+        <Icon>vd_role.ico</Icon>
+      </ModCommand>
+-->
+   </Mods>
+  </ModContainer>
+  <ModContainer Name="ICIdentityMod">
+    <Mods>
+	<!--
+      <ModCommand Name="LWIdentityProperties">
+        <Type>Tab</Type>
+        <ProgId>Enif.Identities.LWIdentityProperties,EnifGui</ProgId>
+        <Caption>Vlastnosti Identity</Caption>
+        <Params>
+          <Param Name="ShowCommands">true</Param>
+        </Params>
+        <Icon>vd_root.ico</Icon>
+      </ModCommand>
+      <ModCommand Name="LWIdentityRef">
+        <Type>Tab</Type>
+        <ProgId>Enif.Identities.LWIdentityRef,EnifGui</ProgId>
+        <Caption>Zděděné Identity</Caption>
+        <Icon>vd_root.ico</Icon>
+      </ModCommand>
+      <ModContainer>
+        <Mods>
+          <ModApply>
+            <ModProgId>Enif.Identities.CModApplyIsIdentityType</ModProgId>
+            <ModParams>
+              <Param Name="Type">User</Param>
+            </ModParams>
+          </ModApply>
+          <ModFormat>
+            <ForeColor>Black</ForeColor>
+            <FontStyleChange>Bold1</FontStyleChange>
+            <IconParams>vd_user.ico</IconParams>
+            <IconOperation>Set</IconOperation>
+          </ModFormat>
+          <ModCommand>
+            <Type>OtherCommand</Type>
+            <ProgId>Enif.Identities.CCommandModifyIdentity,EnifGui</ProgId>
+            <Caption>Upravit</Caption>
+            <Icon>vd_user.ico</Icon>
+          </ModCommand>
+          <ModCommand>
+            <Type>OtherCommand</Type>
+            <ProgId>Enif.Identities.CCommandChangePassword,EnifGui</ProgId>
+            <Caption>Změnit heslo</Caption>
+            <Icon>vd_user.ico</Icon>
+            <Params>
+              <Param Name="RequireOldPassword">false</Param>
+            </Params>
+          </ModCommand>
+          <ModCommand>
+            <Type>DeleteCommand</Type>
+            <ProgId>Enif.Identities.CCommandRemoveIdentity,EnifGui</ProgId>
+            <Caption>Odstranit</Caption>
+            <Icon>vd_user.ico</Icon>
+          </ModCommand>
+        </Mods>
+      </ModContainer>
+      <ModContainer>
+        <Mods>
+          <ModApply>
+            <ModProgId>Enif.Identities.CModApplyIsIdentityType</ModProgId>
+            <ModParams>
+              <Param Name="Type">Group</Param>
+            </ModParams>
+          </ModApply>
+          <ModFormat>
+            <ForeColor>Black</ForeColor>
+            <FontStyleChange>Bold1</FontStyleChange>
+            <IconParams>vd_group.ico</IconParams>
+            <IconOperation>Set</IconOperation>
+          </ModFormat>
+          <ModCommand>
+            <Type>OtherCommand</Type>
+            <ProgId>Enif.Identities.CCommandModifyIdentity,EnifGui</ProgId>
+            <Caption>Upravit</Caption>
+            <Icon>vd_group.ico</Icon>
+          </ModCommand>
+          <ModCommand>
+            <Type>DeleteCommand</Type>
+            <ProgId>Enif.Identities.CCommandRemoveIdentity,EnifGui</ProgId>
+            <Caption>Odstranit</Caption>
+            <Icon>vd_group.ico</Icon>
+          </ModCommand>
+        </Mods>
+      </ModContainer>
+      <ModContainer>
+        <Mods>
+          <ModApply>
+            <ModProgId>Enif.Identities.CModApplyIsIdentityType</ModProgId>
+            <ModParams>
+              <Param Name="Type">Role</Param>
+            </ModParams>
+          </ModApply>
+          <ModFormat>
+            <ForeColor>Black</ForeColor>
+            <FontStyleChange>Bold1</FontStyleChange>
+            <IconParams>vd_role.ico</IconParams>
+            <IconOperation>Set</IconOperation>
+          </ModFormat>
+          <ModCommand>
+            <Type>OtherCommand</Type>
+            <ProgId>Enif.Identities.CCommandModifyIdentity,EnifGui</ProgId>
+            <Caption>Upravit</Caption>
+            <Icon>vd_role.ico</Icon>
+          </ModCommand>
+          <ModCommand>
+            <Type>DeleteCommand</Type>
+            <ProgId>Enif.Identities.CCommandRemoveIdentity,EnifGui</ProgId>
+            <Caption>Odstranit</Caption>
+            <Icon>vd_role.ico</Icon>
+          </ModCommand>
+        </Mods>
+      </ModContainer>
+	  	  -->
+    </Mods>
+  </ModContainer>
+  
+  <NodeTemplate Id="Root" ProgId="EnifCommon.CNTConst" RShow="Admin or ST or PT">
+    <NodeType>ICRoot</NodeType>
+    <Caption>Správa uživatelů</Caption>
+    <NodeTemplate Id="U" ProgId="EnifCommon.CNTConstWithoutChildren" RShow="Admin or ST or PT">
+      <NodeType>ICRoot</NodeType>
+      <Caption>Uživatelé</Caption>
+    </NodeTemplate>
+    <NodeTemplate Id="G" ProgId="EnifCommon.CNTConstWithoutChildren" RShow="Admin or ST">
+      <NodeType>ICRoot</NodeType>
+      <Caption>Skupiny</Caption>
+    </NodeTemplate>
+    <NodeTemplate Id="R" ProgId="EnifCommon.CNTConstWithoutChildren" RShow="Admin or ST">
+      <NodeType>ICRoot</NodeType>
+      <Caption>Role</Caption>
+    </NodeTemplate>
+  </NodeTemplate>
+  <NodeTemplate Id="Identity" ProgId="Enif.Identities.CNTIdentity">
+    <NodeType>ICIdentity</NodeType>
+    <ConTemplate Id="UList" ProgId="Enif.Identities.CCTList">
+      <Params>
+        <Param Name="Condition" Value="OnlyUser"/>
+      </Params>
+      <NodeTemplateRef Ref="Identity"/>
+    </ConTemplate>
+    <ConTemplate Id="GList" ProgId="Enif.Identities.CCTList">
+      <Params>
+        <Param Name="Condition" Value="OnlyGroup"/>
+      </Params>
+      <NodeTemplateRef Ref="Identity"/>
+    </ConTemplate>
+    <ConTemplate Id="RList" ProgId="Enif.Identities.CCTList">
+      <Params>
+        <Param Name="Condition" Value="OnlyRole"/>
+      </Params>
+      <NodeTemplateRef Ref="Identity"/>
+    </ConTemplate>
+  </NodeTemplate>
+  <!--<RootNode Id="" TemplateId="Root"/>-->
+</TreeConfig>

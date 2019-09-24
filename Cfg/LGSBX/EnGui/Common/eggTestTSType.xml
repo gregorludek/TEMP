@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Seznam typů řad" WindowCaption="Typy řad" ProgId="" EntityType="Enif.Naos.Agg.Testy.TestTSType,EnifNaosAggTesty" CanDelete="Multi">
+  <Params>
+    <Param Name="ViewName">Select TestTSType.Id as ID, TestTSType.Name as Name from TestTSType as TestTSType</Param>
+    <Param Name="ViewType">HQL</Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="DynamicLoading">false</Param>
+    <Param Name="Columns">
+      <Param Name="ID"></Param>
+      <Param Name="Name"></Param>
+    </Param>
+  </Params>
+  <DetailsButton IsVisible="True" Form="egeTestTSType" UnionTransaction="True" />
+  <SelectButton IsVisible="True" Form="egeTestTSType" UnionTransaction="True" />
+</Form>

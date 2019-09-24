@@ -1,0 +1,758 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <Adapter Name="DataLinkCommonAdapter" ProgId="EnifNhCommon.DataLinkCommonAdapter,EnifNhCommon" />
+  <Adapter Name="TreeMappingAdapter" ProgId="Enif.Entities.Tree.CEntityTreeMappingAdapter,EnifNh"/>
+  <Adapter Name="ShapeSBX" ProgId="Enif.EDA.ENV.CShapeAdapterSBX,EnifENVModules">
+    <Params>
+      <Param Name="IsNodeShapeAdapter">1</Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="ShapeNaosWatcher">
+    <ProgId>EnifNaos.CShapeOperationWatcherNaos</ProgId>
+    <Params>
+      <Param Name="IsNodeShapeAdapter">true</Param>
+      <Param Name="NaosName">NaosModuleWorkspace</Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="NotifyAdapter">
+    <ProgId>Enif.Entities.CEntityNotifyAdapter,EnifNH</ProgId>
+  </Adapter>
+  <!--<Adapter Name="ShapeImportExportExcelWatcher">
+    <ProgId>Enif.Gui.ImportExportExcel.Modules.ImportExportExcelTreeShapeOperationWatcher,EnifImportExportExcelModules</ProgId>
+    <Params>
+      <Param Name="IsNodeShapeAdapter">true</Param>
+    </Params>
+  </Adapter>-->
+  <Adapter Name="EnifNhCommon.CHqlTreeAdapter" ProgId="EnifNhCommon.CHqlTreeAdapter,EnifNhCommon"/>
+  <Adapter Name="ETSAdapter">
+    <ProgId> Enif.EDA.ENV.CSBXDataAdapter,EnifENVModules</ProgId>
+    <Params>
+      <Param Name="DirName">SandBoxDataStore</Param>
+      <Param Name="HistoryDirName">SandBoxDataStoreHistory</Param>
+      <Param Name="TSFlags">WriteResizes</Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="SDOAdapter" ProgId="EnifCommon.CSDOSimpleDataAdapterBase">
+    <Params>
+      <Param Name="DirName">SandBoxSDOStore</Param>
+      <Param Name="HistoryDirName">SandBoxSDOStoreHistory</Param>
+      <Param Name="Serializers">
+        <Param Name="Date">Enif.Data.Serializers.CSerializerXDate,EnifData</Param>
+        <Param Name="Text">Enif.Data.Serializers.CSerializerXString,EnifData</Param>
+      </Param>
+    </Params>
+  </Adapter>
+  <!--RightsWorkSpace-->
+  <ModContainer Name="MCBaseTS">
+    <ModCommand Name="ChartLines_Workspace">
+      <Caption>Graf</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="RangeSaveType" Value="User"/>
+        <Param Name="Type">Lines</Param>
+        <!--<Param Name="HistoryFilter">True</Param>-->
+      </Params>
+    </ModCommand>
+    <ModCommand Name="Grid-full_Workspace">
+      <Caption>Tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <!--<Param Name="AggDiagVisibility">Collapsed</Param>-->
+        <Param Name="InfoVisibility">0</Param>
+        <Param Name="HistoryFilter">True</Param>
+        <Param Name="DateUtilsSettingCol">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="DateUtilsSettingRow">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All"/>
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty"/>
+              <Param Name="ShortCaption" Value="Všechny hodnoty"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hodiny ve dni"/>
+              <Param Name="ShortCaption" Value="Hodiny ve dni"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="P-N-D-N">
+              <Param Name="Caption" Value="Denní zóny"/>
+              <Param Name="ShortCaption" Value="Denní zóny"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="P-N">
+              <Param Name="Caption" Value="Pracovní/Nepracovní"/>
+              <Param Name="ShortCaption" Value="Working/nonworking"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="D-N">
+              <Param Name="Caption" Value="Den/Noc"/>
+              <Param Name="ShortCaption" Value="Den/Noc"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="Vzorek"/>
+              <Param Name="ShortCaption" Value="Vzorek"/>
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hodiny"/>
+              <Param Name="ShortCaption" Value="Hodiny"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Dny"/>
+              <Param Name="ShortCaption" Value="Dny"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Týdny"/>
+              <Param Name="ShortCaption" Value="Týdny"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="En. týdny"/>
+              <Param Name="ShortCaption" Value="En. týdny"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Měsíce"/>
+              <Param Name="ShortCaption" Value="Měsíce"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Kvartály"/>
+              <Param Name="ShortCaption" Value="Kvartály"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Roky"/>
+              <Param Name="ShortCaption" Value="Roky"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="Vše"/>
+              <Param Name="ShortCaption" Value="Vše"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <!--<Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg"/>
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace"/>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>-->
+      </Params>
+    </ModCommand>
+    <ModCommand Name="Grid-2DTab_Workspace">
+      <Caption>2D tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="AggDiagVisibility">Collapsed</Param>
+        <Param Name="EditorType">Table2D</Param>
+        <Param Name="GridDataListWidth">1</Param>
+        <Param Name="ListGranularity">
+          <Param Name="DefVal" Value="day"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="day">
+              <Param Name="Caption" Value="Dny"></Param>
+              <Param Name="ShortCaption" Value="Dny"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="ZakladniKategorie.HodinyVDni2DTab"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hodiny ve dni"></Param>
+              <Param Name="ShortCaption" Value="Hodiny ve dni"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+  <ModContainer Name="MCTS">
+    <ModCommand Name="LWDataTSEnGui" Caption="Vlastnosti TS" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Params>
+        <Param Name="TestForm">Common.egeTSProperties</Param>
+        <Param Name="ShowCommands">true</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="Editor konstanta">
+      <Caption>Editor konstanta</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGui.XData.LWDataConstTS</ProgId>
+      <Params>
+        <Param Name="Editable">True</Param>
+        <Param Name="CanSelectData">False</Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+  <ModContainer Name="MCFolder">
+    <ModCommand Name ="LWEmpty">
+      <ProgId>EnifGui.LWEmpty</ProgId>
+      <Caption>Nástroje</Caption>
+      <Type>Tab</Type>
+      <Params>
+        <Param Name="ShowCommands">true</Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+  <ModContainer Name="MCGeneral">
+    <Mods>
+      <!--ModCommand Name="Properties">
+        <Type>Tab</Type>
+        <ProgId>EnifGui.LWProperties</ProgId>
+        <Icon>Root.ico</Icon>
+        <Params>
+          <Param Name="ShowCommands">true</Param>
+        </Params>
+        <Caption>Vlastnosti</Caption>
+</ModCommand-->
+      <ModContainer>
+        <ModApply ModProgId="EnifCommon.CModApplyIsId,EnifCommon" Not="true">
+          <ModParams>
+            <Param Name="Id">1</Param>
+          </ModParams>
+        </ModApply>
+        <ModCommand Name="mnShowTreeShapePopup">
+          <Type>Popup</Type>
+          <ModProgId>EnifCommon.Shapes.CModCommandShapePopup</ModProgId>
+          <Caption>[nezadáno]</Caption>
+        </ModCommand>
+
+        <!--<ModCommand>
+          <Type>AddCommandAndPopup</Type>
+          <ProgId>Enif.EDA.ENV.CCommandDelete,EnifENVGui</ProgId>
+          <Caption>Delete</Caption>
+          <Icon>Delete</Icon>
+        </ModCommand>
+        <ModCommand>
+          <Type>AddCommandAndPopup</Type>
+          <ProgId>Enif.EDA.ENV.CCommandRename,EnifENVGui</ProgId>
+          <Caption>Rename</Caption>
+          <Icon>Modify</Icon>
+        </ModCommand>-->
+
+      </ModContainer>
+    </Mods>
+  </ModContainer>
+  <ModContainer Name="MCCreateChildren">
+    <Mods>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+        <Caption>Přidat složku</Caption>
+        <Icon>vd_Folder.ico</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">1</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAddDiagram,EnifENVGui</ProgId>
+        <Caption>Přidat časovou řadu</Caption>
+        <Icon>Diagram.ico</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">2</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+        <Caption>Přidat sloupcový graf</Caption>
+        <Icon>Pokryti</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">3</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+        <Caption>Přidat spojnicový graf</Caption>
+        <Icon>Lines</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">4</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+        <Caption>Přidat tabulkový pohled</Caption>
+        <Icon>Grid</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">5</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+        <Caption>Přidat datum</Caption>
+        <Icon>Date.ico</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">7</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+        <Caption>Přidat import/export z excelu</Caption>
+        <Icon>ImportExportExcel</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">9</Param>
+          <Param Name="NewCaption">Nový import/export z excelu</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand>
+        <Type>AddCommandAndPopup</Type>
+        <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+        <Caption>Přidat text</Caption>
+        <Icon>Diagram</Icon>
+        <Params>
+          <Param Name="NodeTypeFK">11</Param>
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer Name="MCNAOS">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleWorkspace"/>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleWorkspace"/>
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <NodeType Id="1" Name="Fo">
+    <ModContainerRef Ref="MCFolder"/>
+    <ModContainerRef Ref="MCGeneral"/>
+    <ModContainerRef Ref="MCBaseTS"/>
+    <ModContainerRef Ref="MCCreateChildren"/>
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_Folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+  </NodeType>
+  <NodeType Id="2" Name="Fi">
+    <ModContainerRef Ref="MCTS"/>
+    <ModContainerRef Ref="MCGeneral"/>
+    <ModContainerRef Ref="MCBaseTS"/>
+    <ModContainerRef Ref="MCNAOS"/>
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+  </NodeType>
+  <NodeType Id="3" Name="ChA">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModContainerRef Ref="MCGeneral"/>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Pokryti</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModCommand Name="ChartAreas_Workspace">
+      <Caption>Sloupcový graf</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="Type">AreasGuiItems</Param>
+      </Params>
+    </ModCommand>
+  </NodeType>
+  <NodeType Id="4" Name="ChL">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModContainerRef Ref="MCGeneral"/>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Lines</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <!--<ModContainerRef Ref="MCViews"/>-->
+    </Mods>
+    <ModCommand Name="ChartLines_Workspace">
+      <Caption>Spojnicový graf</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="Type">LinesGuiItems</Param>
+      </Params>
+    </ModCommand>
+  </NodeType>
+  <NodeType Id="5" Name="Gr">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModContainerRef Ref="MCGeneral"/>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Grid</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModCommand Name="Grid-full_Workspace">
+      <Caption>Tabulkový pohled</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <!--<Param Name="AggDiagVisibility">Collapsed</Param>-->
+        <Param Name="InfoVisibility">0</Param>
+        <Param Name="ViewMode">Stable</Param>
+        <Param Name="ColsHeaderMultiline">true</Param>
+        <Param Name="ColsHeaderAggWidth">70</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <!--<Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg"></Param>
+          <Param Name="List">
+            <Param Name="3" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>-->
+      </Params>
+    </ModCommand>
+  </NodeType>
+  <NodeType Id="6" Name="ChS">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModContainerRef Ref="MCGeneral"/>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>StepForward</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <!--<ModContainerRef Ref="MCViews"/>-->
+    </Mods>
+  </NodeType>
+  <NodeType Id="7" Name="Date">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModContainerRef Ref="MCGeneral"/>
+    <ModCommand Name="DateProp" ProgId="EnifGui.XData.LWDataDate" Caption="Vlastnosti Datumu" Type="Tab"/>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Date</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <!--<ModContainerRef Ref="MCViews"/>-->
+    </Mods>
+  </NodeType>
+  <NodeType Id="9" Name="ImportExportExcel">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModContainerRef Ref="MCGeneral" />
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>ImportExportExcel</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModCommand Name="ImportExportExcel" Caption="Excel - Import/Export" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Params>
+        <Param Name="SessionFactory">Workspace</Param>
+        <Param Name="Configuration"></Param>
+        <Param Name="TestForm">Common.egeImportExportExcel</Param>
+        <Param Name="EntityIdSelect">Hql;select Id from ImportExport where WorkspaceNodeFK = :NodeId</Param>
+      </Params>
+    </ModCommand>
+  </NodeType>
+  <NodeType Id="11" Name="Text">
+    <ModContainerRef Ref="MCGeneral"/>
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModCommand Name="StringProp" Caption="Test" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Params>
+        <Param Name="TestForm">Common.egeStringProperties</Param>
+      </Params>
+    </ModCommand>
+    <ModContainerRef Ref="MCNAOS"/>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>String</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <!--<ModContainerRef Ref="MCViews"/>-->
+    </Mods>
+  </NodeType>
+  <NodeTemplate Id="Fo" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="Fo">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+    </Params>
+    <ConTemplate Id="Folder" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="1"/>
+      </Params>
+      <NodeTemplateRef Ref="Fo"/>
+    </ConTemplate>
+    <ConTemplate Id="File" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="2"/>
+      </Params>
+      <NodeTemplateRef Ref="Fi"/>
+    </ConTemplate>
+    <ConTemplate Id="ChA" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="3"/>
+      </Params>
+      <NodeTemplateRef Ref="ChA"/>
+    </ConTemplate>
+    <ConTemplate Id="ChL" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="4"/>
+      </Params>
+      <NodeTemplateRef Ref="ChL"/>
+    </ConTemplate>
+    <ConTemplate Id="Gr" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="5"/>
+      </Params>
+      <NodeTemplateRef Ref="Gr"/>
+    </ConTemplate>
+    <ConTemplate Id="ChS" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="6"/>
+      </Params>
+      <NodeTemplateRef Ref="ChS"/>
+    </ConTemplate>
+    <ConTemplate Id="Date" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="7"/>
+      </Params>
+      <NodeTemplateRef Ref="Date"/>
+    </ConTemplate>
+    <ConTemplate Id="ImportExportExcel" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="9" />
+      </Params>
+      <NodeTemplateRef Ref="ImportExportExcel" />
+    </ConTemplate>
+    <ConTemplate Id="Text" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="11"/>
+      </Params>
+      <NodeTemplateRef Ref="Text"/>
+    </ConTemplate>
+  </NodeTemplate>
+  <!--RightsWorkSpace-->
+  <Adapter Name="TreeAdapter" ProgId="Enif.EDA.ENV.CSBXTreeAdapter,EnifENVModules">
+    <Params>
+      <Param Name="IsNodeRightsAdapter">true</Param>
+      <Param Name="RightsType">IdentityOrStatic</Param>
+      <Param Name="Rights">
+        <!--
+        Prava v bitech:
+          eShow = 1
+          eRead = 2
+          eWrite = 4
+          eAdmin = 32
+          eFull = 39
+        -->
+        <Param Name="ObjectRights">
+          <!--Testy Patchů složka -->
+          <Param Name="1000063">
+            <Param Name="RightsByRole">
+              <Param Name="Admin or (NOT Admin)">
+                <Param Name="Grant" Value="3"/>
+              </Param>
+            </Param>
+          </Param>
+
+        </Param>
+      </Param>
+    </Params>
+  </Adapter>
+  <NodeTemplate Id="Fi" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="Fi">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="HasChildren" Value="false"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+      <Param Name="EntityPath" Value="Node.Fi"/>
+    </Params>
+    <ConDataTemplate Id="TS" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="TS" Adapter="ETSAdapter">
+        <Params>
+          <Param Name="EntityPath" Value="Node.TS"/>
+        </Params>
+        <EditabilityDataLink Adapter="DataLinkCommonAdapter">
+          <Params>
+            <Param Name="Expression" Value="{Id}|{Template}|{Config}">
+              <Param>Exp;string Id=IIf(DataId0==1000121,1000122,1000127)</Param>
+              <Param>Const;TS as Template</Param>
+              <Param>Const;LGSBX:Workspace as Config</Param>
+            </Param>
+          </Params>
+        </EditabilityDataLink>
+      </DataTemplate>
+    </ConDataTemplate>
+  </NodeTemplate>
+  <NodeTemplate Id="ChA" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="ChA">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="HasChildren" Value="false"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="ChL" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="ChL">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="HasChildren" Value="false"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="Gr" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="Gr">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="HasChildren" Value="false"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="ChS" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="ChS">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="HasChildren" Value="false"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="Date" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="Date">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="HasChildren" Value="false"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+    </Params>
+    <ConDataTemplate Id="Date" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="Date" Adapter="SDOAdapter"/>
+    </ConDataTemplate>
+  </NodeTemplate>
+  <NodeTemplate Id="ImportExportExcel" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="ImportExportExcel">
+    <Params>
+      <Param Name="HasChildren" Value="false" />
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="Text" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="Text">
+    <Params>
+      <Param Name="Entity" Value="Enif.EDA.ENV.Entities.Node"/>
+      <Param Name="HasChildren" Value="false"/>
+      <Param Name="OnUpdateSendNotify" Value="NodeChange"/>
+    </Params>
+    <ConDataTemplate Id="Text" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="Text" Adapter="SDOAdapter"/>
+    </ConDataTemplate>
+  </NodeTemplate>
+  <RootNode Id="1" TemplateId="Fo"/>
+</TreeConfig>

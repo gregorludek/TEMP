@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Form Caption="Diagram" WindowCaption="Diagram" Type="Entity" ValidationLevel="1" EntityType="Enif.Gui.ImportExportExcel.Common.Entities.ImportExportTS,EnifImportExportExcelCommon" ProgId="Enif.Gui.ImportExportExcel.Gui.Behaviors.egeImportExportTS,EnifImportExportExcelGui">
+  <FieldSection Name="Default" Caption="Detail">
+    <Field Name="Diagram" Caption="Diagram (cesta/název)" FieldType="DropControl" SelectorType="Path" Selector="DataId" IsRequired="True" />
+    <Field Name="ButtonsField" Caption="" FieldType="ButtonsField">
+      <Params>
+        <Param Name="Buttons">
+          <Param Name="LoadFromExcel">Načíst buňku z otevřeného Excelu</Param>
+        </Param>
+      </Params>
+    </Field>
+    <Field Name="File" Caption="Soubor pro import/export" Selector="ExcelPath" SelectorType="Path" FieldType="Text" IsRequired="True"/>
+    <Field Name="Worksheet" Caption="List" Selector="Worksheet" SelectorType="Path" FieldType="Text" IsRequired="True"/>
+    <Field Name="Cell" Caption="Buňka" Selector="Cell" SelectorType="Path" FieldType="Text" IsRequired="True" />
+  </FieldSection>
+</Form>

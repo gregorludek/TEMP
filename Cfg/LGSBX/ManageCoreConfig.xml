@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ManageCoreConfig>
+  <Process Id="0" Name="MainProcess">
+    <Modules />
+  </Process>
+  <Filters>
+    <Filter Reliable="true" ModuleName="NaosModuleWorkspace" FilterName="QueriesCache">
+      <FilterInfo ProgId="EnifNhCommon.CQueriesCacheNotifyFilter,EnifNhCommon">
+        <Params>
+          <Param Name="EnifMainId">1</Param>
+          <Param Name="ModuleId">-24</Param>
+        </Params>
+      </FilterInfo>
+    </Filter>
+    <Filter Reliable="true" ModuleName="NaosModuleWorkspace">
+      <FilterInfo ProgId="EnifNaos.NaosModule.CNaosModuleNotifyFilter,EnifNaos">
+        <Params>
+          <Param Name="EnifMainId">1</Param>
+          <Param Name="ModuleId">-24</Param>
+        </Params>
+      </FilterInfo>
+    </Filter>
+  </Filters>
+</ManageCoreConfig>

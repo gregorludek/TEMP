@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" EntityType="Enif.Naos.Agg.Testy.TestTSType,EnifNaosAggTesty" Caption="Detail typu řady">
+  <FieldSection Name="Default">
+    <Field Name="Name" Caption="Name" Selector="Name" SelectorType="Path" FieldType="Text" />
+  </FieldSection>
+</Form>

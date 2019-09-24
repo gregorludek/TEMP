@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Form Caption="Comment" WindowCaption="Comment" Type="Entity" ValidationLevel="1" EntityType="ATemporary.Entities.Comment,ATemporary">
+  <FieldSection Name="Default" Caption="Detail">
+    <Field Name="Content" Caption="Poznámka" FieldType="Text" SelectorType="Path" Selector="Content" IsRequired="True" />
+  </FieldSection>
+</Form>

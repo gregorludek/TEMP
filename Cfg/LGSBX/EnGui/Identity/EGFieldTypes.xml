@@ -1,0 +1,7 @@
+﻿<Config>
+  <FieldTypes>
+    <FieldType Name="Password" ProgId="EGBaseFields.EGFieldPassword" />    
+    <FieldType Name="MultiSelectorDual" ProgId="EGBaseFields.EGFieldMultiSelectorDual">
+    </FieldType>
+  </FieldTypes>
+</Config>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" EntityType="Enif.Naos.Agg.Testy.TestTS,EnifNaosAggTesty" Caption="Detail řady">
+  <FieldSection Name="Default">
+    <Field Name="Name" Caption="Name" Selector="Name" SelectorType="Path" FieldType="Text" />
+    <Field Name="Type" Caption="Type" Selector="Type" SelectorType="Path" FieldType="Entity" IsRequired="True">
+      <DetailsButton IsVisible="true" Form="egeTestTSType" UnionTransaction="True" />
+      <SelectButton IsVisible="true" Form="eggTestTSType" UnionTransaction="True" />
+      <Params>
+        <Param Name="Format">{Name}</Param>
+        <Param Name="Arguments">
+          <Param Name="Path;Name as Name" />
+        </Param>
+      </Params>
+    </Field>
+    <Field Name="Param1" Caption="Param1" Selector="Param1" SelectorType="Path" FieldType="Integer" />
+    <Field Name="Param2" Caption="Param2" Selector="Param2" SelectorType="Path" FieldType="Integer" />
+    <Field Name="Param3" Caption="Param3" Selector="Param3" SelectorType="Path" FieldType="Integer" />
+    <Field Name="Param4" Caption="Param4" Selector="Param4" SelectorType="Path" FieldType="Integer" />
+  </FieldSection>
+</Form>

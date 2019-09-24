@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config xmlns="Enif.Gui.Chart">
+  <Pallets>
+    <Pallet Name="Default" LineWidth="2">
+      <Color r="0" g="0" b="191"/>
+      <Color r="191" g="0" b="0"/>
+      <Color r="0" g="191" b="0"/>
+      <Color r="95" g="0" b="175"/>
+      <Color r="0" g="191" b="191"/>
+      <Color r="191" g="191" b="0"/>
+      <Color r="191" g="0" b="191"/>
+      <Color r="127" g="127" b="127"/>
+      <Color r="127" g="0" b="255"/>
+      <Color r="0" g="0" b="0"/>
+      <Color r="127" g="255" b="0"/>
+      <Color r="0" g="127" b="255"/>
+      <Color r="255" g="127" b="0"/>
+      <Color r="0" g="255" b="127"/>
+      <Color r="255" g="0" b="127"/>
+      <Color r="239" g="0" b="239"/>
+    </Pallet>
+  </Pallets>
+  <ShowNow>1</ShowNow>
+</Config>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Seznam řad" EntityType="Enif.Naos.Agg.Testy.TestTS,EnifNaosAggTesty" CanDelete="Multi">
+  <Params>
+    <Param Name="ViewName">Select TestTS.Id as ID, TestTS.Name as Name, Type.Name as TypeName, TestTS.Param1 as Param1, TestTS.Param2 as Param2, TestTS.Param3 as Param3, TestTS.Param4 as Param4 from TestTS as TestTS left join TestTS.Type as Type</Param>
+    <Param Name="ViewType">HQL</Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="DynamicLoading">false</Param>
+    <Param Name="Columns">
+      <Param Name="ID" />
+      <Param Name="Name" />
+      <Param Name="TypeName" />
+      <Param Name="Param1" />
+      <Param Name="Param2" />
+      <Param Name="Param3" />
+      <Param Name="Param4" />
+    </Param>
+  </Params>
+  <DetailsButton IsVisible="True" Form="egeTestTS" UnionTransaction="True" />
+  <SelectButton IsVisible="True" Form="egeTestTS" UnionTransaction="True" />
+</Form>

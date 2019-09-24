@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Excel - Import/Export" ValidationLevel="1" EntityType="Enif.Gui.ImportExportExcel.Common.Entities.ImportExport,EnifImportExportExcelCommon" ProgId="Enif.Gui.ImportExportExcel.Gui.Behaviors.egeImportExportExcel,EnifImportExportExcelGui">
+  <FieldSection Name="Default">
+    <Field Name="Name" Caption="Název" Selector="Name" SelectorType="Path" FieldType="Text" IsRequired="True" />
+    <Field Name="Description" Caption="Popis" Selector="Description" SelectorType="Path" FieldType="Text" />
+  </FieldSection>
+  <FieldSection Name="RozsahKopirovani" Caption="Rozsah kopírování">
+    <Field Name="CopyType" Caption="Typ kopírování" FieldType="EnumField" SelectorType="Path" Selector="CopyType" IsRequired="True">
+      <Params>
+        <Param Name="Enum">
+          <Param Name="Import">0</Param>
+          <Param Name="Export">1</Param>
+        </Param>
+      </Params>
+    </Field>
+    <Field Name="Timezone" Caption="Čas" FieldType="EnumField" SelectorType="Path" Selector="TimezoneFK" IsRequired="True" />
+    <Field Name="FromDateTime" Caption="Rozsah času od" FieldType="DateTime" SelectorType="Path" Selector="FromDateTime" IsRequired="True" />
+    <Field Name="ToDateTime" Caption="Rozsah času do" FieldType="DateTime" SelectorType="Path" Selector="ToDateTime" IsRequired="True" />
+    <Field Name="IsToDateTimeIncluded" Caption="Včetně času do" FieldType="BoolField" SelectorType="Path" Selector="IsToDateTimeIncluded" IsRequired="True" />
+  </FieldSection>
+  <FieldSection Name="Konfigurace" Caption="Konfigurace" Visibility="{IsVisible}&#x9;Path;CopyType as CopyType&#x9;Exp;bool IsVisible=(CopyType==1)">
+    <Field Name="ExportDateColumn" Caption="Exportovat sloupec s datumem" FieldType="BoolField" SelectorType="Path" Selector="ExportDateColumn" IsRequired="True" />
+    <Field Name="ExportTSNames" Caption="Exportovat názvy diagramů" FieldType="BoolField" SelectorType="Path" Selector="ExportTSNames" IsRequired="True" />
+    <Field Name="TSNameType" Caption="Název diagramu" FieldType="EnumField" SelectorType="Path" Selector="TSNameType" IsRequired="True">
+      <Params>
+        <Param Name="Enum">
+          <Param Name="Pouze název">0</Param>
+          <Param Name="Název včetně cesty">1</Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Name="Diagramy" Caption="Vstupní/Výstupní diagramy">
+    <Field Name="Diagramy" Caption="Vstupní/Výstupní diagramy" FieldType="Grid" SelectorType="Path" Selector="bagImportExportTS" Occupation="Block">
+      <DetailsButton IsVisible="True" Form="egeImportExportTS" UnionTransaction="True" Target="@SelfDetail" />
+      <Params>
+        <Param Name="AskOnDelete">Opravdu odstranit?</Param>
+        <Param Name="DeleteMode">Multi</Param>
+        <Param Name="Columns">
+          <Param Name="Diagram">
+            <Param Name="Field">TSNodePath</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+          <Param Name="Soubor pro import/export">
+            <Param Name="Field">ExcelPath</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+          <Param Name="List">
+            <Param Name="Field">Worksheet</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+          <Param Name="Buňka">
+            <Param Name="Field">Cell</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Name="PripojeneImportyExporty" Caption="Připojené importy/exporty">
+    <Field Name="PripojeneImportyExporty" Caption="Připojené importy/exporty" FieldType="Grid" SelectorType="Path" Selector="bagChildLink" Occupation="Block">
+      <SelectButton IsVisible="True" Form="eggImportExportExcel" UnionTransaction="True" Mode="Multi" />
+      <Params>
+        <Param Name="AskOnDelete">Opravdu odstranit?</Param>
+        <Param Name="BagItemProgId">Enif.Gui.ImportExportExcel.Common.Entities.ImportExportLink,EnifImportExportExcelCommon</Param>
+        <Param Name="BagItemRefValue">Child</Param>
+        <Param Name="DeleteMode">Multi</Param>
+        <Param Name="Columns">
+          <Param Name="Název">
+            <Param Name="Field">Child.Name</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <Params>
+    <Param Name="Buttons">
+      <Param Name="Run">Spustit</Param>
+    </Param>
+  </Params>
+</Form>

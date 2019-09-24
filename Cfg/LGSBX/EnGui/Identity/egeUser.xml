@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Uživatelský účet" WindowCaption="Uživatelský účet" EntityType="EnifNHCommon.EnifManual.EMIdentity,EnifNHCommon" ProgId="EnifVOPRPM.egbIdentity,EnifVOPRPM" IsReadOnly="False" Scale="1" ValidationLevel="1">
+  <Params>
+    <Param Name="EntityDelegates">
+      <Param Name="Create_User"/>
+    </Param>
+	<Param Name="Buttons">
+      <Param Name="SearchAD" Value="Vyhledat">
+        <Param Name="ToolTip">Vyhledání účtu v AD</Param>
+      </Param>
+    </Param>
+  </Params>  
+  <FieldSection Caption="Základní">
+    <Field Name="Adapter" Caption="Adaptér" FieldType="EnumField" SelectorType="Path" Selector="EMIdentityAdapter" Default="0" IsVisible="True" IsEnabled="True" IsReadOnly="False" IsRequired="True" Occupation="Line" >
+      <Params>
+        <Param Name="LINQ"><![CDATA[Query<EnifNHCommon.EnifManual.EMIdentityAdapter>().Select(x => new object[]{ x, x.Caption }).AsEnumerable()]]></Param>
+        <Param Name="LINQDefault"><![CDATA[Query<EnifNHCommon.EnifManual.EMIdentityAdapter>().First()]]></Param>
+      </Params>
+    </Field>
+    <Field Name="Name" Caption="Login" FieldType="Text" SelectorType="Path" Selector="Name" Tooltip="Přihlašovací jméno" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="FirstName" Caption="Jméno" FieldType="Text" SelectorType="Path" Selector="FirstName" Tooltip="Křestní jméno" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="LastName" Caption="Příjmení" FieldType="Text" SelectorType="Path" Selector="LastName" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="Email" Caption="Email" FieldType="Text" SelectorType="Path" Selector="Email" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="Phone" Caption="Telefon" FieldType="Text" SelectorType="Path" Selector="PhoneNum" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="Description" Caption="Popis" FieldType="Text" SelectorType="Path" Selector="Description" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="Active" Caption="Aktivní" FieldType="BoolField" SelectorType="Path" Selector="IsActive" IsVisible="True" Default="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+  </FieldSection>
+  <FieldSection Caption="Heslo">
+    <Field Name="NewPasword" Caption="Nové heslo" FieldType="Password" SelectorType="Path" Selector="PasswordNew" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line"/>
+    <Field Name="NewPasword2" Caption="Kontrola hesla" FieldType="Password" SelectorType="Path" Selector="PasswordNew2" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line"/>
+  </FieldSection>
+  <FieldSection Caption="Atributy">
+    <Field Name="AttrWorkspaceFolder" Caption="Složka Workspace" FieldType="Text" SelectorType="Path" Selector="WorkspaceNode" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="AttrRangeFrom" Caption="Zobrazení časové řady od" FieldType="Text" SelectorType="Path" Selector="DateFromExp" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="AttrRangeTo" Caption="Zobrazení časové řady do" FieldType="Text" SelectorType="Path" Selector="DateToExExp" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="AttrPasswordCheckNT" Caption="Heslo ověřováno v NT doméně" FieldType="BoolField" SelectorType="Path" Selector="UseADPassword" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+    <Field Name="AttrPasswordCheckNTaccount" Caption="Alternativní NT účet" FieldType="Text" SelectorType="Path" Selector="ADUserName" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+  </FieldSection>  
+  <FieldSection Caption="Identity">
+    <Field Name="Identity" Caption="Identity" FieldType="MultiSelectorDual" SelectorType="Path" Selector="EMIdentityRefsTo" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Block" Height="8" MaxHeight="99">
+      <DetailsButton IsVisible="False" Form="egeSubjectSubjectType" UnionTransaction="True" />
+      <SelectButton IsVisible="False" Form="egeTSubjectType" UnionTransaction="True" />
+      <Params>
+        <Param Name="IsEditable">True</Param>
+        <Param Name="ValuesSet">
+          <![CDATA[Query<EnifNHCommon.EnifManual.EMIdentity>().Where(p => 
+        (p.EMIdentityType.Key == ((int)Enif.Identities.EIdentityType.Role).ToString() || 
+         p.EMIdentityType.Key == ((int)Enif.Identities.EIdentityType.Group).ToString())
+        && p.Id!=CurrentEntity.Id).OrderByDescending(p => p.EMIdentityType.Key).ThenBy(p => p.Name).AsEnumerable()]]>
+        </Param>
+        <Param Name="BagItemProgId">EnifNHCommon.EnifManual.EMIdentityRef,EnifNHCommon</Param>
+        <Param Name="RefValue">EMIdentityTo</Param>
+        <Param Name="FKValue">EMIdentityFrom</Param>
+        <Param Name="TrueFalseValue">Forbids</Param>
+        <Param Name="Columns">
+          <Param Name="Typ">
+            <Param Name="Field">EMIdentityType.Key</Param>
+            <Param Name="Type">Icon</Param>
+            <Param Name="Icons">
+              <Param Name="0">identity_user.ico</Param>
+              <Param Name="1">identity_group.ico</Param>
+              <Param Name="2">identity_role.ico</Param>
+            </Param>
+          </Param>
+          <Param Name="Login">
+            <Param Name="Field">Name</Param>
+          </Param>
+          <Param Name="Stav">
+            <Param Name="Type">TrueFalse</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+</Form>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Získané Identity" WindowCaption="Získané Identity" EntityType="EnifNHCommon.EnifManual.EMIdentity,EnifNHCommon" IsReadOnly="False" Scale="1" ValidationLevel="1">
+  <FieldSection Caption="Identita získá">       
+    <Field Name="ReferencedRIdens" Caption="ReferencedRIdens" FieldType="Grid" SelectorType="Path" Selector="ReferencedRIdens" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Block" Height="15" ButtonsEnable="False">
+      <DetailsButton IsVisible="False"/>
+      <SelectButton IsVisible="False"/>
+      <Params>
+        <Param Name="DeleteMode">None</Param>
+        <Param Name="Order">Title</Param>
+        <Param Name="Columns">
+          <Param Name="Typ">
+            <Param Name="Field">EMIdentityType.Caption</Param>
+            <Param Name="Width">80</Param>
+          </Param>
+          <Param Name="Login">
+            <Param Name="Field">Name</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Caption="Identitu získají">
+    <Field Name="ReferencingRIdens" Caption="ReferencingRIdens" FieldType="Grid" SelectorType="Path" Selector="ReferencingRIdens" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Block" Height="15" ButtonsEnable="False">
+      <DetailsButton IsVisible="False"/>
+      <SelectButton IsVisible="False"/>
+      <Params>
+        <Param Name="DeleteMode">None</Param>
+        <Param Name="Order">Title</Param>
+        <Param Name="Columns">
+          <Param Name="Typ">
+            <Param Name="Field">EMIdentityType.Caption</Param>
+            <Param Name="Width">80</Param>
+          </Param>
+          <Param Name="Login">
+            <Param Name="Field">Name</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+</Form>

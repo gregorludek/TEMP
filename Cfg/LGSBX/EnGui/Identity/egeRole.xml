@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Role" WindowCaption="Role" EntityType="EnifNHCommon.EnifManual.EMIdentity,EnifNHCommon" ProgId="EnifNHGuiEG.Identities.egbIdentity,EnifNHGuiEG" IsReadOnly="False" Scale="1" ValidationLevel="1">
+  <Params>
+    <Param Name="EntityDelegates">
+      <Param Name="Create_Role"/>
+    </Param>
+  </Params>
+  <FieldSection Caption="Základní">
+    <Field Name="Adapter" Caption="Adaptér" FieldType="EnumField" SelectorType="Path" Selector="EMIdentityAdapter" Default="0" IsVisible="True" IsEnabled="True" IsReadOnly="False" IsRequired="True" Occupation="Line" >
+      <Params>
+        <Param Name="LINQ"><![CDATA[Query<EnifNHCommon.EnifManual.EMIdentityAdapter>().Select(x => new object[]{ x, x.Caption }).AsEnumerable()]]></Param>
+        <Param Name="LINQDefault"><![CDATA[Query<EnifNHCommon.EnifManual.EMIdentityAdapter>().First()]]></Param>
+      </Params>            
+    </Field>
+    <Field Name="Name" Caption="Název" FieldType="Text" SelectorType="Path" Selector="Name" IsVisible="True" IsEnabled="True" IsReadOnly="False" IsRequired="True" Occupation="Line" />
+    <Field Name="Description" Caption="Popis" FieldType="Text" SelectorType="Path" Selector="Description" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+	<Field Name="Email" Caption="Email" FieldType="Text" SelectorType="Path" Selector="Email" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Line" />
+  </FieldSection>
+  <FieldSection Caption="Identity">
+    <Field Name="Identity" Caption="Identity" FieldType="MultiSelectorDual" SelectorType="Path" Selector="EMIdentityRefsTo" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Block" Height="8" MaxHeight="99">
+      <DetailsButton IsVisible="False" Form="egeSubjectSubjectType" UnionTransaction="True" />
+      <SelectButton IsVisible="False" Form="egeTSubjectType" UnionTransaction="True" />
+      <Params>
+        <Param Name="IsEditable">True</Param>
+        <Param Name="ValuesSet"><![CDATA[Query<EnifNHCommon.EnifManual.EMIdentity>().Where(p => p.EMIdentityType.Key == ((int)Enif.Identities.EIdentityType.Role).ToString() && p.Id!=CurrentEntity.Id).OrderBy(p => p.Name).AsEnumerable()]]></Param>
+        <Param Name="BagItemProgId">EnifNHCommon.EnifManual.EMIdentityRef,EnifNHCommon</Param>
+        <Param Name="RefValue">EMIdentityTo</Param>
+        <Param Name="FKValue">EMIdentityFrom</Param>
+        <Param Name="TrueFalseValue">Forbids</Param>
+        <Param Name="Columns">
+          <Param Name="Typ">
+            <Param Name="Field">EMIdentityType.Key</Param>
+            <Param Name="Type">Icon</Param>
+            <Param Name="Icons">
+              <Param Name="0">identity_user.ico</Param>
+              <Param Name="1">identity_group.ico</Param>
+              <Param Name="2">identity_role.ico</Param>
+            </Param>
+          </Param>
+          <Param Name="Login">
+            <Param Name="Field">Name</Param>
+          </Param>
+          <Param Name="Stav">
+            <Param Name="Type">TrueFalse</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>    
+  </FieldSection>
+  <FieldSection Caption="Získané Identity">
+    <Field Name="Go" Caption="Go" FieldType="FormButtons" SelectorType="Path" Selector="." IsVisible="true" IsEnabled="true" IsReadOnly="false" IsRequired="false" ValidationLevel="0" Occupation="Block" Height="1" IsReactive="True" IsBinded="True">
+      <Params>
+        <Param Name="Buttons">
+          <Param Name="ShowIdentityButton">
+            <Param Name="Value">Zobrazit výsledný přehled Identit</Param>
+            <Param Name="ToolTip">Zobrazit výsledný přehled Identit</Param>
+            <Param Name="Form">egeIdentityResult</Param>
+            <Param Name="Target" Value="@Window" />
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+</Form>

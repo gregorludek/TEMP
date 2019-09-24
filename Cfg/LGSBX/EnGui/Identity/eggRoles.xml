@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Role" WindowCaption="Identity" ProgId="EnifNHGuiEG.Identities.egbIdentity,EnifNHGuiEG" EntityType="EnifNHCommon.EnifManual.EMIdentity,EnifNHCommon" IsReadOnly="false" Scale="1" ValidationLevel="0" CanDelete="Single" GridGroupableDisable="false">
+  <DetailsButton IsVisible="true" ToolTip="Editovat" Form="egeRole" UnionTransaction="true" />
+  <SelectButton IsVisible="true" ToolTip="Nová role" Form="egeRole" UnionTransaction="false" />
+  <Params>
+    <Param Name="ViewType">LINQ</Param>
+    <Param Name="ViewName">Where(p => p.EMIdentityType.Key == ((int)Enif.Identities.EIdentityType.Role).ToString()).OrderBy(p => p.Name).ToList()</Param>
+    <Param Name="PrimaryKeyName">Id</Param>
+    <Param Name="WhereCondition"></Param>
+    <Param Name="DynamicLoading">false</Param>
+    <Param Name="AskOnDelete">Opravdu odstranit vybranou roli ?</Param>
+    <Param Name="Buttons" />
+    <Param Name="Columns">   
+      <Param Name="Name">
+        <Param Name="Label">Název role</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="Description">
+        <Param Name="Label">Popis role</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <!--
+      <Param Name="AdapterId">
+        <Param Name="Label">Adaptér</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">150</Param>
+      </Param>
+      -->
+    </Param>
+  </Params>
+</Form>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Form Caption="Diagram" WindowCaption="Diagram" Type="Entity" ValidationLevel="1" EntityType="Enif.Gui.TSCopy.Common.Entities.TSCopyItem,EnifTSCopyCommon" ProgId="Enif.Gui.TSCopy.Gui.Behaviors.egeTSCopyItem,EnifTSCopyGui">
+  <FieldSection Name="Default" Caption="Detail">
+    <Field Name="Source" Caption="Zdrojový diagram" FieldType="DropControl" SelectorType="Path" Selector="SourceTSTreeId" IsRequired="True" />
+    <Field Name="Target" Caption="Cílový diagram" FieldType="DropControl" SelectorType="Path" Selector="TargetTSTreeId" IsRequired="True" />
+  </FieldSection>
+</Form>

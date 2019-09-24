@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Seznam importů/exportů" WindowCaption="Seznam importů/exportů" EntityType="Enif.Gui.ImportExportExcel.Common.Entities.ImportExport,EnifImportExportExcelCommon">
+  <Params>
+    <Param Name="ViewName">Select IE.Id as ID, IE.Name as Name from ImportExport as IE order by Name</Param>
+    <Param Name="ViewType">HQL</Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="DynamicLoading">False</Param>
+    <Param Name="Columns">
+      <Param Name="Name">
+        <Param Name="Label">Název</Param>
+        <Param Name="DataType">String</Param>
+      </Param>
+    </Param>
+  </Params>
+</Form>

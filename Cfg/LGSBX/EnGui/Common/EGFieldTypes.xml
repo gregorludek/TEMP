@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <FieldTypes>
+    <FieldType Name="QuanParamChart" ProgId="EnifGuiEG.EGFields.EGFieldQuanParamChart,EnifGuiEG" />
+    <FieldType Name="EGFieldEnumWithFreeChoice" ProgId="EnifGuiEG.EGFields.EGFieldEnumWithFreeChoice,EnifGuiEG" />
+    <FieldType Name="DropControl" ProgId="EGBaseFields.EGFieldDropControl">
+      <Params/>
+    </FieldType>
+  </FieldTypes>
+</Config>

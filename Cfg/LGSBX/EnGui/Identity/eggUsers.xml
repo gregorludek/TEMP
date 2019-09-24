@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Uživatelské účty" WindowCaption="Uživatelské účty" ProgId="EnifVOPRPM.egbIdentity,EnifVOPRPM" EntityType="EnifNHCommon.EnifManual.EMIdentity,EnifNHCommon" IsReadOnly="false" Scale="1.5" ValidationLevel="0" CanDelete="None" GridGroupableDisable="false">
+  <DetailsButton IsVisible="true" ToolTip="Editovat" Form="egeUser" UnionTransaction="true" />
+  <SelectButton IsVisible="true" ToolTip="Nový uživatel" Form="egeUser" UnionTransaction="false" />
+  <Params>
+    <Param Name="ViewType">LINQ</Param>
+    <Param Name="ViewName">Where(p => p.EMIdentityType.Key == ((int)Enif.Identities.EIdentityType.User).ToString()).OrderBy(p => p.Name).ToList()</Param>
+    <Param Name="PrimaryKeyName">Id</Param>
+    <Param Name="WhereCondition"></Param>
+    <Param Name="DynamicLoading">false</Param>
+    <Param Name="AskOnDelete">Opravdu odstranit vybrané uživatele ?</Param>
+    <Param Name="Buttons">
+      <Param Name="Export" Value="Export">
+        <Param Name="ToolTip">Export přehledu uživatelů</Param>
+      </Param>
+	  <Param Name="Audit" Value="Audit">
+        <Param Name="ToolTip">Audit uživatelských účtů</Param>
+      </Param>
+	  <Param Name="History" Value="Historie">
+        <Param Name="ToolTip">Historie uživatele</Param>
+      </Param>
+    </Param>
+    <Param Name="Columns">   
+      <Param Name="Name">
+        <Param Name="Label">Login</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="FirstName">
+        <Param Name="Label">Jméno</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="LastName">
+        <Param Name="Label">Příjmení</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="Email">
+        <Param Name="Label">Email</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="IsActive">
+        <Param Name="Label">Aktivní</Param>
+        <Param Name="DataType">Boolean</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+    </Param>
+  </Params>
+</Form>

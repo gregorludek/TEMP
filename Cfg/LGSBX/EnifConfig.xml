@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EnifConfig Name="LGSBX" System="true">
+  <ModuleCore>
+    <MCIdRangeFrom>1</MCIdRangeFrom>
+    <MCIdRangeTo>10000</MCIdRangeTo>
+    <ListeningPort>4705</ListeningPort>
+    <ListeningAddress>127.0.0.1</ListeningAddress>
+  </ModuleCore>
+
+  <TreeCore>
+    <RootNodes>
+    </RootNodes>
+    <TreeConfigs>
+      <TreeConfig Name="Workspace" AutoAddName="">
+        <IconPath>RootIcons</IconPath>
+        <XmlFileName>TreeConfigWorkspace.xml</XmlFileName>
+        <Params>
+          <Param Name="SessionFactory" Value="Workspace"/>
+        </Params>
+      </TreeConfig>
+    </TreeConfigs>
+    <GuiItemAdapters>
+      <GuiItemAdapter Name="Disc" ProgId="Enif.Tree.CGuiItemDisc,EnifCommon">
+        <Params>
+          <Param Name="DirName">GuiItems</Param>
+          <Param Name="TextExtensions">
+            <Param>xml</Param>
+            <Param>txt</Param>
+          </Param>
+        </Params>
+      </GuiItemAdapter>
+    </GuiItemAdapters>
+    <AliasAdapters>
+      <AliasAdapter Name="Dummy" ProgId="Enif.Tree.Aliasing.Test.CAliasDataAdapterConst" />
+      <AliasAdapter Name="TreeId" ProgId="Enif.Tree.Aliasing.CAliasAdapterIdentity" />
+      <AliasAdapter Name="FX" ProgId="EnifNaos.CAliasDataAdapterNaos"/>
+      <AliasAdapter Name="Path" ProgId="EnifCommon.CAliasAdapterPath">
+        <Params>
+          <Param Name="RootNode"/>
+        </Params>
+      </AliasAdapter>
+    </AliasAdapters>
+  </TreeCore>
+
+  <IdentityCoreMain>
+    <Params>
+      <Param Name="RolesToShow">Admin or System</Param>
+      <Param Name="RolesToEdit">Admin or System</Param>
+      <Param Name="AutoAdd">[AD-USER]</Param>
+      <Param Name="IsLoginCaseSensitive">false</Param>
+    </Params>
+    <Adapter Name="IA">
+      <ProgId>Enif.Identities.CIdentityAdapterNH,EnifNH</ProgId>
+      <Params>
+      </Params>
+    </Adapter>
+  </IdentityCoreMain>
+  <AutorunClasses>
+    <Class Name="ConnectAsAdmin" ProgId="Enif.CCommandConnectToEnifDirect,EnifGui" Type="OtherCommand">
+      <Params>
+        <Param Name="Name">Admin</Param>
+        <Param Name="Password"></Param>
+      </Params>
+    </Class>
+    <Class Name="Licencovani Xceed">
+      <Type>OtherCommand</Type>
+      <ProgId>EnifNHGui.CXceedLicense</ProgId>
+      <Params></Params>
+    </Class>
+    <Class Name="NaosModuleWorkspace" ProgId="Enif.Naos.CNaosModule,EnifNaos">
+      <Params>
+        <Param Name="ListenType">Reliable</Param>
+        <Param Name="ThreadCount">1</Param>
+        <Param Name="Register">true</Param>
+        <ParamClass Name="Storage" ClassProgId="Enif.CClassInfo" ProgId="Enif.Naos.CNaosFormulaStorageMulti,EnifNaos">
+          <Params>
+            <Param Name="InnerStorages">
+              <ParamClass ClassProgId="Enif.CClassInfo" Name="Simple">
+                <ProgId>Enif.Naos.CNaosFormulaStorageSimple,EnifNaos</ProgId>
+                <Params>
+                  <Param Name="Path">NaosStorage\Fxs.bin</Param>
+                </Params>
+              </ParamClass>
+            </Param>
+          </Params>
+        </ParamClass>
+      </Params>
+    </Class>
+  </AutorunClasses>
+  <EntityCoreMain>
+    <SessionFactory Name="Enif">
+      <Param Name="dialect">NHibernate.Dialect.Oracle10gDialect</Param>
+      <Param Name="ConnectionString">Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1522))(CONNECT_DATA=(SID=LGORACLE12C)));User ID=PME_01;Password=x</Param>
+      <!--<Param Name="ConnectionString">Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.18.6.88)(PORT=1521))(CONNECT_DATA=(SID=ORCL)));User ID=PME_01;Password=x</Param>-->
+      <Param Name="connection.driver_class">NHibernate.Driver.OracleDataClientDriver</Param>
+      <Param Name="default_schema"></Param>
+      <Param Name="Proxy">EntityProxy:Default</Param>
+      <Param Name="DefaultType">Local</Param>
+      <Param Name="show_sql">false</Param>
+      <Param Name="DefaultSessionImplementorType">v2</Param>
+      <Param Name="AllowSavePoints">true</Param>
+      <Param Name="Assemblies">
+        <Param>EnifNH.dll</Param>
+        <Param>EnifBaseEntities.dll</Param>
+        <Param>EnifCommonEntities.dll</Param>
+        <Param>CygLMSEnif.dll</Param>
+      </Param>
+      <EntityNotifications>
+        <Include>*,*</Include>
+      </EntityNotifications>
+    </SessionFactory>
+    <SessionFactory Name="Workspace" Ref="Enif">
+      <Param Name="Assemblies">
+        <Param>EnifNH.dll</Param>
+        <Param>EnifBaseEntities.dll</Param>
+        <Param>EnifCommonEntities.dll</Param>
+        <Param>EnifPMCommon.dll</Param>
+        <Param>EnifCRMCommon.dll</Param>
+        <Param>EnifImportExportExcelCommon.dll</Param>
+      </Param>
+    </SessionFactory>
+  </EntityCoreMain>
+  <EntityCore>
+    <LogLevel>2</LogLevel>
+    <SessionFactory Name="Enif">
+      <Param Name="Type">Server</Param>
+    </SessionFactory>
+    <SessionFactory Name="Workspace">
+      <Param Name="Type">Server</Param>
+    </SessionFactory>
+  </EntityCore>
+  <Settings>
+    <AppDataDir>I:\gitRepos\TEMP\Cfg\LGSBX\AppData\</AppDataDir>
+    <Gui>
+      <ApplicationTitle>LGSBX</ApplicationTitle>
+      <CaptionForOpen>LGSBX</CaptionForOpen>
+      <Style>VigDesign</Style>
+    </Gui>
+  </Settings>
+  <TransactionCoreMain>
+    <NotificationPersister ProgId="Enif.Transactions.DiscNotificationPersister,Enif" />
+    <Adapter>
+      <ProgId>Enif.Transactions.CTransactionCoreAdapterNH,EnifNh</ProgId>
+      <Params>
+      </Params>
+    </Adapter>
+    <DefaultCommitType>NativeOnePhaseCommit</DefaultCommitType>
+  </TransactionCoreMain>
+  <NaosCoreMain>
+    <DateFrom>20100101</DateFrom>
+    <DateToEx>20300101</DateToEx>
+    <FxClasses>
+      <FxClass>EnifNaosC1.CFxListManager,EnifNaosC164 64</FxClass>
+      <FxClass>EnifNaosAthena.CFxListManager,EnifNaosAthena64 64</FxClass>
+    </FxClasses>
+  </NaosCoreMain>
+  <SystemAdapters>
+    <Adapter Name="ServiceCore" ProgId="EnifManagement.CServiceCoreAdapterXml,EnifManagement"/>
+  </SystemAdapters>
+
+  <Params>
+    <Param Name="EnGUI">
+      <Param Name="FetchEntityEnabled">true</Param>
+      <Param Name="RefreshOnNotifyEnabled">true</Param>
+    </Param>
+    <Param Name="WatchConfigDirChanges">0</Param>
+  </Params>
+
+</EnifConfig>

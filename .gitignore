@@ -155,3 +155,13 @@ target/
 .project
 
 
+## _Deploy
+_Deploy/*.txt
+
+## LG
+AppData/
+Enif.Debug/
+*Icons/
+encal*.ini
+NaosGui.xml
+ShapeConfig.xml

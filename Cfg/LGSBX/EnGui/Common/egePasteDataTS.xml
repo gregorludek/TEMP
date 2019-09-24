@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Form Type="Dummy" Caption="{{KopirovaniDat}}Kopírování dat" WindowCaption="{{windowcaption_KopirovaniDat}}Kopírování dat" ProgId="EnifGuiEG.EGPasteDataTS,EnifGuiEG" IsReadOnly="False" Scale="2" ValidationLevel="0" EntityType="">
+  <FieldSection Caption="{{Diagramy}}Diagramy" Name="Diagramy">
+    <Columns>
+      <Column Width="1*" />
+      <Column Width="3*" />
+    </Columns>
+    <Field Name="SourcePath" Caption="{{ZdrojovyDiagram}}Zdrojový diagram:" FieldType="Text" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="True" Occupation="Line" IsBinded="false" />
+    <Field Name="TargetPath" Caption="{{CilovyDiagram}}Cílový diagram:" FieldType="Text" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="True" Occupation="Line" IsBinded="false" />
+  </FieldSection>
+  <FieldSection Caption="{{Rozsah}}Rozsah" Name="Rozsah">
+    <Columns>
+      <Column Width="*" />
+      <Column Width="*" />
+      <Column Width="10" />
+      <Column Width="40" />
+      <Column Width="*" />
+    </Columns>
+    <Field Name="SourceFrom" Caption="{{ObdobiZdrojovehoDiagramuOd}}Období zdrojového diagramu od:" FieldType="Date" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Column="0" Colspan="1">
+      <Params>
+        <Param Name="Mode">DateTime</Param>
+      </Params>
+    </Field>
+    <Field Name="SourceTo" Caption="{{Do}}do:" FieldType="Date" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Column="3" Colspan="1">
+      <Params>
+        <Param Name="Mode">DateTime</Param>
+      </Params>
+    </Field>
+    <Field Name="TargetFrom" Caption="{{ZkopirovatDoCilovehoDiagramuNa}}zkopírovat do cílového diagramu na:" FieldType="Date" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Column="0" Colspan="1">
+      <Params>
+        <Param Name="Mode">DateTime</Param>
+      </Params>
+    </Field>
+    <Field Name="TimeZone" Caption="{{CasovePasmo}}Časové pásmo:" FieldType="EnumField" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Column="0" Colspan="1" />
+  </FieldSection>
+  <Params>
+    <Param Name="Buttons">
+      <Param Name="Save" Value="{{Ulozit}}Uložit" />
+      <Param Name="Storno" Value="{{Storno}}Storno" />
+    </Param>
+  </Params>
+</Form>
