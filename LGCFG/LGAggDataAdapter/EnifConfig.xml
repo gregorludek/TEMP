@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<EnifConfig Name="LGAggFunction" System="true">
+  <!--a) lze se prihlasit klientem-->
+  <ModuleCore>
+    <!-- https://confluence.unicornsystems.eu/display/ENIF/EnifConfig.xml#EnifConfig.xml-SekceModuleCore -->
+    <MCIdRangeFrom>1</MCIdRangeFrom>
+    <MCIdRangeTo>99999</MCIdRangeTo>
+    <ListeningPort>2205</ListeningPort>
+  </ModuleCore>
+  <TreeCore>
+    <TreeConfigs>
+      <TreeConfig Name="ETRMActionsAndData" AutoAddName="ETRMActionsAndData">
+        <IconPath>ETRMIcons</IconPath>
+        <XmlFileName>TreeConfigETRM.xml</XmlFileName>
+        <XmlFileName>TreeConfigETRMDesigner.xml</XmlFileName>
+        <XmlFileName>TreeConfigETRMActions.xml</XmlFileName>
+        <XmlFileName>TreeConfigETRMData.xml</XmlFileName>
+        <XmlFileName>TreeConfigETRMOteDataMirror.xml</XmlFileName>
+        <Params>
+          <Param Name="SessionFactory" Value="ETRM" />
+          <!--agg scitacka - potrebujeme, aby autorun trida
+          nasla instanci TreeControlleru-->
+          <Param Name="ControllerModuleName" Value="TreeControllerETRM"/>
+        </Params>
+      </TreeConfig>
+    </TreeConfigs>
+    <GuiItemAdapters>
+      <GuiItemAdapter Name="Disc" ProgId="Enif.Tree.CGuiItemDisc,EnifCommon">
+        <Params>
+          <Param Name="DirName">GuiItems</Param>
+          <Param Name="TextExtensions">
+            <Param>xml</Param>
+            <Param>txt</Param>
+          </Param>
+        </Params>
+      </GuiItemAdapter>
+    </GuiItemAdapters>
+  </TreeCore>
+  <AutorunClasses>
+    <Class Name="NaosModuleETRMAggDataAdapter" ProgId="EnifEtrmAggDataAdapter.AggDataAdapterModule,EnifEtrmAggDataAdapter">
+      <Params>
+        <Param Name="AutorunClassType">AfterServiceCore</Param>
+        <Param Name="WorkDir">AggDataAdapterWorkDir</Param>
+        <Param Name="TreeConfigName">ETRMActionsAndData</Param>
+        <Param Name="AggDataAdapterName">ETSDynamicAgg</Param>
+        
+        <ParamClass Name="AggDataAdapterDataInfoProvider" ClassProgId="Enif.CClassInfo" ProgId="EnifEtrmAggDataAdapter.AggDataAdapterDataInfoProvider,EnifEtrmAggDataAdapter">
+          <Params>
+            <Param Name="Path">ETRMAggDataAdapterConfigManual.xml</Param>
+            <!--<Param Name="Path">ETRMAggDataAdapterConfig.xml</Param>-->
+          </Params>
+        </ParamClass>
+      </Params>
+    </Class>
+    <Class Name="ConnectAsAdmin" ProgId="Enif.CCommandConnectToEnifDirect,EnifGui" Type="OtherCommand">
+      <Params>
+        <Param Name="Name">Admin</Param>
+        <Param Name="Password"></Param>
+      </Params>
+    </Class>
+    <Class Name="Licencovani Xceed">
+      <Type>OtherCommand</Type>
+      <ProgId>EnifNHGui.CXceedLicense</ProgId>
+      <Params/>
+    </Class>
+    <!--<Class Name="CheckAndRepairMarketStructure" Type="OtherCommand" ProgId="Enif.EDA.ETRM.CheckAndRepairMarketStructure,EnifETRMCommon">
+      <Params>
+        <Param Name="SessionFactory">ETRM</Param>
+      </Params>  
+    </Class>-->
+    <Class Name="MarketStructureModule" ProgId="Enif.EDA.ETRM.Modules.MarketStructureModule,EnifEtrmModules">
+      <Params>
+        <Param Name="AutorunClassType">AfterServiceCore</Param>
+        <Param Name="ListenType">Normal</Param>
+        <Param Name="ThreadCount">1</Param>
+        <Param Name="OnStartupSyncBase">True</Param>
+        <Param Name="OnStartupSyncAgreement">True</Param>
+        <Param Name="OnStartupSyncDeal">True</Param>
+        <Param Name="OnChangeSyncBase">True</Param>
+        <Param Name="OnChangeSyncAgreement">True</Param>
+        <Param Name="OnChangeSyncDeal">True</Param>
+        <Param Name="OnRegenerateUseFetchedDeal">True</Param>
+        <Param Name="OnChangeUseFetchedDeal">True</Param>
+      </Params>
+    </Class>
+  </AutorunClasses>
+  <Class Name="NaosModuleStructured">
+    <ProgId>Enif.Naos.CNaosModule,EnifNaos</ProgId>
+    <Params>
+      <!--<Param Name="AutorunStartDedicated">
+          <Param Name="ProcessName">NaosModules</Param>
+        </Param>-->
+      <Param Name="EnCal">Empty</Param>
+      <Param Name="DateFrom">20180101</Param>
+      <Param Name="DateToEx">20210101</Param>
+      <Param Name="TimeZone">CEST</Param>
+      <Param Name="ListenType">Reliable</Param>
+      <Param Name="Register">True</Param>
+      <ParamClass Name="Storage" ClassProgId="Enif.CClassInfo">
+        <ProgId>Enif.Naos.CNaosFormulaStorageStructure,EnifNaos</ProgId>
+        <Params>
+          <Param Name="Path">NaosStrukturovaneVzorce.xml</Param>
+          <Param Name="Name">DiferencialniSoucetMakro</Param>
+        </Params>
+      </ParamClass>
+      <Param Name="Adapters">
+        <ParamClass Name="AggAdapter" ClassProgId="Enif.CClassInfo">
+          <ProgId>Enif.Naos.Agg.CAggAdapter,EnifNaos</ProgId>
+          <Params>
+            <Param Name="DirPath">AggStorage</Param>
+          </Params>
+        </ParamClass>
+      </Param>
+    </Params>
+  </Class>
+  <EntityCoreMain>
+    <SessionFactory Name="Enif">
+      <Param Name="dialect">NHibernate.Dialect.Oracle10gDialect</Param>
+      <!--<Param Name="ConnectionString">Data Source=LGORACLE12C;User ID=ETRM_IS_02;Password=x</Param>-->
+      <Param Name="ConnectionString">Data Source=LGORACLE12C;User ID=ETRM_IS_04;Password=x</Param>
+      <!--<Param Name="ConnectionString">Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.18.6.75)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=PREDB01)));User ID=PRE_ETRM_GAS_03;Password=Deneb6</Param>-->
+      <Param Name="default_schema"></Param>
+      <Param Name="connection.driver_class">NHibernate.Driver.OracleClientDriver</Param>
+      <Param Name="Proxy">EntityProxy:Default</Param>
+      <Param Name="DefaultType">Local</Param>
+      <Param Name="DefaultSessionImplementorType">v2</Param>
+      <Param Name="AllowSavePoints">true</Param>
+      <Param Name="ModelCompletion">true</Param>
+      <Param Name="Assemblies">
+        <Param>EnifNH.dll</Param>
+      </Param>
+      <RightsAdapters>
+        <RightsAdapter Name="TSCopy">
+          <ProgId>Enif.Gui.TSCopy.Gui.Validators.TSCopyValidator, EnifTSCopyGui</ProgId>
+        </RightsAdapter>
+      </RightsAdapters>
+      <EntityNotifications>
+        <Include>*,*</Include>
+      </EntityNotifications>
+    </SessionFactory>
+    <SessionFactory Name="ETRM" Ref="Enif">
+      <Param Name="Assemblies">
+        <Param>EnifNH.dll</Param>
+        <Param>EnifNHCommon.dll</Param>
+        <Param>EnifETRMCommon.dll</Param>
+        <Param>EnifETRMCOMOTE.dll</Param>
+        <Param>EnifGECommon.dll</Param>
+        <!--<Param>CygLMSEnif.dll</Param>-->
+      </Param>
+      <EntityNotifications>
+        <Include>*,*</Include>
+      </EntityNotifications>
+    </SessionFactory>
+  </EntityCoreMain>
+  <EntityCore>
+    <LogLevel>2</LogLevel>
+    <SessionFactory Name="Enif">
+      <Param Name="Type">Server</Param>
+    </SessionFactory>
+    <SessionFactory Name="ETRM">
+      <Param Name="Type">Server</Param>
+    </SessionFactory>
+  </EntityCore>
+  <IdentityCoreMain>
+    <Params>
+      <!--zatim nemame treeconfig, nechceme se zobrazovat ve stromecku-->
+      <Param Name="RolesToShow"></Param>
+      <Param Name="RolesToEdit"></Param>
+      <Param Name="AutoAdd"></Param>
+      <Param Name="IsLoginCaseSensitive">false</Param>
+    </Params>
+    <Adapter Name="IA">
+      <ProgId>Enif.Identities.CIdentityAdapterConst,Enif</ProgId>
+      <Params>
+        <Param Name="Identities">
+          <Param>
+            <Param Name="Name" Value="Admin"/>
+            <Param Name="Type" Value="User"/>
+            <Param Name="Password" Value=""/>
+            <Param Name="Inherits">
+              <Param>
+                <Param Name="Name" Value ="Admin"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Deal_Active"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Deal_Cancel"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Deal_Reset_Other"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Deal_Reset_Own"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Deal_Series_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_FODO_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_FOKO_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_FO_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_BTS_Contract_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_BTS_Contract_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Book_OpenClose"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Curve_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Curve_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_ExchangeRate_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_ExchangeRate_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MU_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MU_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MarketParty_Contracts_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MarketParty_Contracts_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MarketParty_IDs_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MarketParty_IDs_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MarketParty_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_MarketParty_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Market_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Market_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_PortfolioBook_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_PortfolioBook_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Product_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Product_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_SSO_Contract_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_SSO_Contract_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Trader_Limit_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_MDM_Trader_Limit_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_Aggregation"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_All"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_Common"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_Deals"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_MarketStructure"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_Nominations"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_PorfolioBooks"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_NAOS_Workspace"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Nomination_Series_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Nomination_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Nomination_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Series_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_TW_InterBZPosition_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_TW_LongPosition_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_TW_ShortPosition"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_TW_ShortPosition_ChangePosition"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_TW_ShortPosition_Read"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_TW_VDT_Gas_Viewer"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Trader_NoLimit"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Trader_Senior_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+              <Param>
+                <Param Name="Name" Value ="ETRM_Trader_Settings"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+
+            </Param>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="Admin"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Deal_Active"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Deal_Cancel"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Deal_Reset_Other"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Deal_Reset_Own"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Deal_Series_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_FODO_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_FOKO_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_FO_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_BTS_Contract_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_BTS_Contract_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Book_OpenClose"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Curve_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Curve_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_ExchangeRate_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_ExchangeRate_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MU_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MU_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MarketParty_Contracts_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MarketParty_Contracts_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MarketParty_IDs_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MarketParty_IDs_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MarketParty_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_MarketParty_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Market_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Market_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_PortfolioBook_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_PortfolioBook_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Product_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Product_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_SSO_Contract_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_SSO_Contract_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Trader_Limit_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_MDM_Trader_Limit_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_Aggregation"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_All"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_Common"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_Deals"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_MarketStructure"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_Nominations"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_PorfolioBooks"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_NAOS_Workspace"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Nomination_Series_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Nomination_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Nomination_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Series_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_TW_InterBZPosition_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_TW_LongPosition_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_TW_ShortPosition"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_TW_ShortPosition_ChangePosition"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_TW_ShortPosition_Read"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_TW_VDT_Gas_Viewer"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Trader_NoLimit"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Trader_Senior_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="ETRM_Trader_Settings"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+
+        </Param>
+      </Params>
+    </Adapter>
+  </IdentityCoreMain>
+  <!--<SystemAdapters>
+    <Adapter Name="ServiceCore">
+      <ProgId>EnifManagement.CServiceCoreAdapterXml,EnifManagement</ProgId>
+    </Adapter>
+  </SystemAdapters>-->
+  <!--b) stylovani-->
+  <Settings>
+    <!-- https://confluence.unicornsystems.eu/display/ENIF/EnifConfig.xml#EnifConfig.xml-SekceSettings -->
+    <!--<AppDataDir>i:\tmp\LGEtrmDemo\</AppDataDir>-->
+    <!--<AppDataDir>I:\TfsVyvoj\00_temp\LG\Configy\LGEtrmDemo\AppData\</AppDataDir>-->
+    <AppDataDir>i:\TM\ETRM_IS_04\ETRM_IS_04\AppServer\AppData\</AppDataDir>
+    <Gui>
+      <ApplicationTitle>LGEtrmDemo</ApplicationTitle>
+      <Style>VigDesign</Style>
+    </Gui>
+  </Settings>
+  <TransactionCoreMain>
+    <DefaultOptions>NativeOnePhaseCommit</DefaultOptions>
+    <NotificationPersister ProgId="Enif.Transactions.DiscNotificationPersister,Enif"/>
+    <Adapter>
+      <ProgId>Enif.Transactions.CTransactionCoreAdapterNH,EnifNh</ProgId>
+      <Params/>
+    </Adapter>
+  </TransactionCoreMain>
+  <NaosCoreMain>
+    <DateFrom>1.1.2018</DateFrom>
+    <DateToEx>1.1.2021</DateToEx>
+    <TimeZone>CEST</TimeZone>
+    <FxClasses>
+      <FxClass>EnifNaosC1.CFxListManager,EnifNaosC164 64</FxClass>
+    </FxClasses>
+  </NaosCoreMain>
+  <SystemAdapters>
+    <Adapter Name="ServiceCore" ProgId="EnifManagement.CServiceCoreAdapterXml,EnifManagement"/>
+  </SystemAdapters>
+  <Params>
+    <Param Name="WatchConfigDirChanges">0</Param>
+  </Params>
+</EnifConfig>

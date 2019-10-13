@@ -166,3 +166,6 @@ encal*.ini
 NaosGui.xml
 ShapeConfig.xml
 Packages/
+LPrint/
+
+LGCFG/LGAggDataAdapter/EnGui/

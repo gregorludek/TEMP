@@ -1,0 +1,2940 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <!--http://wiki.cygni.cz/pages/viewpage.action?pageId=58393996-->
+  <!--<Adapter Name="TsStandardAdapterDb" ProgId="EnifGEModules.TsAdapters.CTsStandardAdapterDb">
+    <Params>
+      <Param Name="DbAdapterProgId">EnifGEModules.DbAdapters.Oracle,EnifGEModules</Param>
+    </Params>
+  </Adapter>-->
+  <!--Adaptér - čas-->
+  <Adapter Name="SDOAdapter" ProgId="EnifCommon.CSDOSimpleDataAdapterBase">
+    <Params>
+      <Param Name="DirName">AlarmSDOStoreRoot</Param>
+      <Param Name="Serializers">
+        <Param Name="ActualTimeMin">Enif.Data.Serializers.CSerializerXDate,EnifData</Param>
+      </Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="TSConstAdapterDb" ProgId="EnifNHCommon.CConstAdapterDb">
+    <Params>
+      <Param Name="DefaultSample">Const</Param>
+      <Param Name="DefaultTimeZone">CEST</Param>
+      <Param Name="DefaultUnit">nezadano</Param>
+      <Param Name="SDOAdapterName">SDOAdapterDb</Param>
+      <Param Name="DataTemplates" />
+    </Params>
+  </Adapter>
+  <Adapter Name="EnifNhCommon.CHqlTreeAdapter" ProgId="EnifNhCommon.CHqlTreeAdapter,EnifNhCommon" />
+  <Adapter Name="TSDeal" ProgId="Enif.EDA.ETRM.Data.CAdapterTS_Deal,EnifEtrmCommon">
+    <Params>
+      <Param Name="DirName">DataStore\ETRM\</Param>
+      <Param Name="HistoryDirName">DataStoreHistory\ETRM\</Param>
+      <Param Name="TSFlags">WriteResizes</Param>
+      <Param Name="DefaultSample">Day</Param>
+      <Param Name="DefaultTimeZone">CEST</Param>
+      <Param Name="DefaultUnit">nezadano</Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="CurveInjWith" ProgId="Enif.EDA.ETRM.Adapters.QuanParamAdapter,EnifEtrmCommon">
+    <Params>
+    </Params>
+  </Adapter>
+  <!-- to be reviewed -->
+  <Adapter Name="TreeMappingAdapter" ProgId="Enif.Entities.Tree.CEntityTreeMappingAdapter,EnifNh">
+    <Params>
+      <Param Name="DataSourceInfo">
+        <Param Name="Data">
+          <Param Name="ExchangeRateSerie.Diagram">Kurzy z ČNB.</Param>
+          <Param Name="ExchangeSeries.Diagram">Data z PXE.</Param>
+          <Param Name="EDI_GDT_DataInstance.Diagram">Data alokací.</Param>
+          <Param Name="EDI_IMB_DataInstance.Diagram">Data odchylek.</Param>
+        </Param>
+      </Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="ETSAdapter" ProgId="EnifCommon.CDataAdapterETSSimple">
+    <Params>
+      <Param Name="DirName">DataStore\ETRM\</Param>
+      <Param Name="HistoryDirName">DataStoreHistory\ETRM\</Param>
+      <Param Name="TSFlags">WriteResizes</Param>
+      <Param Name="DefaultSample">Day</Param>
+      <Param Name="DefaultTimeZone">CEST</Param>
+      <Param Name="DefaultUnit">nezadano</Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="ETSDynamic" ProgId="EnifNhCommon.CDataAdapterDbParamETS">
+    <Params>
+      <!-- Sample a TimeZone diagramu sa vyhodnocuje pri každom vyžiadaní diagramu -->
+      <Param Name="UsePropertyInfoCache">False</Param>
+      <!-- ETSDynamic sa pokúsi nájsť vo svojej transakcii Session, kt. vznikla zo správnej SessionFactory
+           Vďaka tomu je možné meniť sample a timezone v rámci otvorenej Session, je ale vždy potreba zavolať 
+           CygSession.Flush() a následne zahodiť nacacheované diagramy s pomocou CTree.Release() -->
+      <Param Name="TryGetSessionFromTransaction">True</Param>
+      <Param Name="DirName">DataStore\ETRM\</Param>
+      <Param Name="HistoryDirName">DataStoreHistory\ETRM\</Param>
+      <Param Name="TSFlags">WriteResizes</Param>
+      <Param Name="DefaultSample">Day</Param>
+      <Param Name="DefaultTimeZone">CEST</Param>
+      <Param Name="DefaultUnit">nezadano</Param>
+    </Params>
+  </Adapter>
+  <!-- Potomek CDataAdapterDbParamETS - muze byt (vcetne adresaru) nakonfigurovany stejne jako ETSDynamic;
+  navic pozaduje cestu k pracovnimu adresari a Providera s informacemi o vazbach ve vzoreccich-->
+  <Adapter Name="ETSDynamicAgg" ProgId="EnifEtrmAggDataAdapter.AggDataAdapter,EnifEtrmAggDataAdapter">
+    <Params>
+      <!-- Sample a TimeZone diagramu sa vyhodnocuje pri každom vyžiadaní diagramu -->
+      <Param Name="UsePropertyInfoCache">False</Param>
+      <!-- ETSDynamic sa pokúsi nájsť vo svojej transakcii Session, kt. vznikla zo správnej SessionFactory
+           Vďaka tomu je možné meniť sample a timezone v rámci otvorenej Session, je ale vždy potreba zavolať 
+           CygSession.Flush() a následne zahodiť nacacheované diagramy s pomocou CTree.Release() -->
+      <Param Name="TryGetSessionFromTransaction">True</Param>
+      <Param Name="DirName">DataStore\ETRM\</Param>
+      <!--<Param Name="HistoryDirName">DataStoreHistory\ETRM\</Param>-->
+      <Param Name="TSFlags">WriteResizes</Param>
+      <Param Name="DefaultSample">Day</Param>
+      <Param Name="DefaultTimeZone">CEST</Param>
+      <Param Name="DefaultUnit">nezadano</Param>
+    </Params>
+  </Adapter>
+
+  <RootNode Id="1" TemplateId="Data_ETRM-Data-Root" />
+  <RootNode Id="2" TemplateId="Act_ETRM-Actions-Root" />
+
+  <ModContainer Name="TSEditorsETRMMSEditable">
+    <ModCommand Caption="Tabulka" Name="Diagram_LW1">
+      <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+      <ModParams>
+        <Param Name="Role">ETRM_Series_Settings</Param>
+      </ModParams>
+      <Caption>Tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="CopyToClipboardWithHeaders">True</Param>
+        <Param Name="InfoVisibility">0</Param>
+        <Param Name="DateUtilsSettingCol">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="DateUtilsSettingRow">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="RowsHeaderWidth">170</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All" />
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty" />
+              <Param Name="ShortCaption" Value="{{shortcaption_VsechnyHodnoty}}Všechny hodnoty" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hodiny ve dni" />
+              <Param Name="ShortCaption" Value="{{shortcaption_HodinyVeDni}}Hodiny ve dni" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="P-N-D-N">
+              <Param Name="Caption" Value="Denní zóny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_DenniZony}}Denní zóny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="P-N">
+              <Param Name="Caption" Value="Pracovní/Nepracovní" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Pracovninepracovni}}Pracovní/Nepracovní" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="D-N">
+              <Param Name="Caption" Value="Den/Noc" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dennoc}}Den/Noc" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="Vzorek" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vzorek}}Vzorek" />
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hodiny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Hodiny}}Hodiny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Dny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dny}}Dny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Tydny}}Týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="En. týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_EnTydny}}En. týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Měsíce" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Mesice}}Měsíce" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Kvartály" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Kvartaly}}Kvartály" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Roky" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Roky}}Roky" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="Vše" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vse}}Vše" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggVal">
+          <Param Name="DefVal" Value="SumWONull" />
+          <Param Name="List">
+            <Param Name="0" Value="SumWONull">
+              <Param Name="Caption" Value="-" />
+              <Param Name="ShortCaption" Value="-" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggValSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg" />
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Caption="Tabulka" Name="Diagram_LW1">
+      <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+      <ModParams>
+        <Param Name="Role">NOT(ETRM_Series_Settings)</Param>
+      </ModParams>
+      <Caption>Tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="CopyToClipboardWithHeaders">True</Param>
+        <Param Name="InfoVisibility">0</Param>
+        <Param Name="EditMode">ReadOnly</Param>
+        <Param Name="DateUtilsSettingCol">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="DateUtilsSettingRow">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="RowsHeaderWidth">170</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All" />
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty" />
+              <Param Name="ShortCaption" Value="{{shortcaption_VsechnyHodnoty}}Všechny hodnoty" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hodiny ve dni" />
+              <Param Name="ShortCaption" Value="{{shortcaption_HodinyVeDni}}Hodiny ve dni" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="P-N-D-N">
+              <Param Name="Caption" Value="Denní zóny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_DenniZony}}Denní zóny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="P-N">
+              <Param Name="Caption" Value="Pracovní/Nepracovní" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Pracovninepracovni}}Pracovní/Nepracovní" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="D-N">
+              <Param Name="Caption" Value="Den/Noc" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dennoc}}Den/Noc" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="Vzorek" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vzorek}}Vzorek" />
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hodiny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Hodiny}}Hodiny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Dny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dny}}Dny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Tydny}}Týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="En. týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_EnTydny}}En. týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Měsíce" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Mesice}}Měsíce" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Kvartály" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Kvartaly}}Kvartály" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Roky" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Roky}}Roky" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="Vše" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vse}}Vše" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggVal">
+          <Param Name="DefVal" Value="SumWONull" />
+          <Param Name="List">
+            <Param Name="0" Value="SumWONull">
+              <Param Name="Caption" Value="-" />
+              <Param Name="ShortCaption" Value="-" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggValSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg" />
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="ChartLines">
+      <Caption>Graf</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="RangeSaveType" Value="User" />
+        <Param Name="Type">Lines</Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+
+  <ModContainer Name="TSEditorsETRMCommonEditable">
+    <ModCommand Caption="Tabulka" Name="Diagram_LW1">
+      <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+      <ModParams>
+        <Param Name="Role">ETRM_MDM_Curve_Settings or ETRM_MDM_ExchangeRate_Settings</Param>
+      </ModParams>
+      <Caption>Tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="CopyToClipboardWithHeaders">True</Param>
+        <Param Name="InfoVisibility">0</Param>
+        <Param Name="DateUtilsSettingCol">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="DateUtilsSettingRow">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="RowsHeaderWidth">170</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All" />
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty" />
+              <Param Name="ShortCaption" Value="{{shortcaption_VsechnyHodnoty}}Všechny hodnoty" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hodiny ve dni" />
+              <Param Name="ShortCaption" Value="{{shortcaption_HodinyVeDni}}Hodiny ve dni" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="P-N-D-N">
+              <Param Name="Caption" Value="Denní zóny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_DenniZony}}Denní zóny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="P-N">
+              <Param Name="Caption" Value="Pracovní/Nepracovní" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Pracovninepracovni}}Pracovní/Nepracovní" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="D-N">
+              <Param Name="Caption" Value="Den/Noc" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dennoc}}Den/Noc" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="Vzorek" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vzorek}}Vzorek" />
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hodiny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Hodiny}}Hodiny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Dny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dny}}Dny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Tydny}}Týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="En. týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_EnTydny}}En. týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Měsíce" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Mesice}}Měsíce" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Kvartály" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Kvartaly}}Kvartály" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Roky" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Roky}}Roky" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="Vše" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vse}}Vše" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggVal">
+          <Param Name="DefVal" Value="SumWONull" />
+          <Param Name="List">
+            <Param Name="0" Value="SumWONull">
+              <Param Name="Caption" Value="-" />
+              <Param Name="ShortCaption" Value="-" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggValSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg" />
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Caption="Tabulka" Name="Diagram_LW1">
+      <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+      <ModParams>
+        <Param Name="Role">NOT(ETRM_MDM_Curve_Settings or ETRM_MDM_ExchangeRate_Settings)</Param>
+      </ModParams>
+      <Caption>Tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="CopyToClipboardWithHeaders">True</Param>
+        <Param Name="InfoVisibility">0</Param>
+        <Param Name="EditMode">ReadOnly</Param>
+        <Param Name="DateUtilsSettingCol">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="DateUtilsSettingRow">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="RowsHeaderWidth">170</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All" />
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty" />
+              <Param Name="ShortCaption" Value="{{shortcaption_VsechnyHodnoty}}Všechny hodnoty" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hodiny ve dni" />
+              <Param Name="ShortCaption" Value="{{shortcaption_HodinyVeDni}}Hodiny ve dni" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="P-N-D-N">
+              <Param Name="Caption" Value="Denní zóny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_DenniZony}}Denní zóny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="P-N">
+              <Param Name="Caption" Value="Pracovní/Nepracovní" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Pracovninepracovni}}Pracovní/Nepracovní" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="D-N">
+              <Param Name="Caption" Value="Den/Noc" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dennoc}}Den/Noc" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="Vzorek" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vzorek}}Vzorek" />
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hodiny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Hodiny}}Hodiny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Dny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dny}}Dny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Tydny}}Týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="En. týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_EnTydny}}En. týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Měsíce" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Mesice}}Měsíce" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Kvartály" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Kvartaly}}Kvartály" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Roky" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Roky}}Roky" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="Vše" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vse}}Vše" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggVal">
+          <Param Name="DefVal" Value="SumWONull" />
+          <Param Name="List">
+            <Param Name="0" Value="SumWONull">
+              <Param Name="Caption" Value="-" />
+              <Param Name="ShortCaption" Value="-" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggValSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg" />
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="ChartLines">
+      <Caption>Graf</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="RangeSaveType" Value="User" />
+        <Param Name="Type">Lines</Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+
+
+  <ModContainer Name="TSEditorsRO">
+    <ModCommand Caption="Tabulka" Name="Diagram_LW1">
+      <Caption>Tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="CopyToClipboardWithHeaders">True</Param>
+        <Param Name="InfoVisibility">0</Param>
+        <Param Name="EditMode">ReadOnly</Param>
+        <Param Name="DateUtilsSettingCol">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="DateUtilsSettingRow">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="RowsHeaderWidth">170</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All" />
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty" />
+              <Param Name="ShortCaption" Value="{{shortcaption_VsechnyHodnoty}}Všechny hodnoty" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hodiny ve dni" />
+              <Param Name="ShortCaption" Value="{{shortcaption_HodinyVeDni}}Hodiny ve dni" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="P-N-D-N">
+              <Param Name="Caption" Value="Denní zóny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_DenniZony}}Denní zóny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="P-N">
+              <Param Name="Caption" Value="Pracovní/Nepracovní" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Pracovninepracovni}}Pracovní/Nepracovní" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="D-N">
+              <Param Name="Caption" Value="Den/Noc" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dennoc}}Den/Noc" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="Vzorek" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vzorek}}Vzorek" />
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hodiny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Hodiny}}Hodiny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Dny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Dny}}Dny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Tydny}}Týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="En. týdny" />
+              <Param Name="ShortCaption" Value="{{shortcaption_EnTydny}}En. týdny" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Měsíce" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Mesice}}Měsíce" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Kvartály" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Kvartaly}}Kvartály" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Roky" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Roky}}Roky" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="Vše" />
+              <Param Name="ShortCaption" Value="{{shortcaption_Vse}}Vše" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggVal">
+          <Param Name="DefVal" Value="SumWONull" />
+          <Param Name="List">
+            <Param Name="0" Value="SumWONull">
+              <Param Name="Caption" Value="-" />
+              <Param Name="ShortCaption" Value="-" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggValSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg" />
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace" />
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="ChartLines">
+      <Caption>Graf</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="RangeSaveType" Value="User" />
+        <Param Name="Type">Lines</Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+
+  <!--
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="LWProperties">
+    <ModCommand Name="LWProp">
+      <Type>Tab</Type>
+      <ProgId>EnifGui.LWProperties</ProgId>
+      <Caption>Vlastnosti uzlu</Caption>
+    </ModCommand>
+  </ModContainer>
+  -->
+  <!--ModContainer Commands + ModCommand - čas-->
+  <ModContainer Name="Commands" ModProgId="EnifCommon.CModContainerFilterTemplateId">
+    <ModCommand ProgId="EnifGui.XData.LWDataDate" Name="ActualTimeMin" Caption="Vlastnosti datumu">
+      <Type>Tab</Type>
+      <ModParams>
+        <Param Name="TemplateId">ActualTimeMin</Param>
+      </ModParams>
+    </ModCommand>
+  </ModContainer>
+  <!--ModContainer Visuals + ModFormat - čas-->
+  <ModContainer Name="Visuals" ModProgId="EnifCommon.CModContainerFilterTemplateId">
+    <ModFormat>
+      <ModParams>
+        <Param Name="TemplateId">ActualTimeMin</Param>
+      </ModParams>
+      <IconParams>Date</IconParams>
+      <IconOperation>Set</IconOperation>
+    </ModFormat>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="LWDataTS">
+    <ModCommand Name="LWDataTS" Caption="Vlastnosti TS" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Params>
+        <Param Name="TestForm">Common.egeTSPropertiesSTD</Param>
+        <Param Name="ShowCommands">false</Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="LWHistoryTS">
+    <ModCommand Name="History">
+      <Caption>Historie</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder.ico</Icon>
+      <ProgId>EnifTSHistory.EnifTSHistory</ProgId>
+      <Params>
+        <Param Name="Viewers">
+          <ParamClass Name="Chart" ClassProgId="Enif.CClassInfo">
+            <Caption>Graf</Caption>
+            <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+            <Params />
+          </ParamClass>
+          <ParamClass Name="QuickGrid" ClassProgId="Enif.CClassInfo">
+            <Caption>Tabulka</Caption>
+            <ProgId>EnifGridEditor.GridEditor</ProgId>
+            <Params>
+              <Param Name="CopyToClipboardWithHeaders">True</Param>
+              <Param Name="ViewMode">API</Param>
+              <Param Name="EditorType">QuickTable</Param>
+              <Param Name="ListCategory">
+                <Param Name="List">
+                  <Param Name="0" Value="All">
+                    <Param Name="Caption" Value="Všechny hodnoty" />
+                    <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                      <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+                    </ParamClass>
+                  </Param>
+                </Param>
+              </Param>
+              <Param Name="ListAggDiag">
+                <Param Name="DefVal" Value="WOAgg" />
+                <Param Name="List">
+                  <Param Name="3" Value="WOAgg">
+                    <Param Name="Caption" Value="Bez agregace" />
+                    <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                      <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+                    </ParamClass>
+                  </Param>
+                  <Param Name="4" Value="AvgBreakNull">
+                    <Param Name="Caption" Value="Průměr" />
+                    <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                      <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+                    </ParamClass>
+                  </Param>
+                  <Param Name="5" Value="SumBreakNull">
+                    <Param Name="Caption" Value="Sum" />
+                    <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                      <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+                    </ParamClass>
+                  </Param>
+                </Param>
+              </Param>
+            </Params>
+          </ParamClass>
+        </Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMCommon">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAggDataAdapter" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAggDataAdapter" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMCommonFxEditable">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">ETRM_MDM_Curve_Settings or ETRM_MDM_ExchangeRate_Settings</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAggDataAdapter" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="false" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">NOT(ETRM_MDM_Curve_Settings or ETRM_MDM_ExchangeRate_Settings)</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAggDataAdapter" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAggDataAdapter" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMDeal">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMDeal" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMDeal" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMDealFxEditable">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">ETRM_Series_Settings</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMDeal" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="false" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">NOT(ETRM_Series_Settings)</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMDeal" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMDeal" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMMS">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMMS" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMMS" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMMSFxEditable">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">ETRM_Series_Settings</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMMS" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="false" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">NOT(ETRM_Series_Settings)</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMMS" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMMS" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMPB">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMPB" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMPB" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMPBFxEditable">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">ETRM_Series_Settings</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMPB" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="false" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">NOT(ETRM_Series_Settings)</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMPB" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMPB" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMAgg">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAgg" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAgg" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMAggFxEditable">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">ETRM_Series_Settings</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAgg" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="false" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">NOT(ETRM_Series_Settings)</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAgg" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAgg" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMNOM">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMNOM" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMNOM" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMNOMFxEditable">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">ETRM_Series_Settings</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMNOM" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="false" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="Role">NOT(ETRM_Series_Settings)</Param>
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMNOM" />
+          <Param Name="FxDataInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxDataInputEditorSimple,EnifNaosGUI" />
+          <Param Name="FxParamHQLInputEditor" Value="EnifNaosGUI.NaosEditor.Views.FxDataInputEditor.WFxParamHQLInputEditorSimple,EnifNaosGUI" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMNOM" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="TSFormulaETRMAggDataAdapter">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAggDataAdapter" />
+          <Param Name="ReadOnly" Value="true" />
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWNaosDependencies">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWPredNas</ProgId>
+        <Caption>Závislosti</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="NaosModuleETRMAggDataAdapter" />
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="Data_egxTabs">
+    <!--IndexCurve.Diagram-->
+    <!--<ModCommand Name="eggConversionSerie" Caption="Konverzní křivka" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+      <ModParams>
+        <Param Name="TemplateId" Value="IndexCurve.Diagram"/>
+      </ModParams>
+      <Params>
+        <Param Name="SessionFactory">ETRM</Param>
+        <Param Name="TestForm">ETRM.eggConversionSerie</Param>
+      </Params>
+    </ModCommand>-->
+    <!--
+        <ModCommand Name="Data-ETRM-MarketUnit" Caption="Obchodní jednotka" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data-ETRM-MarketUnit"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMarketUnit</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="Data-X-Book" Caption="Kniha" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data-X-Book"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeBook</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="Data-MarketUnit-Portfolio" Caption="Portfolio" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data-MarketUnit-Portfolio"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egePortfolio</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="Data-X-Deal" Caption="Obchod" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data-X-Deal"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeDeal</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeAgreementCapacity" Caption="Kapacitní smlouva" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data-X-AgreementCapacity"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeAgreementCapacity</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeAgreementStorage" Caption="Zásobníková smlouva" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data-X-AgreementStorage"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeAgreementStorage</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="AgreementCapacity_CurveInjWith10078" Caption="Vtláčecí-těžební křivka" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="AgreementCapacity_CurveInjWith10078"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeCurveInjWith</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="AgreementCapacity.CurveInjWith" Caption="Vtláčecí-těžební křivka" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="AgreementCapacity.CurveInjWith"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeCurveInjWith</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggMUBZ-Data_MU_Comm-MU_BZG-List" Caption="Skupiny zón pro OJ" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-MU_BZG-List"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggMUBZ</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggBalanceZoneGroup-Data_MU_Comm-MU_BZG-List" Caption="Skupiny zón" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-MU_BZG-List"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggBalanceZoneGroup</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMUBZG-Data_MU_Comm-MU_BZG" Caption="Skupina zón pro OJ" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-MU_BZG"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMUBZG</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggMUBZ-Data_MU_Comm-MU_BZG" Caption="Bilanční zóny pro OJ" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-MU_BZG"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggMUBZ</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggBalanceZone-Data_MU_Comm-MU_BZG" Caption="Bilanční zóny" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-MU_BZG"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggBalanceZone</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggBalanceZone-Data_MU_Comm-MU_BZ-List" Caption="Bilanční zóny" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-MU_BZ-List"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggBalanceZone</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeBalanceZone-Data_MU_Comm-MU_BZ" Caption="Bilanční zóna" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-MU_BZ"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeBalanceZone</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggPortfolio-Data_MU_Comm-Portfolio-List" Caption="Portfolia" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-Portfolio-List"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggPortfolio</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egePortfolio-Data_MU_Comm-Portfolio" Caption="Portfolio" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-Portfolio"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egePortfolio</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggBook-Data_MU_Comm-Portfolio" Caption="Knihy" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-Portfolio"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggBook</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeBook-Data_MU_Comm-Book" Caption="Kniha" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-Book"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeBook</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggBook-Data_MU_Comm-Book" Caption="Podknihy" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MU_Comm-Book"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggBook</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="eggDeal-Book2Deals" Caption="Obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Book2Deals"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.eggDeal</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeDeal-Book-DealInstance" Caption="Obchod" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Book-DealInstance"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeDeal</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeTCommodity" Caption="Commodity" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_Commodity"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeTCommodity</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeTCurrency" Caption="Currency" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_Currency"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeTCurrency</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeGridLine" Caption="GridLine" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_GridLine"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeGridLine</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeGridPoint" Caption="GridPoint" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_GridPoint"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeGridPoint</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMarket" Caption="Market" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_Market"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMarket</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMarketCurrency" Caption="MarketCurrency" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MarketCurrency"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMarketCurrency</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMarketProducts" Caption="MarketProducts" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MarketProducts"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMarketProducts</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMarketSubject" Caption="MarketSubject" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MarketSubject"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMarketSubject</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMarketUnit" Caption="Obchodní jednotka" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MarketUnit"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMarketUnit</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMGrid" Caption="MGrid" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MGrid"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMGrid</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egeMProduct" Caption="MProduct" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MProduct"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egeMProduct</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Name="egePortfolio" Caption="Portfolio" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_Portfolio"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.egePortfolio</Param>
+            </Params>
+        </ModCommand>
+        <ModCommand Caption="OTE VDT Plyn" Name="VDT_LWEnGui" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+            <ModParams>
+                <Param Name="TemplateId" Value="Data_MarketUnit"/>
+            </ModParams>
+            <Params>
+                <Param Name="SessionFactory">ETRM</Param>
+                <Param Name="TestForm">ETRM.EDA.OTE.VDT.GAS.eggProducts</Param>
+            </Params>
+        </ModCommand>
+        -->
+  </ModContainer>
+
+  <NodeType Id="1099" Name="Diagram" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsETRMMSEditable" />
+    <ModContainerRef Ref="TSFormulaETRMCommon" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1100" Name="DiagramNaosConfigETRMCommon" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsRO" />
+    <ModContainerRef Ref="TSFormulaETRMCommon" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1101" Name="DiagramNaosConfigETRMCommonFxEditable" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsETRMCommonEditable" />
+    <ModContainerRef Ref="TSFormulaETRMCommonFxEditable" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1110" Name="DiagramNaosConfigETRMDeal" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsRO" />
+    <ModContainerRef Ref="TSFormulaETRMDeal" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1111" Name="DiagramNaosConfigETRMDealFxEditable" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsETRMMSEditable" />
+    <ModContainerRef Ref="TSFormulaETRMDealFxEditable" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1120" Name="DiagramNaosConfigETRMPB" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsRO" />
+    <ModContainerRef Ref="TSFormulaETRMPB" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1121" Name="DiagramNaosConfigETRMPBFxEditable" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsETRMMSEditable" />
+    <ModContainerRef Ref="TSFormulaETRMPBFxEditable" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1130" Name="DiagramNaosConfigETRMMS" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsRO" />
+    <ModContainerRef Ref="TSFormulaETRMMS" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1131" Name="DiagramNaosConfigETRMMSFxEditable" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsETRMMSEditable" />
+    <ModContainerRef Ref="TSFormulaETRMMSFxEditable" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1140" Name="DiagramNaosConfigETRMAgg" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsRO" />
+    <ModContainerRef Ref="TSFormulaETRMAgg" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1141" Name="DiagramNaosConfigETRMAggFxEditable" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsETRMMSEditable" />
+    <ModContainerRef Ref="TSFormulaETRMAggFxEditable" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1150" Name="DiagramNaosConfigETRMNOM" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsRO" />
+    <ModContainerRef Ref="TSFormulaETRMNOM" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1151" Name="DiagramNaosConfigETRMNOMFxEditable" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsETRMMSEditable" />
+    <ModContainerRef Ref="TSFormulaETRMNOMFxEditable" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <NodeType Id="1152" Name="DiagramNaosConfigETRMAggDataAdapter" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatDataSource</ModProgId>
+        <ModParams>
+          <Param Name="SourceType">Naos</Param>
+        </ModParams>
+        <IconParams>Formula</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditorsRO" />
+    <ModContainerRef Ref="TSFormulaETRMAggDataAdapter" />
+    <ModContainerRef Ref="LWDataTS" />
+  </NodeType>
+  <!--NodeType Folder - čas-->
+  <NodeType Id="300" Name="Folder">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Commands" />
+    <ModContainerRef Ref="Visuals" />
+  </NodeType>
+  <NodeType Id="1000" Name="Data_Folder" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+  <NodeType Id="1001" Name="Data_FolderWithTS" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+    <ModContainerRef Ref="TSEditorsETRMMSEditable" />
+  </NodeType>
+  <NodeType Id="1002" Name="Data_FolderWithTSRO" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+    <ModContainerRef Ref="TSEditorsRO" />
+  </NodeType>
+  <NodeType Id="1200" Name="Act_Folder" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+
+    <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="enGui">
+      <!-- Testovaci -->
+      <ModCommand Name="egdMarketStructureHelper_MasterDataManagement" Caption="Market Structure (Debugger)" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MasterDataManagement" />
+          <Param Name="Role">Admin</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.egdMarketStructureHelper</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="egdDealMigrationHelper_MasterDataManagement" Caption="DealMigration" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MasterDataManagement" />
+          <Param Name="Role">Admin</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.egdDealMigrationHelper</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="egdMarketStructureHelper_MasterDataManagement" Caption="Plynová databáze" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MasterDataManagement" />
+          <Param Name="Role">GASDB_Admin</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.egdPreGasDB</Param>
+        </Params>
+      </ModCommand>
+      <!--Smlouvy pro MU-->
+      <ModCommand Name="eggAgreement-Act_MarketUnitAgreements" Caption="Zásobníkové smlouvy" ModProgId="EnifCommon.CModApplyHasRole" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitAgreements" />
+          <Param Name="Role">ETRM_MDM_SSO_Contract_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggAgreementStorage</Param>
+        </Params>
+      </ModCommand>
+      <!--Smlouvy pro Master Data Management -->
+      <ModCommand Name="eggAgreement-Act_MarketUnitAgreements" Caption="Zásobníkové smlouvy" ModProgId="EnifCommon.CModApplyHasRole" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitAgreements_Master" />
+          <Param Name="Role">ETRM_MDM_SSO_Contract_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggAgreementStorage</Param>
+          <Param Name="MarketUnitCommodityMain">-1</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggPortfolio_MDMBooks" Caption="Portfolia" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMBooks" />
+          <Param Name="Role">ETRM_MDM_PortfolioBook_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggPortfolio</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggBook_MDMBooks" Caption="Knihy" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMBooks" />
+          <Param Name="Role">ETRM_MDM_PortfolioBook_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggBook</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDealDefaultBook" Caption="Výchozí knihy" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMBooks" />
+          <Param Name="Role">ETRM_MDM_PortfolioBook_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDealDefaultBook</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggClosingBook" Caption="Uzavírání knih" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMBooks" />
+          <Param Name="Role">ETRM_MDM_PortfolioBook_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggClosingBook</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggBookClosureRule" Caption="Pravidla automatického uzavírání knih" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMBooks" />
+          <Param Name="Role">ETRM_MDM_PortfolioBook_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggBookClosureRule</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDealPurpose" Caption="Důvody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMBooks" />
+          <Param Name="Role">ETRM_MDM_PortfolioBook_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDealPurpose</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDealAccType" Caption="Způsoby zaúčtování" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMBooks" />
+          <Param Name="Role">ETRM_MDM_PortfolioBook_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDealAccType</Param>
+        </Params>
+      </ModCommand>
+      <!-- Obchody - u MarketUnit - všechny -->
+      <!--<ModCommand Name="egeMarketUnit-Act" Caption="Obchodní jednotka" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+                <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+                <ModParams>
+                    <Param Name="TemplateId" Value="Act_MarketUnit"/>
+                    <Param Name="Role">ETRM_FO_Viewer</Param>
+                </ModParams>
+                <Params>
+                    <Param Name="SessionFactory">ETRM</Param>
+                    <Param Name="TestForm">ETRM.egeMarketUnit</Param>
+                </Params>
+            </ModCommand>
+            -->
+      <ModCommand Name="eggDeal-Act_Deals" Caption="Obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnit" />
+          <Param Name="Role">ETRM_FO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_IterComBtsBts-Act_MarketUnit" Caption="Sdružené obchody - přeshraniční přenos" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnit" />
+          <Param Name="Role">ETRM_FO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBts</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_IterComBtsBgs-Act_MarketUnit" Caption="Sdružené obchody - přenos z/do zásobníku" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnit" />
+          <Param Name="Role">ETRM_FO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBgs</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_BookTrans-Act_MarketUnit" Caption="Sdružené meziknihové obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnit" />
+          <Param Name="Role">ETRM_FO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_BookTrans</Param>
+        </Params>
+      </ModCommand>
+      <!-- Obchody - FOKO -->
+      <ModCommand Name="eggDeal-Act_DealsFOKO" Caption="Obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_Deals" />
+          <Param Name="Role">ETRM_FOKO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal</Param>
+          <Param Name="DealKindKey">KR</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal-Act_DealsBtsBtsFOKO" Caption="Sdružené obchody - přeshraniční přenos" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_Deals" />
+          <Param Name="Role">ETRM_FOKO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBts</Param>
+          <Param Name="DealKindKey">KR</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal-Act_DealsBtsBgsFOKO" Caption="Sdružené obchody - přenos z/do zásobníku" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_Deals" />
+          <Param Name="Role">ETRM_FOKO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBgs</Param>
+          <Param Name="DealKindKey">KR</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal-Act_DealsBookFOKO" Caption="Sdružené meziknihové obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_Deals" />
+          <Param Name="Role">ETRM_FOKO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_BookTrans</Param>
+          <Param Name="DealKindKey">KR</Param>
+        </Params>
+      </ModCommand>
+      <!--VDT pod FOKO-->
+      <ModCommand Caption="OTE VDT Plyn" Name="VDTGASWPF" ProgId="Enif.EDA.ETRM.OTE.VDTWPF.VDTGas,EnifETRMCOMOTEGui" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitFOKOOTEVDT" />
+        </ModParams>
+      </ModCommand>
+      <!--Krátkodobá rozvaha-->
+      <ModCommand Caption="Krátkodobá rozvaha" Name="Act_FOKO_MasterGrid" ProgId="Enif.EDA.ETRM.Gui.MasterGrid.ShortTermBalanceBase,EnifETRMGui" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_MasterGrid" />
+        </ModParams>
+      </ModCommand>
+      <ModCommand Name="Act_FOKO_Nominations" Caption="Nominace" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_Nominations" />
+          <Param Name="Role">ETRM_Nomination_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggNominationItem</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_IterComBtsBts-Act_MarketUnitFOKO" Caption="Sdružené obchody - přeshraniční přenos" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_ITERCOM_Deals" />
+          <Param Name="Role">ETRM_FOKO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBts</Param>
+          <Param Name="DealKindKey">KR</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_IterComBtsBgs-Act_MarketUnitFOKO" Caption="Sdružené obchody - přenos z/do zásobníku" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_STRGTRANS_Deals" />
+          <Param Name="Role">ETRM_FOKO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBgs</Param>
+          <Param Name="DealKindKey">KR</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_BookTrans-Act_MarketUnitFOKO" Caption="Sdružené meziknihové obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FOKO_BOOKTRANS_Deals" />
+          <Param Name="Role">ETRM_FOKO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_BookTrans</Param>
+          <Param Name="DealKindKey">KR</Param>
+        </Params>
+      </ModCommand>
+      <!-- Obchody - FODO -->
+      <ModCommand Name="eggDeal-Act_FODO_Deals" Caption="Obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_Deals" />
+          <Param Name="Role">ETRM_FODO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal</Param>
+          <Param Name="DealKindKey">DL</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal-Act_FODO_DealsBtsBts" Caption="Sdružené obchody - přeshraniční přenos" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_Deals" />
+          <Param Name="Role">ETRM_FODO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBts</Param>
+          <Param Name="DealKindKey">DL</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal-Act_FODO_DealsBgsBgs" Caption="Sdružené obchody - přenos z/do zásobníku" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_Deals" />
+          <Param Name="Role">ETRM_FODO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBgs</Param>
+          <Param Name="DealKindKey">DL</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal-Act_FODO_DealsBook" Caption="Sdružené meziknihové obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_Deals" />
+          <Param Name="Role">ETRM_FODO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_BookTrans</Param>
+          <Param Name="DealKindKey">DL</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_BookTrans-Act_MarketUnitFODO" Caption="Sdružené meziknihové obchody" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_BOOKTRANS_Deals" />
+          <Param Name="Role">ETRM_FODO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_BookTrans</Param>
+          <Param Name="DealKindKey">DL</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_IterComBtsBts-Act_MarketUnitFODO" Caption="Sdružené obchody - přeshraniční přenos" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_ITERCOM_Deals" />
+          <Param Name="Role">ETRM_FODO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBts</Param>
+          <Param Name="DealKindKey">DL</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDeal_IterComBtsBgs-Act_MarketUnitFODO" Caption="Sdružené obchody - přenos z/do zásobníku" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_STRGTRANS_Deals" />
+          <Param Name="Role">ETRM_FODO_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDeal_IterComBtsBgs</Param>
+          <Param Name="DealKindKey">DL</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDealConfirmation" Caption="Konfirmace - Všechny" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitMOAll" />
+          <Param Name="Role">PRE_ETRM_Viewer_MO</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDealConfirmation</Param>
+          <Param Name="ConfStateKey">'NEKOSE','SKEN','VYST','VYPROT','ZRUS','WaitOnConf','CONCL'</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDealConfirmation" Caption="Konfirmace - Ke zpracování" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitMOQueued" />
+          <Param Name="Role">PRE_ETRM_Viewer_MO</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDealConfirmation</Param>
+          <Param Name="ConfStateKey">'WaitOnConf'</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDealConfirmation" Caption="Konfirmace - Generované" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitMOGenerated" />
+          <Param Name="Role">PRE_ETRM_Viewer_MO</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDealConfirmation</Param>
+          <Param Name="ConfStateKey">'VYST','VYPROT'</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggDealConfirmation-Act_MarketUnitMOConfirmations" Caption="Konfirmace" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitMOConfirmations" />
+          <Param Name="Role">PRE_ETRM_Viewer_MO</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggDealConfirmation</Param>
+          <Param Name="ConfStateKey">'NEKOSE','SKEN','VYST','VYPROT','ZRUS','WaitOnConf','CONCL'</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggLongPosition-Act_MarketUnitFODO" Caption="Dlouhodobá pozice" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_LongPosition" />
+          <Param Name="Role">ETRM_TW_LongPosition_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggLongPosition</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggInterBZPosition-Act_MarketUnitFODO" Caption="Mezibilanční pozice" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_FODO_BalanceZonePosition" />
+          <Param Name="Role">ETRM_TW_InterBZPosition_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggInterBZPosition</Param>
+        </Params>
+      </ModCommand>
+
+      <ModCommand Name="eggMarketUnit_MDMSubjects" Caption="Obchodní jednotky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMSubjects" />
+          <Param Name="Role">ETRM_MDM_MU_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMarketUnit</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggAggBTSCap" Caption="Kapacitní smlouvy BTS" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMSubjects" />
+          <Param Name="Role">ETRM_MDM_BTS_Contract_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggAgreementBTSCap</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggMarket_MDMMarkets" Caption="Trhy" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMMarkets" />
+          <Param Name="Role">ETRM_MDM_Market_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMarket</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggMarketCharge_MDMMarkets" Caption="Předpisy poplatků trhů" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMMarkets" />
+          <Param Name="Role">ETRM_MDM_Market_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMarketCharge</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggProductETrade_MDMProducts_Std" Caption="Produkty" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMProducts" />
+          <Param Name="Role">ETRM_MDM_Product_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggProductETrade</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggProductETrade_MDMProducts_All" Caption="Produkty obchodů" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMProducts" />
+          <Param Name="Role">ETRM_MDM_Product_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggProductETrade_Deal</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggMarketCoparty" Caption="Protistrany" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMCounterParties" />
+          <Param Name="Role">ETRM_MDM_MarketParty_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMarketCoparty</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggMUMarketGridPointCoparty" Caption="Protistrany, body sítě, identifikátory" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMCounterParties" />
+          <Param Name="Role">ETRM_MDM_MarketParty_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMU_GP_GPGG_CO_GPGG</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggMUMarketGridPointCoparty" Caption="Protistrany, body sítě, trhy, obchodní jednotky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMCounterParties" />
+          <Param Name="Role">ETRM_MDM_MarketParty_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMUMarketGridPointCoparty</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggIndexCurve_MDMPriceCurves" Caption="Cenové křivky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMPriceCurves" />
+          <Param Name="Role">ETRM_MDM_Curve_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggPriceCurve</Param>
+          <Param Name="CurveType">PriceCurve</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggIndexCurve_MDMVolumeCurves" Caption="Objemové křivky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMVolumeCurves" />
+          <Param Name="Role">ETRM_MDM_Curve_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggPowerCurve</Param>
+          <Param Name="CurveType">PowerCurve</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggIndexCurve_MDMPaymentCurves" Caption="Platební křivky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMPaymentCurves" />
+          <Param Name="Role">ETRM_MDM_Curve_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggPaymentCurve</Param>
+          <Param Name="CurveType">PaymentCurve</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggIndexCurve_MDMForwardsCurves" Caption="Forwardové křivky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMForwardsCurves" />
+          <Param Name="Role">ETRM_MDM_Curve_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggForwardCurve</Param>
+          <Param Name="CurveType">ForwardCurve</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggConversionSerie" Caption="Převodní křivky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMForwardCurves" />
+          <Param Name="Role">ETRM_MDM_Curve_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggConversionSerie</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggConfTemplate" Caption="Šablony konfirmací" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMConfirmation" />
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggConfTemplate</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggConfTemplate" Caption="Šablony konfirmací obchodních jednotek" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMConfirmation" />
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMU_ConfTemplate</Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="eggNomination_MDMNominations" Caption="Nominace" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MDMNominations" />
+          <Param Name="Role">ETRM_MDM_Market_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggNominationItem</Param>
+        </Params>
+      </ModCommand>
+
+      <ModCommand Name="eggMUGPDTDDT" Caption="Trh, Bod, Typ, Směr" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MUGPDTDDT" />
+          <Param Name="Role">ETRM_MDM_Market_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMarket_GP_DT_DDT</Param>
+        </Params>
+      </ModCommand>
+
+      <ModCommand Name="eggMarketProduct" Caption="Trh - produkt" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MUGPDTDDT" />
+          <Param Name="Role">ETRM_MDM_Market_Viewer</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.eggMarketProduct</Param>
+        </Params>
+      </ModCommand>
+    </ModContainer>
+
+    <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="LOKOLWs">
+      <ModCommand Name="LWSyncLOKO">
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_MarketUnitDeals" />
+        </ModParams>
+        <Type>Tab</Type>
+        <ProgId>Enif.ETRM.SyncLOKO.LWImportLOKO,EnifETRMSyncLOKO</ProgId>
+        <Caption>Sync LOKO</Caption>
+      </ModCommand>
+    </ModContainer>
+  </NodeType>
+  <NodeType Id="1501" Name="FolderWithTS" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+      <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="FolderWithTS-enGUI">
+        <ModCommand Name="eggExchangeRateProvider_MDMBanks" Caption="Poskytovatelé kurzů" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+          <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+          <ModParams>
+            <Param Name="TemplateId" Value="Act_MDMRatingRates" />
+            <Param Name="Role">ETRM_MDM_ExchangeRate_Viewer</Param>
+          </ModParams>
+          <Params>
+            <Param Name="SessionFactory">ETRM</Param>
+            <Param Name="TestForm">ETRM.eggExchangeRateProvider</Param>
+          </Params>
+        </ModCommand>
+        <ModCommand Name="eggExchangeRateSerie_MDMBanks" Caption="Kurzové křivky" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+          <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+          <ModParams>
+            <Param Name="TemplateId" Value="Act_MDMRatingRates" />
+            <Param Name="Role">ETRM_MDM_ExchangeRate_Viewer</Param>
+          </ModParams>
+          <Params>
+            <Param Name="SessionFactory">ETRM</Param>
+            <Param Name="TestForm">ETRM.eggExchangeRateSerie</Param>
+          </Params>
+        </ModCommand>
+        <ModCommand Name="eggExchangeRateSerieV_MDMBanks" Caption="Verze kurzových křivek" ProgId="EGCore.CExEGWindow,EGCore" ModProgId="EnifCommon.CModApplyHasRole" Type="Tab">
+          <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+          <ModParams>
+            <Param Name="TemplateId" Value="Act_MDMRatingRates" />
+            <Param Name="Role">ETRM_MDM_ExchangeRate_Viewer</Param>
+          </ModParams>
+          <Params>
+            <Param Name="SessionFactory">ETRM</Param>
+            <Param Name="TestForm">ETRM.eggExchangeRateSerieV</Param>
+          </Params>
+        </ModCommand>
+      </ModContainer>
+      <!--    <ModContainerRef Ref="TSEditorsETRMMSEditable"/> TODO: nutno doresit jadra -->
+    </Mods>
+  </NodeType>
+  <!-- new types PRE-->
+  <NodeType Id="1502" Name="Data_Folder_Porftolio" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+  <NodeType Id="1503" Name="Data_Folder_Book" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+  <NodeType Id="1504" Name="Data_Folder_Deal" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+  <NodeType Id="1505" Name="Data_Folder_BZ" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+  <NodeType Id="1506" Name="Data_Folder_Grid" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+  <NodeType Id="1507" Name="Data_Folder_GPG" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+  <NodeType Id="1508" Name="Data_Folder_GP" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+
+  <NodeType Id="875733454" Name="CurveInjWith" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>CurveInjWith</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <ModFormat>
+        <!--<ModProgId>EnifCommon.CModFormatIconFromTemplateId</ModProgId>-->
+      </ModFormat>
+    </Mods>
+    <ModContainer Name="CurveInjWithEditors">
+      <ModCommand Name="XDataParams">
+        <Caption>Parametry pásmování</Caption>
+        <Type>Tab</Type>
+        <Icon>Folder</Icon>
+        <ProgId>Enif.GuiItemEditor.Views.GuiItemEditor,EnifGuiItemEditor</ProgId>
+        <Params>
+          <Param Name="Editor">xdataparams</Param>
+          <Param Name="IsReadOnly">True</Param>
+          <Param Name="CanSelectData">False</Param>
+        </Params>
+      </ModCommand>
+    </ModContainer>
+    <ModContainerRef Ref="Data_egxTabs" />
+  </NodeType>
+</TreeConfig>
+
+
+
+

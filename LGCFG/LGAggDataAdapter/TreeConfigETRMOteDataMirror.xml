@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <NodeTemplate Id="Act_MarketUnitOTEDataMirr" ProgId="EnifCommon.CNTConst" Caption="OTE DataMirror" NodeType="Act_Folder">
+    <ConTemplate Id="GasMarketUnitImbnot" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect" Value="Hql;select mu.Id from MarketUnit mu join mu.Subject s join s.bagSubjectCommodity sc join sc.TCommodity t with t.Key='GAS' where mu.Id=:NodeId"/>
+        <Param Name="ChildCaptionFormat" Value="Vyhodnocení odchylek"/>
+      </Params>
+      <NodeTemplate Id="Act_GasOTEIMBNOT" Caption="" ProgId="EnifCommon.CNTConst" NodeType="Act_Folder">
+        <NodeTemplate Id="Act_GasOTEDM01" Caption="01 Předběžné odchylky" NodeType="FolderWithTS" ProgId="EnifCommon.CNTConst">
+          <ConTemplate Id="Act_GasOTEIMBNOTPINP" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='PINP' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="01 Vstupní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTPOUT" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='POUT' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="02 Výstupní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTPIMB" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='PIMB' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="03 Celková"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTPIMR" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='PIMR' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="04 Celková vlastní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTPTOL" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='PTOL' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="05 Tolerance"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTPOTI" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='POTI' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="06 Mimotoleranční"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTPSYS" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='PSYS' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="07 Systémová"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>
+
+        <NodeTemplate Id="Act_GasOTEDM02" Caption="02 Skutečné odchylky" NodeType="FolderWithTS" ProgId="EnifCommon.CNTConst">
+          <ConTemplate Id="Act_GasOTEIMBNOTDINP" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DINP' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="01 Vstupní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTDOUT" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DOUT' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="02 Výstupní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTDIMB" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DIMB' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="03 Celková"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTDIMR" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DIMR' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="04 Celková vlastní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTDTOL" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DTOL' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="05 Tolerance"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTDOTI" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DOTI' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="06 Mimotoleranční"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTDSYS" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DSYS' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="07 Systémová"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTUTOL" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='UTOL' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="08 Nevyužitá tolerance"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTDOTT" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='DOTT' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="09 Mimotoleranční (vč. obchod NT)"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>
+
+        <NodeTemplate Id="Act_GasOTEDM03" Caption="03 Opravné odchylky" NodeType="FolderWithTS" ProgId="EnifCommon.CNTConst">
+           <ConTemplate Id="Act_GasOTEIMBNOTEINP" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='EINP' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="01 Vstupní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTEOUT" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='EOUT' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="02 Výstupní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTEIMB" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='EIMB' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="03 Celková"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTEIMR" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='EIMR' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="04 Celková vlastní"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTETOL" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='ETOL' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="05 Tolerance"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTEOTI" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='EOTI' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="06 Mimotoleranční"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+          <ConTemplate Id="Act_GasOTEIMBNOTESYS" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect" Value="Hql;select DI.Id from EDI_IMB_DataInstance DI join DI.IMBType T with T.Key='ESYS' join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId"/>
+              <Param Name="ChildCaptionFormat" Value="07 Systémová"/>
+            </Params>
+            <NodeTemplateRef Ref="Act_EDI_IMB_DataInstance.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="GasMarketUnitGasdat" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect" Value="Hql;select mu.Id from MarketUnit mu join mu.Subject s join s.bagSubjectCommodity sc join sc.TCommodity t with t.Key='GAS' where mu.Id=:NodeId"/>
+        <Param Name="ChildCaptionFormat" Value="Hodnoty alokace"/>
+      </Params>
+      <NodeTemplate Id="Act_GasOTEGASDAT" Caption="" ProgId="EnifCommon.CNTConst" NodeType="Act_Folder">
+        <ConTemplate Id="GasMarketUnitGasdatVersions" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect" Value="Hql;select Id as CaptionId,Caption as CaptionText,Id as Id from EDI_GDT_Version order by Id"/>
+            <Param Name="ChildCaptionFormat" Value="{CaptionId~00} {CaptionText}"/>
+            <Param Name="ChildIdFormat" Value="{NodeId}-{Id}"/>
+            <Param Name="ParentIdSelect" Value="Const;{NodeId0}"/>
+          </Params>
+          <NodeTemplate Id="Act_GasOTEGASDATVersions" Caption="" ProgId="EnifCommon.CNTConst" NodeType="FolderWithTS">
+            <ConTemplate Id="Act_GasOTEGASDATInstance" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect" Value="Hql;select P.Id as CaptionId,P.Caption as CaptionText,DI.Id as Id from EDI_GDT_DataInstance DI join DI.GDTProduct P join DI.MessageHeader MH join MH.MarketUnit MU with MU.Id=:NodeId0 join MH.Version V with V.Id=:NodeId1 order by P.Id"/>
+                <Param Name="ChildCaptionFormat" Value="{CaptionId~00} {CaptionText}"/>
+                <Param Name="ParentIdSelect" Value="Hql;select MU.Id,V.Id from EDI_GDT_DataInstance DI join DI.GDTProduct P join DI.MessageHeader MH join MH.MarketUnit MU join MH.Version V"/>
+              </Params>
+              <NodeTemplateRef Ref="Act_EDI_GDT_DataInstance.Diagram"/>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Act_EDI_GDT_DataInstance.Diagram" ProgId="EnifCommon.CNTConst" NodeType="Diagram">
+    <ConDataTemplate Id="Act_EDI_GDT_DataInstance.Diagram" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="Act_EDI_GDT_DataInstance.Diagram" Adapter="ETSAdapter" Sample="Day" TimeZone="CEST" DataType="Double">
+        <Params>
+          <Param Name="EntityPath" Value="EDI_GDT_DataInstance.Diagram"/>
+        </Params>
+      </DataTemplate>
+    </ConDataTemplate>
+    <Params>
+      <Param Name="HasChildren" Value="0"/>
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="Act_EDI_IMB_DataInstance.Diagram" ProgId="EnifCommon.CNTConst" NodeType="Diagram">
+    <ConDataTemplate Id="Act_EDI_IMB_DataInstance.Diagram" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="Act_EDI_IMB_DataInstance.Diagram" Adapter="ETSAdapter" Sample="Day" TimeZone="CEST" DataType="Double">
+        <Params>
+          <Param Name="EntityPath" Value="EDI_IMB_DataInstance.Diagram"/>
+        </Params>
+      </DataTemplate>
+    </ConDataTemplate>
+    <Params>
+      <Param Name="HasChildren" Value="0"/>
+    </Params>
+  </NodeTemplate>
+</TreeConfig>

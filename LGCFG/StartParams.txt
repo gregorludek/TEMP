@@ -1,0 +1,3 @@
+﻿ETRMAggDataAdapter
+i:\gitRepos\uu_lancelotetrm_lancelotg01\uu_lancelotetrm_lancelotg01-server\artifacts\debug\EnifClient.exe
+I:\gitRepos\TEMP\LGCFG\LGAggDataAdapter

@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "Cfg": {
-      "commandName": "Executable",
-      "executablePath": "i:\\gitRepos\\uu_lancelotetrm_lancelotg01\\uu_lancelotetrm_lancelotg01-server\\artifacts\\debug\\EnifClient.exe",
-      "commandLineArgs": "i:\\TfsVyvoj\\00_temp\\LG\\Configy\\LGEtrmDemo\\"
-    }
-  }
-}

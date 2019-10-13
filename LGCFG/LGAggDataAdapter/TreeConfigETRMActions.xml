@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <RootNode Id="1" TemplateId="Act_ETRM-Actions-Root"/>
+  <Adapter Name="TreePathAdapter" ProgId="Enif.Tree.CAdapterParamResolverByConIdParams"/>
+  <NodeTemplate Id="Act_ETRM-Actions-Root" ProgId="EnifCommon.CNTConst" Caption="ETRM" NodeType="Act_Folder">
+    <ConTemplate Id="Act_MarketUnit" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+        <Param Name="ChildSelect">Hql;select concat(concat(muc.MarketUnit.Subject.Company.ShortName, ' - '), muc.Commodity.ShortCaption) as Name , muc.Id from MU_Commodity muc where muc.MarketUnit.Active and muc.Commodity.BaseCommodityFK = null order by Name </Param>
+        <Param Name="PathParams">
+          <Param Name="MarketUnitCommodityMain" Value="{NodeId}"/>
+        </Param>
+      </Params>
+      <NodeTemplate Id="Act_MarketUnit" ProgId="EnifNhCommon.CHqlNT" Caption="&lt;MarketUnit - komodity&gt; - NodeID: MU_Comodity.ID" NodeType="Act_Folder"
+                    RShow="ETRM_FO_Viewer or ETRM_FOKO_Viewer or ETRM_FODO_Viewer or ETRM_MDM_SSO_Contract_Viewer or ETRM_TW_InterBZPosition_Viewer or ETRM_TW_LongPosition_Viewer or ETRM_TW_VDT_Gas_Viewer or ETRM_TW_ShortPosition_Read or ETRM_Nomination_Viewer">
+        <Params>
+          <Param Name="CaptionsSelect"/>
+        </Params>
+        <NodeTemplate Id="Act_MarketUnitFOKO" ProgId="EnifCommon.CNTConst" Caption="FOKO" NodeType="Act_Folder" RShow="ETRM_FOKO_Viewer or ETRM_TW_VDT_Gas_Viewer or ETRM_Nomination_Viewer or ETRM_TW_ShortPosition_Read">
+
+          <ConTemplate Id="Act_FOKO_Deals" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <!--Id=3 odpovídá pre -->
+              <Param Name="ChildSelect">Hql;select ('Obchody') as Name, muc.MarketUnit.Id from MU_Commodity muc where muc.Id =:NodeId </Param>
+            </Params>
+            <NodeTemplate Id="Act_FOKO_Deals" ProgId="EnifCommon.CNTConst" Caption="01 Obchody" NodeType="Act_Folder"
+                          RShow="ETRM_FOKO_Viewer">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+          </ConTemplate>
+          <ConTemplate Id="Act_MarketUnitOTEVDT" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect">Hql;select com.Caption, com.Id from Communication com, CommunicationType ct, MU_Commodity muc where com.TypeFK=ct.Id and ct.Key='VDT' and muc.Commodity.Key like 'GAS' and com.MarketUnitFK = muc.MarketUnitFK and muc.Id =:NodeId</Param>
+            </Params>
+            <NodeTemplate Id="Act_MarketUnitFOKOOTEVDT" ProgId="EnifCommon.CNTConst" Caption="03 Vnitrodenní trh OTE" NodeType="Act_Folder" RShow="ETRM_TW_VDT_Gas_Viewer">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+          </ConTemplate>
+          <ConTemplate Id="Act_FOKO_MasterGrid" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <!--Id=3 odpovídá pre -->
+              <Param Name="ChildSelect">Hql;select ('Krátkodobá rozvaha') as Name, muc.MarketUnit.Id from MU_Commodity muc where muc.Id =:NodeId </Param>
+            </Params>
+            <NodeTemplate Id="Act_FOKO_MasterGrid" ProgId="EnifCommon.CNTConst" Caption="02 Krátkodobá rozvaha" NodeType="Act_Folder" RShow="ETRM_TW_ShortPosition_Read">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+          </ConTemplate>
+          <NodeTemplate Id="Act_FOKO_Nominations" ProgId="EnifCommon.CNTConst" Caption="Nominace" NodeType="Act_Folder" RShow="ETRM_Nomination_Viewer">
+            <Params>
+              <Param Name="HasChildren" Value="0"/>
+            </Params>
+          </NodeTemplate>
+
+
+
+
+        </NodeTemplate>
+
+        <NodeTemplate Id="Act_MarketUnitFODO" ProgId="EnifCommon.CNTConst" Caption="FODO" NodeType="Act_Folder" RShow="ETRM_FODO_Viewer or ETRM_TW_InterBZPosition_Viewer or ETRM_TW_LongPosition_Viewer">
+
+
+          <ConTemplate Id="Act_FODO_Deals" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <!--Id=3 odpovídá pre -->
+              <Param Name="ChildSelect">Hql;select ('Obchody') as Name, muc.MarketUnit.Id from MU_Commodity muc where muc.Id =:NodeId </Param>
+            </Params>
+            <NodeTemplate Id="Act_FODO_Deals" ProgId="EnifCommon.CNTConst" Caption="Obchody" NodeType="Act_Folder"
+                          RShow="ETRM_FODO_Viewer">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+          </ConTemplate>
+
+          <ConTemplate Id="Act_FODO_LongPosition" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <!--Id=3 odpovídá pre -->
+              <Param Name="ChildSelect">Hql;select ('Dlouhodobá pozice') as Name, muc.MarketUnit.Id from MU_Commodity muc where muc.Id =:NodeId </Param>
+            </Params>
+            <NodeTemplate Id="Act_FODO_LongPosition" ProgId="EnifCommon.CNTConst" Caption="Dlouhodobá pozice" NodeType="Act_Folder"
+                          RShow="ETRM_TW_LongPosition_Viewer">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+          </ConTemplate>
+
+          <ConTemplate Id="Act_FODO_BalanceZonePosition" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <!--Id=3 odpovídá pre -->
+              <Param Name="ChildSelect">Hql;select ('Mezibilanční pozice') as Name, muc.MarketUnit.Id from MU_Commodity muc where muc.Id =:NodeId </Param>
+            </Params>
+            <NodeTemplate Id="Act_FODO_BalanceZonePosition" ProgId="EnifCommon.CNTConst" Caption="Mezibilanční pozice" NodeType="Act_Folder"
+                          RShow="ETRM_TW_InterBZPosition_Viewer">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+          </ConTemplate>
+
+
+
+
+        </NodeTemplate>
+        <NodeTemplate Id="Act_MarketUnitMiddleOffice" ProgId="EnifCommon.CNTConst" Caption="Middle Office" NodeType="Act_Folder" RShow="PRE_ETRM_Viewer_MO">
+          <NodeTemplate Id="Act_MarketUnitMOConfirmations" ProgId="EnifCommon.CNTConst" Caption="Konfirmace" NodeType="Act_Folder">
+           
+            <NodeTemplate Id="Act_MarketUnitMOQueued" ProgId="EnifCommon.CNTConst" Caption="Ke zpracování" NodeType="Act_Folder">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+            <NodeTemplate Id="Act_MarketUnitMOGenerated" ProgId="EnifCommon.CNTConst" Caption="Generované" NodeType="Act_Folder">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+            <NodeTemplate Id="Act_MarketUnitMOAll" ProgId="EnifCommon.CNTConst" Caption="Všechny" NodeType="Act_Folder">
+              <Params>
+                <Param Name="HasChildren" Value="0"/>
+              </Params>
+            </NodeTemplate>
+          </NodeTemplate>
+        </NodeTemplate>
+        <NodeTemplate Id="Act_MarketUnitAgreements" ProgId="EnifCommon.CNTConst" Caption="Zásobníkové smlouvy" NodeType="Act_Folder" RShow="ETRM_MDM_SSO_Contract_Viewer">
+
+        </NodeTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <NodeTemplate Id="Act_MasterDataManagement" ProgId="EnifCommon.CNTConst" Caption="Master Data Management" NodeType="Act_Folder">
+      <NodeTemplate Id="Act_MDMPriceVolCurves" ProgId="EnifCommon.CNTConst" Caption="Cenové a objemové křivky" NodeType="Act_Folder" RShow="ETRM_MDM_Curve_Viewer">
+        <NodeTemplate Id="Act_MDMPriceCurves" ProgId="EnifCommon.CNTConst" Caption="Cenové křivky" NodeType="Act_Folder">
+          <ConTemplate Id="Act_IndexCurve.Diagram1003" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ParentIdSelect">Const;1</Param>
+              <Param Name="ChildSelect">Hql;select ers.Caption,ers.Id from IndexCurve ers where ers.Active and ers.IndexCurveType.Key like 'PriceCurve'</Param>
+            </Params>
+            <NodeTemplateRef Ref="IndexCurve.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>
+        <NodeTemplate Id="Act_MDMForwardsCurves" ProgId="EnifCommon.CNTConst" Caption="Forwardové křivky" NodeType="Act_Folder">
+          <ConTemplate Id="Act_IndexCurve.Diagram1006" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ParentIdSelect">Const;1</Param>
+              <Param Name="ChildSelect">Hql;select ers.Caption,ers.Id from IndexCurve ers where ers.Active and ers.IndexCurveType.Key like 'ForwardCurve'</Param>
+            </Params>
+            <NodeTemplateRef Ref="IndexCurve.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>
+        <NodeTemplate Id="Act_MDMVolumeCurves" ProgId="EnifCommon.CNTConst" Caption="Objemové křivky" NodeType="Act_Folder">
+          <ConTemplate Id="Act_IndexCurve.Diagram1004" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ParentIdSelect">Const;1</Param>
+              <Param Name="ChildSelect">Hql;select ers.Caption,ers.Id from IndexCurve ers where ers.Active and ers.IndexCurveType.Key like 'PowerCurve'</Param>
+            </Params>
+            <NodeTemplateRef Ref="IndexCurve.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>
+        <NodeTemplate Id="Act_MDMPaymentCurves" ProgId="EnifCommon.CNTConst" Caption="Platební křivky" NodeType="Act_Folder">
+          <ConTemplate Id="Act_IndexCurve.Diagram1005" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ParentIdSelect">Const;1</Param>
+              <Param Name="ChildSelect">Hql;select ers.Caption,ers.Id from IndexCurve ers where ers.Active and ers.IndexCurveType.Key like 'PaymentCurve'</Param>
+            </Params>
+            <NodeTemplateRef Ref="IndexCurve.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMRatingRates" ProgId="EnifCommon.CNTConst" Caption="Kurzové křivky" NodeType="FolderWithTS"
+        RShow="ETRM_MDM_ExchangeRate_Viewer">
+        <ConTemplate Id="Act_ExchangeRateSerie.Diagram1002" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ParentIdSelect">Const;1</Param>
+            <Param Name="ChildSelect">Hql;select ers.Caption,ers.Id from ExchangeRateSerie ers where Active order by Caption asc</Param>
+          </Params>
+          <NodeTemplateRef Ref="ExchangeRateSerie.Diagram"/>
+        </ConTemplate>
+        <!--<NodeTemplate Id="ExRatesSerieV" ProgId="EnifCommon.CNTConst" Caption="Verze kurzových křivek" NodeType="FolderWithTS">
+          <Params>
+            <Param Name="CaptionsSelect"></Param>
+          </Params>
+          <ConTemplate Id="Act_ExchangeRateSerieV.Diagram1002" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ParentIdSelect">Const;1</Param>
+              <Param Name="ChildSelect">Hql;select ers.Caption || ' (' || str(ersv.ValidFrom) || ')' as Caption, ersv.Id as Id from ExchangeRateSerieV ersv inner join ersv.ExchangeRateSerie ers where ers.Active and ersv.Active order by ersv.ValidFrom asc, ers.Caption asc</Param>
+            </Params>
+            <NodeTemplateRef Ref="ExchangeRateSerieV.Diagram"/>
+          </ConTemplate>
+        </NodeTemplate>-->
+        <NodeTemplate Id="Act_MDMRatingRatesV" ProgId="EnifCommon.CNTConst" Caption="Verze kurzových křivek" NodeType="FolderWithTS">
+          <Params>
+            <Param Name="CaptionsSelect"></Param>
+          </Params>
+          <ConTemplate Id="ExRatesYears1" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ParentIdSelect">Const;1</Param>
+              <Param Name="ChildSelect">Hql;select distinct year(ers.ValidFrom) as Caption, year(ers.ValidFrom) as Id from ExchangeRateSerieV ers order by year(ers.ValidFrom) asc</Param>
+            </Params>
+            <NodeTemplate Id="ExRatesYears2" ProgId="EnifCommon.CNTConst" Caption="Roky kurzových křivek" NodeType="FolderWithTS">
+              <Params>
+                <Param Name="CaptionsSelect"></Param>
+              </Params>
+              <ConTemplate Id="ExRatesMonths1" ProgId="EnifNhCommon.CCTHql">
+                <Params>
+                  <Param Name="ChildSelect">Hql;select distinct month(ers.ValidFrom) as Caption,  (year(ers.ValidFrom) * 100 +  month(ers.ValidFrom)) as Id from ExchangeRateSerieV ers where year(ers.ValidFrom)=:NodeId order by month(ers.ValidFrom) asc</Param>
+                </Params>
+                <NodeTemplate Id="ExRatesMonths2" ProgId="EnifCommon.CNTConst" Caption="Měsíce kurzových křivek" NodeType="FolderWithTS">
+                  <Params>
+                    <Param Name="CaptionsSelect"></Param>
+                  </Params>
+                  <ConTemplate Id="Act_ExchangeRateSerieV.Diagram1002" ProgId="EnifNhCommon.CCTHql">
+                    <Params>
+                      <Param Name="ChildSelect">Hql;select ers.Caption || ' (' || str(ersv.ValidFrom) || ')' as Caption, ersv.Id as Id from ExchangeRateSerieV ersv inner join ersv.ExchangeRateSerie ers where ers.Active and ersv.Active and (year(ersv.ValidFrom) * 100 +  month(ersv.ValidFrom))=:NodeId order by ersv.ValidFrom desc</Param>
+                    </Params>
+                    <NodeTemplateRef Ref="ExchangeRateSerieV.Diagram"/>
+                  </ConTemplate>
+                </NodeTemplate>
+              </ConTemplate>
+            </NodeTemplate>
+          </ConTemplate>
+        </NodeTemplate>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMSubjects" ProgId="EnifCommon.CNTConst" Caption="Obchodní jednotky" NodeType="Act_Folder" RShow="ETRM_MDM_MU_Viewer or ETRM_MDM_BTS_Contract_Viewer">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMBooks" ProgId="EnifCommon.CNTConst" Caption="Portfolia a knihy" NodeType="Act_Folder" RShow="ETRM_MDM_PortfolioBook_Viewer or ETRM_MDM_Book_OpenClose">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMProducts" ProgId="EnifCommon.CNTConst" Caption="Produkty" NodeType="Act_Folder" RShow="ETRM_MDM_Product_Viewer">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMConfirmation" ProgId="EnifCommon.CNTConst" Caption="Konfirmace" NodeType="Act_Folder" RShow="PRE_ETRM_Viewer_MO">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMCounterParties" ProgId="EnifCommon.CNTConst" Caption="Protistrany" NodeType="Act_Folder"
+      RShow="ETRM_MDM_MarketParty_Viewer">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMForwardCurves" ProgId="EnifCommon.CNTConst" Caption="Převodní křivky" NodeType="Act_Folder"
+      RShow="ETRM_MDM_Curve_Viewer">
+        <ConTemplate Id="Act_ConversionSerie.Diagram1004" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ParentIdSelect">Const;1</Param>
+            <Param Name="ChildSelect">Hql;select ers.Caption,ers.Id from ConversionSerie ers</Param>
+          </Params>
+          <NodeTemplateRef Ref="ConversionSerie.Diagram"/>
+        </ConTemplate>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MarketUnitAgreements_Master" ProgId="EnifCommon.CNTConst" Caption="Smlouvy" NodeType="Act_Folder" RShow="ETRM_MDM_SSO_Contract_Viewer">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Id="Act_MDMMarkets" ProgId="EnifCommon.CNTConst" Caption="Trhy" NodeType="Act_Folder" RShow="ETRM_MDM_Market_Viewer">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+
+      <NodeTemplate Id="Act_MUGPDTDDT" ProgId="EnifCommon.CNTConst" Caption="Trh, Bod, Typ, Směr" NodeType="Act_Folder" RShow="Admin">
+        <Params>
+          <Param Name="HasChildren" Value="0"/>
+        </Params>
+      </NodeTemplate>
+    </NodeTemplate>
+
+  </NodeTemplate>
+</TreeConfig>

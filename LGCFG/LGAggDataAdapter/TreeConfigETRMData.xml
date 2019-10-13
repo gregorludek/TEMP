@@ -1,0 +1,2415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <NodeTemplate Id="Data_ETRM-Data-Root" ProgId="EnifCommon.CNTConst" Caption="ETRM Plyn" NodeType="Data_Folder">
+    <!--NodeTemplate - čas-->
+    <NodeTemplate Caption="Aktuální čas" ProgId="EnifCommon.CNTConst" Id="ActualTimeMin" NodeType="Folder">
+      <Params>
+        <Param Name="HasChildren">false</Param>
+      </Params>
+      <ConDataTemplate ProgId="EnifCommon.CCDTConst">
+        <DataTemplate Id="ActualTimeMin" Adapter="SDOAdapter"/>
+      </ConDataTemplate>
+    </NodeTemplate>
+    <ConTemplate Id="Data-ETRM-MarketUnit" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+        <Param Name="ChildSelect">
+          Hql;
+          select mu.Subject.Company.Name, mu.Id
+          from MarketUnit mu
+          where mu.Active
+        </Param>
+      </Params>
+      <NodeTemplate Id="Data-ETRM-MarketUnit" ProgId="EnifCommon.CNTConst" Caption="Obchodní jednotka" NodeType="Data_Folder">
+        <Params>
+          <Param Name="CaptionsSelect"/>
+        </Params>
+        <ConTemplate Id="Data-MarketUnit-Portfolio-List" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="Data-MarketUnit-Portfolio-List"/>
+        </ConTemplate>
+        <ConTemplate Id="Data-MarketUnit-MU_Commodity" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">
+              Hql;
+              select muc.Commodity.Caption, muc.Id
+              from MU_Commodity muc
+              join muc.MarketUnit s
+              where muc.Commodity.BaseCommodityFK = null
+              and muc.Commodity.Active and s.Id=:NodeId
+            </Param>
+          </Params>
+          <NodeTemplate Id="Data-MarketUnit-MU_Commodity" ProgId="EnifCommon.CNTConst" Caption="Nadkomodita" NodeType="Data_Folder">
+            <Params>
+              <Param Name="CaptionsSelect"/>
+            </Params>
+            <NodeTemplate Id="Data-MU_Commodity-MU_BZG-List" ProgId="EnifCommon.CNTConst" Caption="Skupiny zón" NodeType="Data_Folder" RShow="ETRM_Deal_Series_Viewer">
+              <ConTemplate Id="Data-MU_Commodity-MU_BZG" ProgId="EnifNhCommon.CCTHql">
+                <Params>
+                  <Param Name="ChildSelect">
+                    Hql;
+                    select concat('Skupina ', op.Caption), mup.Id
+                    from
+                    MU_Commodity muc,
+                    MU_BZG mup
+                    join mup.BalanceZoneGroup op
+                    where muc.Id=:NodeId
+                    and mup.MarketUnitFK=muc.MarketUnitFK
+                  </Param>
+                </Params>
+                <NodeTemplate Id="Data-MU_Commodity-MU_BZG" ProgId="EnifCommon.CNTConst" Caption="Nadzóna" NodeType="Data_FolderWithTS">
+                  <Params>
+                    <Param Name="CaptionsSelect"/>
+                  </Params>
+                  <ConTemplate Id="Data-MU_BZG-MU_BZGComm" ProgId="EnifNhCommon.CCTHql">
+                    <Params>
+                      <Param Name="ChildSelect">
+                        Hql; select sc.Comm.Caption, sc.Id
+                        from MU_BZGComm sc
+                        join sc.Parent p
+                        where p.Id=:NodeId and sc.Comm.BaseCommodityFK != null order by sc.Comm.Caption
+                      </Param>
+                    </Params>
+                    <NodeTemplate Id="Data-MU_BZG-MU_BZGComm" ProgId="EnifCommon.CNTConst" Caption="Nadzóna - subkomodita" NodeType="Data_FolderWithTS">
+                      <Params>
+                        <Param Name="CaptionsSelect"/>
+                      </Params>
+                      <ConTemplate Id="MU_BZGComm.DiagramEntryVolume1004" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramEntryVolume"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramEntryPayment1002" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramEntryPayment"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramEntryPrice1003" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramEntryPrice"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramExitVolume1007" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramExitVolume"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramExitPayment1005" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramExitPayment"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramExitPrice1006" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramExitPrice"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramSaldoVolume1010" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramSaldoVolume"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramSaldoPayment1008" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramSaldoPayment"/>
+                      </ConTemplate>
+                      <ConTemplate Id="MU_BZGComm.DiagramSaldoPrice1009" ProgId="EnifCommon.CCTConst">
+                        <NodeTemplateRef Ref="MU_BZGComm.DiagramSaldoPrice"/>
+                      </ConTemplate>
+
+                    </NodeTemplate>
+                  </ConTemplate>
+                </NodeTemplate>
+              </ConTemplate>
+            </NodeTemplate>
+            <NodeTemplate Id="Data-MU_Commodity-MU_BZ-List" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóny" NodeType="Data_Folder" RShow="ETRM_Deal_Series_Viewer">
+              <ConTemplate Id="Data-MU_Commodity-MU_BZ" ProgId="EnifNhCommon.CCTHql">
+                <Params>
+                  <Param Name="ChildSelect">
+                    Hql;
+                    select op.Caption, mup.Id
+                    from
+                    MU_Commodity muc,
+                    MU_BZ mup
+                    join mup.BalanceZone op
+                    where muc.Id=:NodeId
+                    and mup.MarketUnitFK=muc.MarketUnitFK
+                  </Param>
+                </Params>
+                <NodeTemplateRef Ref="Data-X-BalanceZone"/>
+              </ConTemplate>
+            </NodeTemplate>
+            <NodeTemplate Id="Data-MU_Commodity-MU_Grid-List" ProgId="EnifCommon.CNTConst" Caption="Sítě" NodeType="Data_Folder" RShow="ETRM_Deal_Series_Viewer">
+              <ConTemplate Id="Data-MU_Commodity-MU_Grid" ProgId="EnifNhCommon.CCTHql">
+                <Params>
+                  <Param Name="ChildSelect">
+                    Hql;
+                    select op.Grid.Caption, mup.Id
+                    from
+                    MU_Commodity muc,
+                    MU_Grid mup
+                    join mup.Grid op
+                    where muc.Id=:NodeId
+                    and mup.MarketUnitFK=muc.MarketUnitFK
+					and muc.CommodityFK = mup.Grid.Grid.CommodityFK
+                  </Param>
+                </Params>
+                <NodeTemplate Id="Data-MU_Commodity-MU_Grid" ProgId="EnifCommon.CNTConst" Caption="Síť" NodeType="Data_FolderWithTS">
+                  <Params>
+                    <Param Name="CaptionsSelect"/>
+                  </Params>
+                  <NodeTemplate Id="Data-MU_Grid-MU_GridComm-List" ProgId="EnifCommon.CNTConst" Caption="Celkem" NodeType="Data_Folder">
+                    <ConTemplate Id="Data-MU_Grid-MU_GridComm" ProgId="EnifNhCommon.CCTHql">
+                      <Params>
+                        <Param Name="ChildSelect">
+                          Hql;
+                          select sc.Comm.Caption, sc.Id
+                          from MU_GridComm sc
+                          join sc.Parent p
+                          where p.Id=:NodeId and sc.Comm.BaseCommodityFK != null order by sc.Comm.Caption
+                        </Param>
+                      </Params>
+                      <NodeTemplate Id="Data-MU_Grid-MU_GridComm" ProgId="EnifCommon.CNTConst" Caption="Síť - subkomodita" NodeType="Data_FolderWithTS">
+                        <Params>
+                          <Param Name="CaptionsSelect"/>
+                        </Params>
+                        <ConTemplate Id="MU_GridComm.DiagramEntryVolume1022" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramEntryVolume"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramEntryPayment1020" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramEntryPayment"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramEntryPrice1021" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramEntryPrice"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramExitVolume1025" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramExitVolume"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramExitPayment1023" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramExitPayment"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramExitPrice1024" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramExitPrice"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramSaldoVolume1028" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramSaldoVolume"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramSaldoPayment1026" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramSaldoPayment"/>
+                        </ConTemplate>
+                        <ConTemplate Id="MU_GridComm.DiagramSaldoPrice1027" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="MU_GridComm.DiagramSaldoPrice"/>
+                        </ConTemplate>
+
+                      </NodeTemplate>
+                    </ConTemplate>
+                  </NodeTemplate>
+                  <ConTemplate Id="Data-MU_Grid-MU_GridPoint" ProgId="EnifNhCommon.CCTHql">
+                    <Params>
+                      <Param Name="ChildSelect">
+                        Hql;
+                        select concat(op.GridPointType.Key, ' - ',op.Caption, ' - ', op.Grid.Grid.Caption, ' - ', op.IOType.ShortCaption),
+                        mup.Id
+                        from
+                        MU_Grid muc,
+                        MU_GridPoint mup
+                        join mup.GridPoint op
+                        where muc.Id=:NodeId
+                        and mup.MUGridFK=muc.Id
+                      </Param>
+                    </Params>
+                    <NodeTemplate Id="Data-MU_Grid-MU_GridPoint" ProgId="EnifCommon.CNTConst" Caption="Bod sítě" NodeType="Data_FolderWithTS">
+                      <Params>
+                        <Param Name="CaptionsSelect"/>
+                      </Params>
+                      <ConTemplate Id="Data-MU_Grid-MU_GridPoint-MU_GridPointComm" ProgId="EnifNhCommon.CCTHql">
+                        <Params>
+                          <Param Name="ChildSelect">
+                            Hql;
+                            select sc.Comm.Caption, sc.Id
+                            from MU_GridPointComm sc
+                            join sc.Parent p
+                            where p.Id=:NodeId and sc.Comm.BaseCommodityFK != null order by sc.Comm.Caption
+                          </Param>
+                        </Params>
+                        <NodeTemplate Id="Data-MU_Grid-MU_GridPoint-MU_GridPointComm" ProgId="EnifCommon.CNTConst" Caption="Bod sítě - subkomodita" NodeType="Data_FolderWithTS">
+                          <Params>
+                            <Param Name="CaptionsSelect"/>
+                          </Params>
+                          <ConTemplate Id="MU_GridPointComm.DiagramEntryVolume1031" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramEntryVolume"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramEntryPayment1029" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramEntryPayment"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramEntryPrice1030" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramEntryPrice"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramExitVolume1034" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramExitVolume"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramExitPayment1032" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramExitPayment"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramExitPrice1033" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramExitPrice"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramSaldoVolume1037" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramSaldoVolume"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramSaldoPayment1035" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramSaldoPayment"/>
+                          </ConTemplate>
+                          <ConTemplate Id="MU_GridPointComm.DiagramSaldoPrice1036" ProgId="EnifCommon.CCTConst">
+                            <NodeTemplateRef Ref="MU_GridPointComm.DiagramSaldoPrice"/>
+                          </ConTemplate>
+
+                        </NodeTemplate>
+                      </ConTemplate>
+                    </NodeTemplate>
+                  </ConTemplate>
+                </NodeTemplate>
+              </ConTemplate>
+            </NodeTemplate>
+            <NodeTemplate Id="Data-MU_Commodity-MU_GridPoint-List" ProgId="EnifCommon.CNTConst" Caption="Body sítě" NodeType="Data_Folder" RShow="ETRM_Deal_Series_Viewer">
+              <ConTemplate Id="Data-MU_Commodity-MU_GridPoint" ProgId="EnifNhCommon.CCTHql">
+                <Params>
+                  <Param Name="ChildSelect">
+                    Hql;select concat(gp.GridPointType.Key,' - ', gp.Caption, ' - ', gp.Grid.Grid.Caption, ' - ', gp.IOType.ShortCaption),
+                    mugp.Id
+                    from
+                    MU_Commodity muc,
+                    MU_GridPoint mugp
+                    join mugp.GridPoint gp
+                    where muc.Id=:NodeId
+                    and mugp.MarketUnitFK=muc.MarketUnitFK
+                  </Param>
+                </Params>
+                <NodeTemplateRef Ref="Data-MarketUnit-GridPoint"/>
+              </ConTemplate>
+            </NodeTemplate>
+            <NodeTemplate Id="Data-MU_Commodity-MU_BZ-List-PP" ProgId="EnifCommon.CNTConst" Caption="Plány V/T a Predikce" NodeType="Data_Folder" RShow="ETRM_Deal_Series_Viewer">
+              <ConTemplate Id="Data-MU_Commodity-MU_BZ-PP" ProgId="EnifNhCommon.CCTHql">
+                <Params>
+                  <Param Name="ChildSelect">
+                    Hql;
+                    select op.Caption, mup.Id
+                    from
+                    MU_Commodity muc,
+                    MU_BZ mup
+                    join mup.BalanceZone op
+                    where muc.Id=:NodeId
+                    and mup.MarketUnitFK=muc.MarketUnitFK
+                  </Param>
+                </Params>
+                <NodeTemplateRef Ref="Data-X-BalanceZone-PP"/>
+              </ConTemplate>
+            </NodeTemplate>
+            <NodeTemplate Id="Data-MU_Commodity-GPG-List" ProgId="EnifCommon.CNTConst" Caption="Skupiny bodů v síti" NodeType="Data_Folder" RShow="ETRM_Deal_Series_Viewer">
+              <ConTemplate Id="Data-MU_Commodity-GPG" ProgId="EnifNhCommon.CCTHql">
+                <Params>
+                  <Param Name="ChildSelect">Hql;select gpgg.Caption, mgpgg.Id from MU_GPGGrid mgpgg, MU_Commodity muc join mgpgg.GPGGrid gpgg where mgpgg.MarketUnitFK=muc.MarketUnitFK and muc.Id=:NodeId</Param>
+                </Params>
+                <NodeTemplateRef Ref="Data-MarketUnit-GPGGrid"/>
+              </ConTemplate>
+            </NodeTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+        <!--
+        <NodeTemplate Id="Data-MU_DataMirror" ProgId="EnifCommon.CNTConst" Caption="Data Mirror" NodeType="Data_Folder">
+          <ConTemplate Id="Act_MarketUnitOTEDataMirr1173" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Act_MarketUnitOTEDataMirr"/>
+          </ConTemplate>
+          <NodeTemplate Id="Act_MarketUnitEEXSpot" ProgId="EnifCommon.CNTConst" Caption="EEX" NodeType="Data_Folder">
+            <ConTemplate Id="ExchangeProduct" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ParentIdSelect">Const;1</Param>
+                <Param Name="ChildSelect">Hql;select ep.ProductType.Caption,ep.Id from ExchangeProduct ep</Param>
+              </Params>
+              <NodeTemplate Id="ExchangeProduct" ProgId="EnifCommon.CNTConst" Caption="ExchangeProduct" NodeType="Data_Folder">
+                <Params>
+                  <Param Name="CaptionsSelect"/>
+                </Params>
+                <ConTemplate Id="ExchangeSeries.Diagram1174" ProgId="EnifNhCommon.CCTHql">
+                  <Params>
+                    <Param Name="ParentIdSelect">Const;1</Param>
+                    <Param Name="ChildSelect">Hql;select ers.Type.Caption,ers.Id from ExchangeSeries ers where ers.Product.Id=:NodeId</Param>
+                  </Params>
+                  <NodeTemplateRef Ref="ExchangeSeries.Diagram"/>
+                </ConTemplate>
+                <ConTemplate Id="ExchangeSeries.Diagram1174xxxx" ProgId="EnifNhCommon.CCTHql">
+                  <Params>
+                    <Param Name="ParentIdSelect">Const;{NodeId0}</Param>
+                    <Param Name="ChildSelect">Hql;select ers.DeliveryPeriod,ers.Product.Id as TypeId,ers.DeliveryPeriod as dp from ExchangeSeries ers where ers.Product.Id=:NodeId and ers.DeliveryPeriod is not null</Param>
+                    <Param Name="ChildIdFormat">{NodeId0}-{dp}</Param>
+                  </Params>
+                  <NodeTemplate Id="ExchangeProductDP" ProgId="EnifCommon.CNTConst" NodeType="Data_Folder">
+                    <ConTemplate Id="ExchangeSeries.Diagram1174xxxxx" ProgId="EnifNhCommon.CCTHql">
+                      <Params>
+                        <Param Name="ParentIdSelect">Const;{NodeId0}</Param>
+                        <Param Name="ChildSelect">Hql;select ers.Type.Caption,ers.Id from ExchangeSeries ers where ers.Product.Id=:NodeId0 and ers.DeliveryPeriod=:NodeId1</Param>
+                      </Params>
+                      <NodeTemplateRef Ref="ExchangeSeries.Diagram"/>
+                    </ConTemplate>
+                  </NodeTemplate>
+                </ConTemplate>
+              </NodeTemplate>
+            </ConTemplate>
+          </NodeTemplate>
+        </NodeTemplate> 
+        <NodeTemplate Id="Data-MarketUnit-Other" ProgId="EnifCommon.CNTConst" Caption="Ostatní" NodeType="Data_Folder">
+        
+          <NodeTemplate Id="Act_AGGAllCurves" ProgId="EnifCommon.CNTConst" Caption="CommAggGasOTEBC křivky pro nominace -Entry" NodeType="Act_Folder">
+            <ConTemplate Id="Act_AggBLCurve.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.CommAgg.Coparty.Subject.Company.Name as Caption, to_char(ers.CommAgg.ValidFrom, 'dd.mm.yyyy') as valFrom, to_char(ers.CommAgg.ValidToEx, 'dd.mm.yyyy') as valTo, ers.Id as Id from CommAggGasOTEBC ers where ers.CommAgg.Comm.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({valFrom} - {valTo})</Param>
+              </Params>
+              <NodeTemplateRef Ref="CommAggGasOTEBC.DiagramEntry"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="Act_AGGAllExitCurves" ProgId="EnifCommon.CNTConst" Caption="CommAggGasOTEBC křivky pro nominace -Exit" NodeType="Act_Folder">
+            <ConTemplate Id="Act_AggBLExitCurve.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.CommAgg.Coparty.Subject.Company.Name as Caption, to_char(ers.CommAgg.ValidFrom, 'dd.mm.yyyy') as valFrom, to_char(ers.CommAgg.ValidToEx, 'dd.mm.yyyy') as valTo,ers.Id as Id from CommAggGasOTEBC ers where ers.CommAgg.Comm.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({valFrom} - {valTo})</Param>
+              </Params>
+              <NodeTemplateRef Ref="CommAggGasOTEBC.DiagramExit"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="Act_AGGParentAllCurves" ProgId="EnifCommon.CNTConst" Caption="CommAgg křivky pro nominace -Entry" NodeType="Act_Folder">
+            <ConTemplate Id="Act_AggParentBLCurve.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.Coparty.Subject.Company.Name as Caption, to_char(ers.ValidFrom, 'dd.mm.yyyy') as valFrom, to_char(ers.ValidToEx, 'dd.mm.yyyy') as valTo,ers.Id as Id from CommAgg ers where ers.Comm.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({valFrom} - {valTo})</Param>
+              </Params>
+              <NodeTemplateRef Ref="CommAgg.DiagramEntry"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="Act_AGGParentEntryBalancedAllCurves" ProgId="EnifCommon.CNTConst" Caption="CommAgg křivky pro nominace -EntryBalanced" NodeType="Act_Folder">
+            <ConTemplate Id="Act_AggParentEntryBaLCurve.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.Coparty.Subject.Company.Name as Caption, to_char(ers.ValidFrom, 'dd.mm.yyyy') as valFrom, to_char(ers.ValidToEx, 'dd.mm.yyyy') as valTo,ers.Id as Id from CommAgg ers where ers.Comm.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({valFrom} - {valTo})</Param>
+              </Params>
+              <NodeTemplateRef Ref="CommAgg.DiagramEntryBalanced"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="Act_AGGParentEntryAllCurves" ProgId="EnifCommon.CNTConst" Caption="CommAgg křivky pro nominace -Exit" NodeType="Act_Folder">
+            <ConTemplate Id="Act_AggParentEntryBLCurve.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.Coparty.Subject.Company.Name as Caption, to_char(ers.ValidFrom, 'dd.mm.yyyy') as valFrom, to_char(ers.ValidToEx, 'dd.mm.yyyy') as valTo,ers.Id as Id from CommAgg ers where ers.Comm.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({valFrom} - {valTo})</Param>
+              </Params>
+              <NodeTemplateRef Ref="CommAgg.DiagramExit"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="Act_AGGParentExitBalancedAllCurves" ProgId="EnifCommon.CNTConst" Caption="CommAgg křivky pro nominace -ExitBalanced" NodeType="Act_Folder">
+            <ConTemplate Id="Act_AggParentExitBaLCurve.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.Coparty.Subject.Company.Name as Caption, to_char(ers.ValidFrom, 'dd.mm.yyyy') as valFrom, to_char(ers.ValidToEx, 'dd.mm.yyyy') as valTo,ers.Id as Id from CommAgg ers where ers.Comm.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({valFrom} - {valTo})</Param>
+              </Params>
+              <NodeTemplateRef Ref="CommAgg.DiagramExitBalanced"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="Act_AGGParentBalancedAllCurves" ProgId="EnifCommon.CNTConst" Caption="CommAgg křivky pro nominace -Balanced" NodeType="Act_Folder">
+            <ConTemplate Id="Act_AggParentBaLCurve.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.Coparty.Subject.Company.Name as Caption, to_char(ers.ValidFrom, 'dd.mm.yyyy') as valFrom, to_char(ers.ValidToEx, 'dd.mm.yyyy') as valTo,ers.Id as Id from CommAgg ers where ers.Comm.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({valFrom} - {valTo})</Param>
+              </Params>
+              <NodeTemplateRef Ref="CommAgg.DiagramBalanced"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="Act_CommunicationSequence" ProgId="EnifCommon.CNTConst" Caption="Sequence u komunikací" NodeType="Act_Folder">
+            <ConTemplate Id="Act_CommunicationSequence.Diagram666" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.Type.Caption as Caption,ers.Id as Id from Communication ers where ers.MarketUnitFK=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({Id})</Param>
+              </Params>
+              <NodeTemplateRef Ref="Communication.MsgSequence"/>
+            </ConTemplate>
+          </NodeTemplate>
+
+          <NodeTemplate Id="EEDM_Segment_Price" ProgId="EnifCommon.CNTConst" Caption="EEDM_Segment.Price" NodeType="Act_Folder">
+            <ConTemplate Id="EEDM_Segment.Price" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ParentIdSelect">Const;1</Param>
+                <Param Name="ChildSelect">Hql;select seg.Id as Id from EEDM_Segment seg</Param>
+                <Param Name="ChildCaptionFormat">Price ({Id})</Param>
+              </Params>
+              <NodeTemplateRef Ref="EEDM_Segment.Price"/>
+            </ConTemplate>
+          </NodeTemplate>
+          <NodeTemplate Id="EEDM_Segment_Volume" ProgId="EnifCommon.CNTConst" Caption="EEDM_Segment.Volume" NodeType="Act_Folder">
+            <ConTemplate Id="EEDM_Segment.Volume" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ParentIdSelect">Const;1</Param>
+                <Param Name="ChildSelect">Hql;select seg.Id as Id from EEDM_Segment seg</Param>
+                <Param Name="ChildCaptionFormat">Volume ({Id})</Param>
+              </Params>
+              <NodeTemplateRef Ref="EEDM_Segment.Volume"/>
+            </ConTemplate>
+          </NodeTemplate>
+       
+          <NodeTemplate Id="Act_MarketUnitsSequence" ProgId="EnifCommon.CNTConst" Caption="Sequence konfirmací" NodeType="Act_Folder">
+            <ConTemplate Id="Act_MarketUnitsSequence.Diagram665" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select ers.Subject.Company.Name as Caption,ers.Id as Id from MarketUnit ers where ers.Id=:NodeId</Param>
+                <Param Name="ChildCaptionFormat">{Caption} ({Id})</Param>
+              </Params>
+              <NodeTemplateRef Ref="MarketUnit.ConfirmationSequence"/>
+            </ConTemplate>
+          </NodeTemplate>
+        </NodeTemplate>
+      -->
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <!-- referenced NodeTemplate definitions -->
+  <NodeTemplate Id="Data-X-Book" ProgId="EnifCommon.CNTConst" Caption="Kniha" NodeType="Data_Folder_Book">
+    <Params>
+      <Param Name="CaptionsSelect"/>
+    </Params>
+    <ConTemplate Id="Data-Portfolio-Book-Sum" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-Portfolio-Book-Sum" ProgId="EnifCommon.CNTConst" Caption="01 Celkem" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-Portfolio-Book-Sum-Subcommodity" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select bc.Commodity.Caption, bc.Id from BookCommodity bc join bc.Book b where b.Id=:NodeId and bc.Commodity.BaseCommodityFK != null order by bc.Commodity.Caption</Param>
+          </Params>
+          <NodeTemplate Id="Data-Portfolio-Book-Sum-Subcommodity" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+            <Params>
+              <Param Name="CaptionsSelect"/>
+            </Params>
+            <ConTemplate Id="BookCommodity.DiagramEntryVolume10049" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramEntryVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramEntryPayment10052" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramEntryPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramEntryPrice10055" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramEntryPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramExitVolume10050" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramExitVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramExitPayment10053" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramExitPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramExitPrice10056" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramExitPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSaldoVolume10051" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSaldoVolume"/>
+            </ConTemplate>
+
+
+            <ConTemplate Id="BookCommodity.DiagramSaldoPayment10054" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSaldoPayment"/>
+            </ConTemplate>
+
+
+            <ConTemplate Id="BookCommodity.DiagramSaldoPrice10057" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSaldoPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramAccumVolume10058" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramAccumVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramAccumPayment10059" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramAccumPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramAccumPrice10060" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramAccumPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramOpenPosition10060" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramOpenPosition"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramPrediction10060" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramPrediction"/>
+            </ConTemplate>
+            <ConTemplate Id="Data-Portfolio-Book-Sum-Subcommodity-BZ" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select bz.Caption, bbzc.Id from Book_BZComm bbzc, BookCommodity bc join bbzc.Parent bbz join bbz.BalanceZone bz join bbz.Book b1 join bc.Book b2 where b2.Id=b1.Id and bc.Id=:NodeId and bc.Commodity=bbzc.Commodity and bbzc.Active=1 order by bz.Caption</Param>
+              </Params>
+              <NodeTemplate Id="Data-Portfolio-Book-Sum-Subcommodity-BZ" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóna" NodeType="Data_FolderWithTS">
+                <Params>
+                  <Param Name="CaptionsSelect"/>
+                </Params>
+                <ConTemplate Id="Book_BZComm.DiagramEntryVolume10064" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramEntryVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramEntryPayment10067" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramEntryPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramEntryPrice10070" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramEntryPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramExitVolume10065" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramExitVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramExitPayment10068" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramExitPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramExitPrice10071" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramExitPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSaldoVolume10066" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSaldoVolume"/>
+                </ConTemplate>
+
+
+                <ConTemplate Id="Book_BZComm.DiagramSaldoPayment10069" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSaldoPayment"/>
+                </ConTemplate>
+
+
+                <ConTemplate Id="Book_BZComm.DiagramSaldoPrice10072" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSaldoPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramAccumVolume10073" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramAccumVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramAccumPayment10074" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramAccumPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramAccumPrice10075" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramAccumPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramPrediction10061" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramPrediction"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramOpenPosition10062" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramOpenPosition"/>
+                </ConTemplate>
+                <ConTemplate Id="Data-Portfolio-Book-Sum-Subcommodity-BZ-Grid" ProgId="EnifNhCommon.CCTHql">
+                  <Params>
+                    <Param Name="ChildSelect">Hql;select gr.Caption, bgrc.Id from Book_GridComm bgrc, Book_BZComm bbzc join bgrc.Parent bgr join bgr.Grid gr join bgr.Book b1 join bbzc.Parent bbz join bbz.Book b2 where bbz.BalanceZoneFK=gr.BalanceZoneFK and b2.Id=b1.Id and bgrc.Active=1 and bbzc.Id=:NodeId and bbzc.CommodityFK=bgrc.CommodityFK and bgrc.Commodity.BaseCommodityFK != null order by gr.Caption</Param>
+                  </Params>
+                  <NodeTemplate Id="Data-Portfolio-Book-Sum-Subcommodity-BZ-Grid" ProgId="EnifCommon.CNTConst" Caption="Síť" NodeType="Data_FolderWithTS">
+                    <Params>
+                      <Param Name="CaptionsSelect"/>
+                    </Params>
+                    <ConTemplate Id="Book_GridComm.DiagramEntryVolume10077" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramEntryVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramEntryPayment10080" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramEntryPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramEntryPrice10083" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramEntryPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramExitVolume10078" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramExitVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramExitPayment10081" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramExitPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramExitPrice10084" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramExitPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSaldoVolume10079" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSaldoVolume"/>
+                    </ConTemplate>
+
+
+                    <ConTemplate Id="Book_GridComm.DiagramSaldoPayment10082" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSaldoPayment"/>
+                    </ConTemplate>
+
+
+                    <ConTemplate Id="Book_GridComm.DiagramSaldoPrice10085" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSaldoPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramAccumVolume10086" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramAccumVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramAccumPayment10087" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramAccumPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramAccumPrice10088" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramAccumPrice"/>
+                    </ConTemplate>
+                  </NodeTemplate>
+                </ConTemplate>
+              </NodeTemplate>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-Portfolio-Book-SubBookSum" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-Portfolio-Book-SubBookSum" ProgId="EnifCommon.CNTConst" Caption="02 Pozice podknih" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-Portfolio-Book-SubBookSum-Subcommodity" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select bc.Commodity.Caption, bc.Id from BookCommodity bc join bc.Book b where b.Id=:NodeId and bc.Commodity.BaseCommodityFK != null order by bc.Commodity.Caption</Param>
+          </Params>
+          <NodeTemplate Id="Data-Portfolio-Book-SubBookSum-Subcommodity" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+            <Params>
+              <Param Name="CaptionsSelect"/>
+            </Params>
+            <ConTemplate Id="BookCommodity.DiagramSBEntryVolume10091" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBEntryVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBExitVolume10092" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBExitVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBSaldoVolume10093" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBSaldoVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBEntryPayment10094" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBEntryPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBExitPayment10095" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBExitPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBSaldoPayment10096" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBSaldoPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBEntryPrice10097" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBEntryPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBExitPrice10098" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBExitPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBSaldoPrice10099" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBSaldoPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBAccumVolume10100" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBAccumVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBAccumPayment10101" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBAccumPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramSBAccumPrice10102" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramSBAccumPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="Data-Portfolio-Book-SubBookSum-Subcommodity-BZ" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select bz.Caption, bbzc.Id from Book_BZComm bbzc, BookCommodity bc join bbzc.Parent bbz join bbz.BalanceZone bz join bbz.Book b1 join bc.Book b2 where bc.Id=:NodeId and b2.Id=b1.Id and bc.Commodity=bbzc.Commodity and bbzc.Active=1 order by bz.Caption</Param>
+              </Params>
+              <NodeTemplate Id="Data-Portfolio-Book-SubBookSum-Subcommodity-BZ" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóna" NodeType="Data_FolderWithTS">
+                <Params>
+                  <Param Name="CaptionsSelect"/>
+                </Params>
+                <ConTemplate Id="Book_BZComm.DiagramSBEntryVolume10104" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBEntryVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBExitVolume10105" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBExitVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBSaldoVolume10106" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBSaldoVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBEntryPayment10107" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBEntryPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBExitPayment10108" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBExitPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBSaldoPayment10109" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBSaldoPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBEntryPrice10110" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBEntryPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBExitPrice10111" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBExitPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBSaldoPrice10112" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBSaldoPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBAccumVolume10113" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBAccumVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBAccumPayment10114" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBAccumPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramSBAccumPrice10115" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramSBAccumPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Data-Portfolio-Book-SubBookSum-Subcommodity-BZ-Grid" ProgId="EnifNhCommon.CCTHql">
+                  <Params>
+                    <Param Name="ChildSelect">Hql;select gr.Caption, bgrc.Id from Book_GridComm bgrc, Book_BZComm bbzc join bgrc.Parent bgr join bgr.Grid gr join bgr.Book b1 join bbzc.Parent bbz join bbz.Book b2 where b2.Id=b1.Id and bbzc.Id=:NodeId and bgrc.Active=1 order by gr.Caption</Param>
+                  </Params>
+                  <NodeTemplate Id="Data-Portfolio-Book-SubBookSum-Subcommodity-BZ-Grid" ProgId="EnifCommon.CNTConst" Caption="Síť" NodeType="Data_FolderWithTS">
+                    <Params>
+                      <Param Name="CaptionsSelect"/>
+                    </Params>
+                    <ConTemplate Id="Book_GridComm.DiagramSBEntryVolume10117" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBEntryVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBExitVolume10118" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBExitVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBSaldoVolume10119" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBSaldoVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBEntryPayment10120" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBEntryPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBExitPayment10121" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBExitPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBSaldoPayment10122" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBSaldoPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBEntryPrice10123" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBEntryPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBExitPrice10124" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBExitPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBSaldoPrice10125" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBSaldoPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBAccumVolume10126" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBAccumVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBAccumPayment10127" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBAccumPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramSBAccumPrice10128" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramSBAccumPrice"/>
+                    </ConTemplate>
+                  </NodeTemplate>
+                </ConTemplate>
+              </NodeTemplate>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-Portfolio-Book-SubDealSum" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-Portfolio-Book-SubDealSum" ProgId="EnifCommon.CNTConst" Caption="03 Pozice vlastních obchodů" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-Portfolio-Book-SubDealSum-Subcommodity" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select bc.Commodity.Caption, bc.Id from BookCommodity bc join bc.Book b where b.Id=:NodeId and bc.Commodity.BaseCommodityFK != null order by bc.Commodity.Caption</Param>
+          </Params>
+          <NodeTemplate Id="Data-Portfolio-Book-SubDealSum-Subcommodity" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+            <Params>
+              <Param Name="CaptionsSelect"/>
+            </Params>
+            <ConTemplate Id="BookCommodity.DiagramDealEntryVolume10131" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealEntryVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealExitVolume10132" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealExitVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealSaldoVolume10133" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealSaldoVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealEntryPayment10134" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealEntryPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealExitPayment10135" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealExitPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealSaldoPayment10136" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealSaldoPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealEntryPrice10137" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealEntryPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealExitPrice10138" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealExitPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealSaldoPrice10139" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealSaldoPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealAccumVolume10140" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealAccumVolume"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealAccumPayment10141" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealAccumPayment"/>
+            </ConTemplate>
+            <ConTemplate Id="BookCommodity.DiagramDealAccumPrice10142" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="BookCommodity.DiagramDealAccumPrice"/>
+            </ConTemplate>
+            <ConTemplate Id="Data-Portfolio-Book-SubDealSum-Subcommodity-BZ" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select bz.Caption, bbzc.Id from Book_BZComm bbzc, BookCommodity bc join bbzc.Parent bbz join bbz.BalanceZone bz join bbz.Book b1 join bc.Book b2 where b2.Id=b1.Id and bc.Id=:NodeId and bc.Commodity=bbzc.Commodity and bbzc.Active=1 order by bz.Caption</Param>
+              </Params>
+              <NodeTemplate Id="Data-Portfolio-Book-SubDealSum-Subcommodity-BZ" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóna" NodeType="Data_FolderWithTS">
+                <Params>
+                  <Param Name="CaptionsSelect"/>
+                </Params>
+                <ConTemplate Id="Book_BZComm.DiagramDealEntryVolume10144" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealEntryVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealExitVolume10145" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealExitVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealSaldoVolume10146" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealSaldoVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealEntryPayment10147" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealEntryPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealExitPayment10148" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealExitPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealSaldoPayment10149" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealSaldoPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealEntryPrice10150" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealEntryPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealExitPrice10151" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealExitPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealSaldoPrice10152" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealSaldoPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealAccumVolume10153" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealAccumVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealAccumPayment10154" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealAccumPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="Book_BZComm.DiagramDealAccumPrice10155" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="Book_BZComm.DiagramDealAccumPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="Data-Portfolio-Book-SubDealSum-Subcommodity-BZ-Grid" ProgId="EnifNhCommon.CCTHql">
+                  <Params>
+                    <Param Name="ChildSelect">Hql;select gr.Caption, bgrc.Id from Book_GridComm bgrc, Book_BZComm bbzc join bgrc.Parent bgr join bgr.Grid gr join bgr.Book b1 join bbzc.Parent bbz join bbz.Book b2 where b2.Id=b1.Id and bbzc.Id=:NodeId and bbzc.Commodity=bgrc.Commodity and bgrc.Active=1 order by gr.Caption</Param>
+                  </Params>
+                  <NodeTemplate Id="Data-Portfolio-Book-SubDealSum-Subcommodity-BZ-Grid" ProgId="EnifCommon.CNTConst" Caption="Síť" NodeType="Data_FolderWithTS">
+                    <Params>
+                      <Param Name="CaptionsSelect"/>
+                    </Params>
+                    <ConTemplate Id="Book_GridComm.DiagramDealEntryVolume10157" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealEntryVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealExitVolume10158" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealExitVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealSaldoVolume10159" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealSaldoVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealEntryPayment10160" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealEntryPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealExitPayment10161" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealExitPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealSaldoPayment10162" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealSaldoPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealEntryPrice10163" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealEntryPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealExitPrice10164" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealExitPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealSaldoPrice10165" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealSaldoPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealAccumVolume10166" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealAccumVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealAccumPayment10167" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealAccumPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Book_GridComm.DiagramDealAccumPrice10168" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Book_GridComm.DiagramDealAccumPrice"/>
+                    </ConTemplate>
+                  </NodeTemplate>
+                </ConTemplate>
+              </NodeTemplate>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-Portfolio-Book-SubBook" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-Portfolio-Book-SubBook" ProgId="EnifCommon.CNTConst" Caption="04 Podknihy" NodeType="Data_Folder">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-Portfolio-Book-SubBook-Book" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select b.Caption, b.Id from Book b where b.ParentBookFK=:NodeId and b.Active=1</Param>
+          </Params>
+          <NodeTemplateRef Ref="Data-X-Book"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-Portfolio-Book-SubDeal" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-Portfolio-Book-SubDeal" ProgId="EnifCommon.CNTConst" Caption="05 Obchody" NodeType="Data_Folder">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-Portfolio-Book-SubDeal-Deal" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select d.Id,d.Id from Deal d where d.BookFK=:NodeId</Param>
+          </Params>
+          <NodeTemplateRef Ref="Data-X-Deal"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-Deal" ProgId="EnifCommon.CNTConst" Caption="Obchod" NodeType="Data_Folder_Deal">
+    <Params>
+      <Param Name="CaptionsSelect"/>
+    </Params>
+    <ConTemplate Id="Deal.DiagramAggBuyVolume" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramAggBuyVolume"/>
+    </ConTemplate>
+    <ConTemplate Id="Deal.DiagramAggBuyPaymentMU" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramAggBuyPaymentMU"/>
+    </ConTemplate>
+    <ConTemplate Id="Deal.DiagramAggSellVolume" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramAggSellVolume"/>
+    </ConTemplate>
+    <ConTemplate Id="Deal.DiagramAggSellPaymentMU" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramAggSellPaymentMU"/>
+    </ConTemplate>
+    <ConTemplate Id="Deal.DiagramAggVolume" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramAggVolume"/>
+    </ConTemplate>
+    <ConTemplate Id="Deal.DiagramAggPaymentMU" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramAggPaymentMU"/>
+    </ConTemplate>
+    <ConTemplate Id="Deal.AggPaymentMU" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.AggPaymentMU"/>
+    </ConTemplate>
+    <NodeTemplate Id="Data-Deal-IndexTS" ProgId="EnifCommon.CNTConst" Caption="00 Primární časové řady" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramVolumeCurve" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramVolumeCurve"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramPPCurve" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramPPCurve"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramIndexVolume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramIndexVolume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramIndexPrice" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramIndexPrice"/>
+      </ConTemplate>
+
+    </NodeTemplate>
+
+    <NodeTemplate Id="Data-Deal-PrimaryTS" ProgId="EnifCommon.CNTConst" Caption="01 Převzorkované časové řady" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+
+      <ConTemplate Id="Deal.DiagramSourceVolume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramSourceVolume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramSourcePrice" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramSourcePrice"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramSourcePayment" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramSourcePayment"/>
+      </ConTemplate>
+
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-TradedTS" ProgId="EnifCommon.CNTConst" Caption="02 Zobchodované časové řady" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramVolume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramVolume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramPayment" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramPayment"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramPrice" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramPrice"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.Volume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.Volume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.Payment" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.Payment"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.Price" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.Price"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.VolumeHourlyAvg" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.VolumeHourlyAvg"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-RatesTS" ProgId="EnifCommon.CNTConst" Caption="03 Kurzy" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramHedgingRate" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramHedgingRate"/>
+      </ConTemplate>
+
+      <ConTemplate Id="Deal.DiagramExchangeRate" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramExchangeRate"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramExchangeRateMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramExchangeRateMU"/>
+      </ConTemplate>
+
+      <ConTemplate Id="Deal.DiagramAccountExchangeRate" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramAccountExchangeRate"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-MUAggCurrTS" ProgId="EnifCommon.CNTConst" Caption="04 Časové řady v měně OJ" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramPaymentMUCurr" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramPaymentMUCurr"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramPriceMUCurr" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramPriceMUCurr"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.PaymentMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.PaymentMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.PriceMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.PriceMU"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-MUAccCurrTS" ProgId="EnifCommon.CNTConst" Caption="05 Časové řady v účetní měně OJ" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramPaymentAccCurr" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramPaymentAccCurr"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramPriceAccCurr" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramPriceAccCurr"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.PaymentAcc" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.PaymentAcc"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.PriceAcc" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.PriceAcc"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-NomTS" ProgId="EnifCommon.CNTConst" Caption="06 Nominační časové řady" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramNomVolumeInput" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramNomVolumeInput"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramNomVolume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramNomVolume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramNomPayment" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramNomPayment"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramNomPaymentMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramNomPaymentMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.NomPayment" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.NomPayment"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.NomPaymentMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.NomPaymentMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.NomVolume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.NomVolume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.NomPrice" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.NomPrice"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.NomPriceMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.NomPriceMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.NomVolumeHourlyAvg" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.NomVolumeHourlyAvg"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.NomDiffFlag" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.NomDiffFlag"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-InvTS" ProgId="EnifCommon.CNTConst" Caption="07 Fakturační časové řady" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramInvVolumeInput" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramInvVolumeInput"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramInvVolume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramInvVolume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramInvPayment" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramInvPayment"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.DiagramInvPaymentMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramInvPaymentMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.InvPayment" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.InvPayment"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.InvPaymentMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.InvPaymentMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.InvVolume" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.InvVolume"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.InvPrice" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.InvPrice"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.InvPriceMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.InvPriceMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.InvVolumeHourlyAvg" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.InvVolumeHourlyAvg"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.InvDiffFlag" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.InvDiffFlag"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-Charges" ProgId="EnifCommon.CNTConst" Caption="08 Poplatky" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.DiagramChargePaymentMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.DiagramChargePaymentMU"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.ChargePaymentMU" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.ChargePaymentMU"/>
+      </ConTemplate>
+
+      <ConTemplate Id="Data-Deal-Charge" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">
+            Hql;
+            select mch.Caption, charge.Id
+            from DealMarketCharge charge
+            inner join charge.Deal deal
+            inner join charge.MarketCharge mch
+            where deal.Id=:NodeId
+          </Param>
+        </Params>
+        <NodeTemplate Id="Data-Deal-Charge" ProgId="EnifCommon.CNTConst" Caption="Poplatek" NodeType="Data_FolderWithTS">
+          <Params>
+            <Param Name="CaptionsSelect"/>
+          </Params>
+          <ConTemplate Id="DealMarketCharge.ChargeValue" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="DealMarketCharge.ChargeValue"/>
+          </ConTemplate>
+          <ConTemplate Id="DealMarketCharge.DiagramCharge" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="DealMarketCharge.DiagramCharge"/>
+          </ConTemplate>
+          <ConTemplate Id="DealMarketCharge.Charge" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="DealMarketCharge.Charge"/>
+          </ConTemplate>
+          <ConTemplate Id="DealMarketCharge.DiagramChargeMU" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="DealMarketCharge.DiagramChargeMU"/>
+          </ConTemplate>
+          <ConTemplate Id="DealMarketCharge.ChargeMU" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="DealMarketCharge.ChargeMU"/>
+          </ConTemplate>
+        </NodeTemplate>
+      </ConTemplate>
+
+    </NodeTemplate>
+    <NodeTemplate Id="Data-Deal-DebugTS" ProgId="EnifCommon.CNTConst" Caption="09 Pomocné" NodeType="Data_FolderWithTS">
+      <Params>                 </Params>
+      <ConTemplate Id="Deal.SignAggBuy" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.SignAggBuy"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.SignAggSell" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.SignAggSell"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.SignAggSaldo" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.SignAggSaldo"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.MinPerToGridPer" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.MinPerToGridPer"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.VolumeRatio" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.VolumeRatio"/>
+      </ConTemplate>
+      <ConTemplate Id="Deal.PaymentRatio" ProgId="EnifCommon.CCTConst">
+        <NodeTemplateRef Ref="Deal.PaymentRatio"/>
+      </ConTemplate>
+    </NodeTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-MarketUnit-Portfolio-List" ProgId="EnifCommon.CNTConst" Caption="Portfolia" NodeType="Data_Folder" RShow="ETRM_Deal_Series_Viewer">
+    <ConTemplate Id="Data-MarketUnit-Portfolio" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select p.Caption, p.Id from Portfolio p where p.MarketUnitFK=:NodeId and p.Active=1</Param>
+      </Params>
+      <NodeTemplate Id="Data-MarketUnit-Portfolio" ProgId="EnifCommon.CNTConst" Caption="Portfolio" NodeType="Data_Folder_Porftolio">
+        <Params>
+          <Param Name="CaptionsSelect"/>
+        </Params>
+        <ConTemplate Id="Data-MarketUnit-Portfolio-Sum" ProgId="EnifCommon.CCTConst">
+          <Params>
+            <Param Name="ParentIdSelect">Const;1</Param>
+          </Params>
+          <NodeTemplate Id="Data-MarketUnit-Portfolio-Sum" ProgId="EnifCommon.CNTConst" Caption="Celkem" NodeType="Data_FolderWithTS">
+            <Params>                 </Params>
+            <ConTemplate Id="Data-MarketUnit-Portfolio-Sum-Subcommodity" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select pc.Commodity.Caption, pc.Id from PortfolioCommodity pc join pc.Portfolio p where p.Id=:NodeId and pc.Commodity.BaseCommodityFK != null order by pc.Commodity.Caption</Param>
+              </Params>
+              <NodeTemplate Id="Data-MarketUnit-Portfolio-Sum-Subcommodity" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+                <Params>
+                  <Param Name="CaptionsSelect"/>
+                </Params>
+                <ConTemplate Id="PortfolioCommodity.DiagramEntryVolume10006" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramEntryVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramEntryPayment10009" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramEntryPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramEntryPrice10012" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramEntryPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramExitVolume10007" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramExitVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramExitPayment10010" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramExitPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramExitPrice10013" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramExitPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramSaldoVolume10008" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramSaldoVolume"/>
+                </ConTemplate>
+
+
+                <ConTemplate Id="PortfolioCommodity.DiagramSaldoPayment10011" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramSaldoPayment"/>
+                </ConTemplate>
+
+
+                <ConTemplate Id="PortfolioCommodity.DiagramSaldoPrice10014" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramSaldoPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramAccumVolume10015" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramAccumVolume"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramAccumPayment10016" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramAccumPayment"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramAccumPrice10017" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramAccumPrice"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramPrediction10018" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramPrediction"/>
+                </ConTemplate>
+                <ConTemplate Id="PortfolioCommodity.DiagramOpenPosition10019" ProgId="EnifCommon.CCTConst">
+                  <NodeTemplateRef Ref="PortfolioCommodity.DiagramOpenPosition"/>
+                </ConTemplate>
+                <ConTemplate Id="Data-Portfolio-Sum-Subcommodity-BZ" ProgId="EnifNhCommon.CCTHql">
+                  <Params>
+                    <Param Name="ChildSelect">Hql;select bz.Caption, pbzc.Id from Portfolio_BZComm pbzc, PortfolioCommodity pc join pbzc.Parent pbz join pbz.BalanceZone bz join pbz.Portfolio p1 join pc.Portfolio p2 where p1.Id=p2.Id and pbzc.Active=1 and pc.Id=:NodeId and pc.Commodity=pbzc.Commodity order by bz.Caption</Param>
+                  </Params>
+                  <NodeTemplate Id="Data-Portfolio-Sum-Subcommodity-BZ" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóna" NodeType="Data_FolderWithTS">
+                    <Params>
+                      <Param Name="CaptionsSelect"/>
+                    </Params>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramEntryVolume10021" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramEntryVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramEntryPayment10024" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramEntryPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramEntryPrice10027" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramEntryPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramExitVolume10022" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramExitVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramExitPayment10025" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramExitPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramExitPrice10028" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramExitPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramSaldoVolume10023" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramSaldoVolume"/>
+                    </ConTemplate>
+
+
+                    <ConTemplate Id="Portfolio_BZComm.DiagramSaldoPayment10026" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramSaldoPayment"/>
+                    </ConTemplate>
+
+
+                    <ConTemplate Id="Portfolio_BZComm.DiagramSaldoPrice10029" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramSaldoPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramAccumVolume10030" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramAccumVolume"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramAccumPayment10031" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramAccumPayment"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Portfolio_BZComm.DiagramAccumPrice10032" ProgId="EnifCommon.CCTConst">
+                      <NodeTemplateRef Ref="Portfolio_BZComm.DiagramAccumPrice"/>
+                    </ConTemplate>
+                    <ConTemplate Id="Data-Portfolio-Sum-Subcommodity-BZ-Grid" ProgId="EnifNhCommon.CCTHql">
+                      <Params>
+                        <Param Name="ChildSelect">Hql;select gr.Caption, pgrc.Id from Portfolio_GridComm pgrc, Portfolio_BZComm pbzc join pgrc.Parent pgr join pgr.Grid gr join pgr.Portfolio p1 join pbzc.Parent pbz join pbz.Portfolio p2 where p2.Id=p1.Id and pbzc.Id=:NodeId and pgrc.Active=1 and pgrc.Commodity=pbzc.Commodity and pbz.BalanceZoneFK=gr.BalanceZoneFK order by gr.Caption</Param>
+                      </Params>
+                      <NodeTemplate Id="Data-Portfolio-Sum-Subcommodity-BZ-Grid" ProgId="EnifCommon.CNTConst" Caption="Síť" NodeType="Data_FolderWithTS">
+                        <Params>
+                          <Param Name="CaptionsSelect"/>
+                        </Params>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramEntryVolume10034" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramEntryVolume"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramEntryPayment10037" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramEntryPayment"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramEntryPrice10040" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramEntryPrice"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramExitVolume10035" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramExitVolume"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramExitPayment10038" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramExitPayment"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramExitPrice10041" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramExitPrice"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramSaldoVolume10036" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramSaldoVolume"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramSaldoPayment10039" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramSaldoPayment"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramSaldoPrice10042" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramSaldoPrice"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramAccumVolume10043" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramAccumVolume"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramAccumPayment10044" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramAccumPayment"/>
+                        </ConTemplate>
+                        <ConTemplate Id="Portfolio_GridComm.DiagramAccumPrice10045" ProgId="EnifCommon.CCTConst">
+                          <NodeTemplateRef Ref="Portfolio_GridComm.DiagramAccumPrice"/>
+                        </ConTemplate>
+                      </NodeTemplate>
+                    </ConTemplate>
+                  </NodeTemplate>
+                </ConTemplate>
+              </NodeTemplate>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+        <ConTemplate Id="Data-Portfolio-Book" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select b.Caption, b.Id from Book b where b.PortfolioFK=:NodeId and b.ParentBookFK is null and b.Active=1</Param>
+          </Params>
+          <NodeTemplateRef Ref="Data-X-Book"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-BalanceZone" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóna" NodeType="Data_Folder_BZ">
+    <Params>                 </Params>
+    <NodeTemplate Id="Data-X-BalanceZone-Grid-List" ProgId="EnifCommon.CNTConst" Caption="Sítě" NodeType="Data_Folder">
+      <ConTemplate Id="Data-MarketUnit-BZ-Grid" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">
+            Hql;select op.Grid.Caption, mup.Id from MU_Commodity muc, MU_Grid mup join mup.Grid op where mup.MUBZFK=:NodeId and mup.MarketUnitFK=muc.MarketUnitFK
+          </Param>
+        </Params>
+        <NodeTemplateRef Ref="Data-MarketUnit-Grid"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <ConTemplate Id="Data-MarketUnit-BZ-Market-List" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <!--
+      <NodeTemplate Id="Data-MarketUnit-BZ-Market-List" ProgId="EnifCommon.CNTConst" Caption="Trhy" NodeType="Data_Folder">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-MarketUnit-BZ-Market" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ParentIdSelect">Const;1</Param>
+          </Params>
+          <NodeTemplateRef Ref="Data-MarketUnit-Market"/>
+        </ConTemplate>
+      </NodeTemplate>
+      -->
+    </ConTemplate>
+    <ConTemplate Id="Data-X-BalanceZone_Comm" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select sc.Comm.Caption, sc.Id from MU_BZComm sc join sc.Parent p where p.Id=:NodeId and sc.Comm.BaseCommodityFK != null order by sc.Comm.Caption</Param>
+      </Params>
+      <NodeTemplate Id="Data-X-BalanceZone_Comm" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="MU_BZComm.DiagramEntryVolume10008" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramEntryVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_BZComm.DiagramEntryPayment10011" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramEntryPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_BZComm.DiagramEntryPrice10014" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramEntryPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_BZComm.DiagramExitVolume10009" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramExitVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_BZComm.DiagramExitPayment10012" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramExitPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_BZComm.DiagramExitPrice10015" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramExitPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_BZComm.DiagramSaldoVolume10010" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramSaldoVolume"/>
+        </ConTemplate>
+
+
+        <ConTemplate Id="MU_BZComm.DiagramSaldoPayment10013" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramSaldoPayment"/>
+        </ConTemplate>
+
+
+        <ConTemplate Id="MU_BZComm.DiagramSaldoPrice10016" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_BZComm.DiagramSaldoPrice"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPositionVTP10017" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionVTP"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramActualFlexibilityPos10018" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramActualFlexibilityPos"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramActualFlexibilityNeg10019" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramActualFlexibilityNeg"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPositionVTPActFlex10020" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionVTPActFlex"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPositionBorders10021" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionBorders"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPosition10022" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPosition"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPositionSTRGAcc10023" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionSTRGAcc"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPositionSTRGPlanAcc10023" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionSTRGPlanAcc"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPositionActFlex10024" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionActFlex"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramPrediction10025" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramPrediction"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramPlanEntryExitAllSTRGAgrs10026" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramPlanEntryExitAllSTRGAgrs"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramPredictionSum10027" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramPredictionSum"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramOpenPositionPlanEnEx10028" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramOpenPositionPlanEnEx"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramFullSTRGSpace10029" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramFullSTRGSpace"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramFreeSTRGSpace10030" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramFreeSTRGSpace"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramBSD10031" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramBSD"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramFreeSTRGSpacePlan10032" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramFreeSTRGSpacePlan"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramClosedPositionSTRGAvail10033" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionSTRGAvail"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramCapExitAllBorders10034" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramCapExitAllBorders"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramCapEntryAllBorders10035" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramCapEntryAllBorders"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramCommExitAllBorders10036" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramCommExitAllBorders"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramCommEntryAllBorders10037" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramCommEntryAllBorders"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramOpenPosition10038" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramOpenPosition"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramOpenPositionActFlex10039" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramOpenPositionActFlex"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramOpenPositionSurrBZ10040" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramOpenPositionSurrBZ"/>
+    </ConTemplate>
+    <ConTemplate Id="Data-X-BalanceZone-PositionSurr" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-X-BalanceZone-PositionSurr" ProgId="EnifCommon.CNTConst" Caption="Pozice okolí" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-X-BalanceZone-PositionSurrSSOs" ProgId="EnifCommon.CCTConst">
+          <Params>
+            <Param Name="ChildSelect">Hql;select sideBZ.Caption, mubzbz.Id from MU_BZMain2BZ_BZ mubzbz, MU_BZ mubz join mubzbz.BZBZ bzmainbz join bzmainbz.BalanceZone sideBZ join bzmainbz.BZMain2BZ bzmain2 where mubzbz.MarketUnitFK=mubz.MarketUnitFK and sideBZ.BalanceZoneType.Key like 'Storage' and bzmain2.BalanceZoneMainFK=mubz.BalanceZoneFK and mubz.Id=:NodeId</Param>
+          </Params>
+          <NodeTemplate Id="Data-X-BalanceZone-PositionSurrSSOs" ProgId="EnifCommon.CNTConst" Caption="Pozice okolních SSO" NodeType="Data_FolderWithTS">
+            <Params>                 </Params>
+            <ConTemplate Id="MU_BZ.DiagramCapExitAllSSOs10045" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapExitAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapExitAllSSOsRecount10045" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapExitAllSSOsRecount"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapEntryAllSSOs10046" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapEntryAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommExitAllSSOs10047" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommExitAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapEntryAllSSOsRecount10046" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapEntryAllSSOsRecount"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommEntryAllSSOs10048" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommEntryAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramClosedPositionAllSSOsVTP10049" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionAllSSOsVTP"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramClosedPositionAllSSOsAcc10050" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionAllSSOsAcc"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramPlanEntryExitAllSSOs10051" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramPlanEntryExitAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramFullSpaceAllSSOs10052" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramFullSpaceAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramFreeSpaceAllSSOs10053" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramFreeSpaceAllSSOs"/>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+        <ConTemplate Id="Data-X-BalanceZone-PositionFToSurrSSOs" ProgId="EnifCommon.CCTConst">
+          <Params>
+            <Param Name="ParentIdSelect">Const;1</Param>
+          </Params>
+          <NodeTemplate Id="Data-X-BalanceZone-PositionFToSurrSSOs" ProgId="EnifCommon.CNTConst" Caption="Pozice z/do okolních SSO" NodeType="Data_FolderWithTS">
+            <Params>                 </Params>
+            <ConTemplate Id="Data-BalanceZone-SSO" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select sideBZ.Caption, mubzbz.Id from MU_BZMain2BZ_BZ mubzbz, MU_BZ mubz join mubzbz.BZBZ bzmainbz join bzmainbz.BalanceZone sideBZ join bzmainbz.BZMain2BZ bzmain2 where mubzbz.MarketUnitFK=mubz.MarketUnitFK and sideBZ.BalanceZoneType.Key like 'Storage' and bzmain2.BalanceZoneMainFK=mubz.BalanceZoneFK and mubz.Id=:NodeId</Param>
+              </Params>
+              <NodeTemplateRef Ref="Data-X-MU_BZMain2BZ_BZ"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapExitFromAllSSOs10056" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapExitFromAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapExitFromAllSSOsRecount10056" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapExitFromAllSSOsRecount"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapEntryFromAllSSOs10057" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapEntryFromAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapEntryFromAllSSOsRecount10057" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapEntryFromAllSSOsRecount"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommExitFromAllSSOs10058" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommExitFromAllSSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommEntryFromAllSSOs10059" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommEntryFromAllSSOs"/>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+        <ConTemplate Id="Data-X-BalanceZone-PositionSurrTSOs" ProgId="EnifCommon.CCTConst">
+          <Params>
+            <Param Name="ChildSelect">Hql;select sideBZ.Caption, mubzbz.Id from MU_BZMain2BZ_BZ mubzbz, MU_BZ mubz join mubzbz.BZBZ bzmainbz join bzmainbz.BalanceZone sideBZ join bzmainbz.BZMain2BZ bzmain2 where mubzbz.MarketUnitFK=mubz.MarketUnitFK and sideBZ.BalanceZoneType.Key like 'Standard' and bzmain2.BalanceZoneMainFK=mubz.BalanceZoneFK and mubz.Id=:NodeId</Param>
+          </Params>
+          <NodeTemplate Id="Data-X-BalanceZone-PositionSurrTSOs" ProgId="EnifCommon.CNTConst" Caption="Pozice okolních TSO" NodeType="Data_FolderWithTS">
+            <Params>                 </Params>
+            <ConTemplate Id="MU_BZ.DiagramCapExitAllTSOs10061" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapExitAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapEntryAllTSOs10062" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapEntryAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommExitAllTSOs10063" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommExitAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommEntryAllTSOs10064" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommEntryAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramClosedPositionAllTSOsVTP10065" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionAllTSOsVTP"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramClosedPositionAllTSOs10066" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramClosedPositionAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramPlanBordersAllTSOs10067" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramPlanBordersAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramOpenPositionAllTSOs10068" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramOpenPositionAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramOpenPositionAllTSOsActFlex10069" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramOpenPositionAllTSOsActFlex"/>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+        <ConTemplate Id="Data-X-BalanceZone-PositionFToSurrTSOs" ProgId="EnifCommon.CCTConst">
+          <Params>
+            <Param Name="ParentIdSelect">Const;1</Param>
+          </Params>
+          <NodeTemplate Id="Data-X-BalanceZone-PositionFToSurrTSOs" ProgId="EnifCommon.CNTConst" Caption="Pozice z/do okolních TSO" NodeType="Data_FolderWithTS">
+            <Params>                 </Params>
+            <ConTemplate Id="Data-BalanceZone-TSO" ProgId="EnifNhCommon.CCTHql">
+              <Params>
+                <Param Name="ChildSelect">Hql;select sideBZ.Caption, mubzbz.Id from MU_BZMain2BZ_BZ mubzbz, MU_BZ mubz join mubzbz.BZBZ bzmainbz join bzmainbz.BalanceZone sideBZ join bzmainbz.BZMain2BZ bzmain2 where mubzbz.MarketUnitFK=mubz.MarketUnitFK and sideBZ.BalanceZoneType.Key like 'Standard' and bzmain2.BalanceZoneMainFK=mubz.BalanceZoneFK and mubz.Id=:NodeId</Param>
+              </Params>
+              <NodeTemplateRef Ref="Data-X-MU_BZMain2BZ_BZ"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapExitFromAllTSOs10072" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapExitFromAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCapEntryFromAllTSOs10073" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCapEntryFromAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommExitFromAllTSOs10074" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommExitFromAllTSOs"/>
+            </ConTemplate>
+            <ConTemplate Id="MU_BZ.DiagramCommEntryFromAllTSOs10075" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="MU_BZ.DiagramCommEntryFromAllTSOs"/>
+            </ConTemplate>
+          </NodeTemplate>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <NodeTemplate Id="Data-X-AgreementStorage-List" ProgId="EnifCommon.CNTConst" Caption="Zásobníkové smlouvy" NodeType="Data_Folder_BZ">
+      <ConTemplate Id="Data-X-BalanceZone-AgrSTRG-List" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select ags.Caption, ags.Id from AgreementStorage ags, MU_BZ mubz where ags.MarketUnitFK=mubz.MarketUnitFK and ags.BalanceZoneFK=mubz.BalanceZoneFK and mubz.Id=:NodeId</Param>
+        </Params>
+        <NodeTemplateRef Ref="Data-X-AgreementStorage"/>
+      </ConTemplate>
+      <!--
+      <ConTemplate Id="Data-X-BalanceZone-AgGp-List" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select concat (aggp.GridPoint.Caption, '-', aggp.Agreement.Caption), aggp.Id from AgreementGridPoint aggp, MU_BZ mubz where aggp.AgreementStorage.MarketUnitFK=mubz.MarketUnitFK and aggp.GridPoint.Grid.BalanceZoneFK=mubz.BalanceZoneFK and mubz.Id=:NodeId</Param>
+        </Params>
+        <NodeTemplateRef Ref="Data-X-AgreementGridPoint"/>
+      </ConTemplate> -->
+    </NodeTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-MU_BZMain2BZ_BZ" ProgId="EnifCommon.CNTConst" Caption="Okolní BZ" NodeType="Data_FolderWithTS">
+    <Params>                 </Params>
+    <ConTemplate Id="MU_BZMain2BZ_BZ.DiagramCapExitToBZ10077" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZMain2BZ_BZ.DiagramCapExitToBZ"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZMain2BZ_BZ.DiagramCapExitToBZRecount10077" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZMain2BZ_BZ.DiagramCapExitToBZRecount"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZMain2BZ_BZ.DiagramCapEntryToBZ10078" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZMain2BZ_BZ.DiagramCapEntryToBZ"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZMain2BZ_BZ.DiagramCapEntryToBZRecount10078" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZMain2BZ_BZ.DiagramCapEntryToBZRecount"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZMain2BZ_BZ.DiagramCommExitToBZ10079" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZMain2BZ_BZ.DiagramCommExitToBZ"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZMain2BZ_BZ.DiagramCommEntryToBZ10080" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZMain2BZ_BZ.DiagramCommEntryToBZ"/>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-MarketUnit-Grid" ProgId="EnifCommon.CNTConst" Caption="Síť" NodeType="Data_Folder_Grid">
+    <Params>                 </Params>
+    <NodeTemplate Id="Data-MarketUnit-Grid-GPGList" ProgId="EnifCommon.CNTConst" Caption="Skupiny bodů v síti" NodeType="Data_Folder_Grid">
+      <ConTemplate Id="Data-MarketUnit-GPGGrid" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select gpgg.Caption, mgpgg.Id from MU_GPGGrid mgpgg, MU_Grid mug join mgpgg.GPGGrid gpgg where mgpgg.MarketUnitFK= mug.MarketUnitFK and mgpgg.GPGGrid.GridFK=mug.GridFK and mgpgg.Active=1 and mug.Id=:NodeId</Param>
+        </Params>
+        <NodeTemplateRef Ref="Data-MarketUnit-GPGGrid"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <ConTemplate Id="Data-MarketUnit-Grid-Subcommodity" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select sc.Comm.Caption, sc.Id from MU_GridComm sc join sc.Parent p where p.Id=:NodeId and sc.Comm.BaseCommodityFK != null order by sc.Comm.Caption</Param>
+      </Params>
+      <NodeTemplate Id="Data-MarketUnit-Grid-Subcommodity" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10006" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramEntryVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10009" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramEntryPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10012" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramEntryPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10007" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramExitVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10010" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramExitPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10013" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramExitPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10008" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramSaldoVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10011" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramSaldoPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="Parent.GridPoint.Grid.Grid.Sample.Id10014" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridComm.DiagramSaldoPrice"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-MarketUnit-GPGGrid" ProgId="EnifCommon.CNTConst" Caption="Skupiny bodů v síti" NodeType="Data_Folder_GPG">
+    <Params>                 </Params>
+    <ConTemplate Id="Data-MarketUnit-GPGGrid-GridPoint" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select concat (gp.Caption, '-', gp.IOType.Caption), mgp.Id from MU_GridPoint mgp, MU_GPGGrid gpgg join mgp.GridPoint gp where gpgg.Id=:NodeId and mgp.MUGPGGridFK=gpgg.Id and mgp.MarketUnitFK=gpgg.MarketUnitFK and mgp.Active=1</Param>
+      </Params>
+      <NodeTemplateRef Ref="Data-MarketUnit-GridPoint"/>
+    </ConTemplate>
+    <ConTemplate Id="Data-MarketUnit-GPGGrid-Subcommodity" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select gpggc.Comm.Caption, gpggc.Id from MU_GPGGridComm gpggc where gpggc.Comm.BaseCommodityFK != null and gpggc.ParentFK=:NodeId</Param>
+      </Params>
+      <NodeTemplate Id="Data-MarketUnit-GPGGrid-Subcommodity" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="MU_GPGGridComm.DiagramEntryVolume10005" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramEntryVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramEntryPayment10008" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramEntryPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramEntryPrice10011" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramEntryPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramExitVolume10006" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramExitVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramExitPayment10009" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramExitPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramExitPrice10012" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramExitPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramSaldoVolume10007" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramSaldoVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramSaldoPayment10010" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramSaldoPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GPGGridComm.DiagramSaldoPrice10013" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GPGGridComm.DiagramSaldoPrice"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramEntryCapacityFirm10014" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramEntryCapacityFirm"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramExitCapacityFirm10015" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramExitCapacityFirm"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramEntryCapacityCutOff10016" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramEntryCapacityCutOff"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramExitCapacityCutOff10017" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramExitCapacityCutOff"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramEntryCapacity10018" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramEntryCapacity"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramEntryCapacityRecount10018" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramEntryCapacityRecount"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramExitCapacity10019" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramExitCapacity"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramExitCapacityRecount10019" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramExitCapacityRecount"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramEntryCommodity10020" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramEntryCommodity"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramExitCommodity10021" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramExitCommodity"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GPGGrid.DiagramSaldoCommodity10022" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GPGGrid.DiagramSaldoCommodity"/>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-MarketUnit-GridPoint" ProgId="EnifCommon.CNTConst" Caption="Bod sítě" NodeType="Data_Folder_GP">
+    <Params>                 </Params>
+    <ConTemplate Id="Data-MarketUnit-GridPoint-Subcommodity" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select gpc.Comm.Caption, gpc.Id from MU_GridPointComm gpc join gpc.Parent gp where gp.Id=:NodeId and gpc.Comm.BaseCommodityFK != null order by gpc.Comm.Caption</Param>
+      </Params>
+      <NodeTemplate Id="Data-MarketUnit-GridPoint-Subcommodity" ProgId="EnifCommon.CNTConst" Caption="Subkomodita" NodeType="Data_FolderWithTS">
+        <Params>
+          <Param Name="CaptionsSelect"/>
+        </Params>
+        <ConTemplate Id="MU_GridPointComm.DiagramEntryVolume10004" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramEntryVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramEntryPayment10007" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramEntryPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramEntryPrice10010" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramEntryPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramExitVolume10005" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramExitVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramExitPayment10008" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramExitPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramExitPrice10011" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramExitPrice"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramSaldoVolume10006" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramSaldoVolume"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramSaldoPayment10009" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramSaldoPayment"/>
+        </ConTemplate>
+        <ConTemplate Id="MU_GridPointComm.DiagramSaldoPrice10012" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="MU_GridPointComm.DiagramSaldoPrice"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCommodity10013" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCommodity"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacity10014" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacity"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityUtilized10015" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityUtilized"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityAvailable10016" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityAvailable"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityCutOff10017" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityCutOff"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityCutOffUtilized10018" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityCutOffUtilized"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityCutOffAvailable10019" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityCutOffAvailable"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityTotal10020" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityTotal"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityTotalAvailable10021" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityTotalAvailable"/>
+    </ConTemplate>
+    <ConTemplate Id="MU_GridPoint.DiagramCapacityLacking10022" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_GridPoint.DiagramCapacityLacking"/>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-AgreementStorage" ProgId="EnifCommon.CNTConst" Caption="Zásobníková smlouva" NodeType="Data_FolderWithTS">
+    <Params>                 </Params>
+    <ConTemplate Id="Data-AgreementStorage-Curves" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementStorage-Curves" ProgId="EnifCommon.CNTConst" Caption="Přepočtové křivky" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementStorage.DiagramCapUnitToSTRGAgrUnit10004" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapUnitToSTRGAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramSTRGAgrUnitToSTRGUnit10005" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramSTRGAgrUnitToSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapUnitToSTRGUnit10006" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapUnitToSTRGUnit"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <NodeTemplate Id="Data-X-AgreementStorageGP" ProgId="EnifCommon.CNTConst" Caption="Body  smlouvy" NodeType="Data_Folder">
+      <ConTemplate Id="Data-AgreementStorage-GridPoint87574654" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select concat (gp.Caption, ' - ', gpt.Key, ' ', gp.IOType.Key), aggp.Id from AgreementStorage ags, AgreementGridPoint aggp join aggp.GridPoint gp join gp.GridPointType gpt where aggp.AgreementFK = ags.Id and ags.Id=:NodeId</Param>
+        </Params>
+        <NodeTemplateRef Ref="Data-X-AgreementGridPoint"/>
+      </ConTemplate>
+    </NodeTemplate>
+    <!--<NodeTemplate Id="Data-X-AgreementShipper" ProgId="EnifCommon.CNTConst" Caption="Shipper kódy" NodeType="Data_Folder">
+      <Params>                 </Params>
+      <ConTemplate Id="Data-AgreementShipper-Entry" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select si.IdentifierValue, bas.Id from Agreement_Shipper bas join bas.SubjectIdentifier si join bas.AgreementStorage ags where ags.Id=:NodeId</Param>
+        </Params>
+        <NodeTemplate Id="Data-Agreement-Shipper-Entry" ProgId="EnifCommon.CNTConst" Caption="Entry" NodeType="Data_FolderWithTS">
+          <Params>                 </Params>
+          <ConTemplate Id="AgreementShipper.DiagramEntryCapacity10081" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramEntryCapacity"/>
+          </ConTemplate>
+          <ConTemplate Id="AgreementShipper.DiagramEntryCapacityRecount10081" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramEntryCapacityRecount"/>
+          </ConTemplate>
+          <ConTemplate Id="AgreementShipper.DiagramEntryVolume10082" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramEntryVolume"/>
+          </ConTemplate>
+          <ConTemplate Id="AgreementShipper.DiagramPlanInOut0082" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramPlanInOut"/>
+          </ConTemplate>
+        </NodeTemplate>
+      </ConTemplate>
+      <ConTemplate Id="Data-AgreementShipper-Exit" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select si.IdentifierValue, bas.Id from Agreement_Shipper bas join bas.SubjectIdentifier si join bas.AgreementStorage ags where ags.Id=:NodeId</Param>
+        </Params>
+        <NodeTemplate Id="Data-AgreementShipper-Exit" ProgId="EnifCommon.CNTConst" Caption="Exit" NodeType="Data_FolderWithTS">
+          <Params>                 </Params>
+          <ConTemplate Id="AgreementShipper.DiagramExitCapacity10084" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramExitCapacity"/>
+          </ConTemplate>
+          <ConTemplate Id="AgreementShipper.DiagramExitCapacityRecount10084" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramExitCapacityRecount"/>
+          </ConTemplate>
+          <ConTemplate Id="AgreementShipper.DiagramExitVolume10085" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramExitVolume"/>
+          </ConTemplate>
+          <ConTemplate Id="AgreementShipper.DiagramPlanInOut0083" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Agreement_Shipper.DiagramPlanInOut"/>
+          </ConTemplate>
+        </NodeTemplate>
+      </ConTemplate>
+    </NodeTemplate>-->
+    <NodeTemplate Id="Data-X-AgreementShipper_GridPoint" ProgId="EnifCommon.CNTConst" Caption="Shipper kódy na bodech" NodeType="Data_Folder">
+      <Params>                 </Params>
+      <ConTemplate Id="Data-AgreementShipper-Agreement-GP" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select concat (gp.Caption, ' - ', gp.IOType.Key, ' - ', gp.GridPointType.Key), agp.Id from AgreementGridPoint agp join agp.GridPoint gp where agp.AgreementFK=:NodeId</Param>
+        </Params>
+        <NodeTemplate Id="Data-Agreement-Shipper-Agreement-GridPoint" ProgId="EnifCommon.CNTConst" Caption="Entry" NodeType="Data_FolderWithTS">
+          <Params>                 </Params>
+          <ConTemplate Id="Data-AgreementShipper-GridPoint-Shipper" ProgId="EnifNhCommon.CCTHql">
+            <Params>
+              <Param Name="ChildSelect">Hql;select agps.SubjectIdentifier.IdentifierValue, agps.Id from AgreementGridPoint agp, AgreementGP_Shipper agps where agps.AgreementGridPointFK=agp.Id and agp.Id=:NodeId</Param>
+            </Params>
+            <NodeTemplateRef Ref="Data-X-AgreementGP_Shipper"/>
+          </ConTemplate>
+        </NodeTemplate>
+      </ConTemplate>
+    </NodeTemplate>
+
+    <ConTemplate Id="Data-AgreementStorage-ChangesCapUnit" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementStorage-ChangesCapUnit" ProgId="EnifCommon.CNTConst" Caption="Změny pozice v jednotce kapacit" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementStorage.DiagramVolumeChangeOutputCapUnit10014" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramVolumeChangeOutputCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramVolumeChangeInputCapUnit10015" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramVolumeChangeInputCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramPlanChangeOutInCapUnit10016" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramPlanChangeOutInCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeOutputCapUnit10017" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeOutputCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeOutputCapUnitRecount10017" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeOutputCapUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeInputCapUnit10018" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeInputCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeInputCapUnitRecount10018" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeInputCapUnitRecount"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-AgreementStorage-ChangesAgrUnit" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementStorage-ChangesAgrUnit" ProgId="EnifCommon.CNTConst" Caption="Změny pozice v jednotce smlouvy" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementStorage.DiagramVolumeChangeOutputAgrUnit10020" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramVolumeChangeOutputAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramVolumeChangeInputAgrUnit10021" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramVolumeChangeInputAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramChangeBuyVTPGSAgrUnit10022" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramChangeBuyVTPGSAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramChangeSellVTPGSAgrUnit10023" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramChangeSellVTPGSAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramChangeSaldoVTPGSArgUnit10024" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramChangeSaldoVTPGSArgUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramClosePositionChangeAgrUnit10025" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramClosePositionChangeAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramPlanChangeAgrUnit10026" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramPlanChangeAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramPositionChangeAgrUnit10027" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramPositionChangeAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramPositionChangeWPlanAgrUnit10028" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramPositionChangeWPlanAgrUnit"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-AgreementStorage-PositionsAgrUnit" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementStorage-PositionsAgrUnit" ProgId="EnifCommon.CNTConst" Caption="Pozice v jednotkách smlouvy" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementStorage.DiagramFullSpaceAgrUnit10030" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramFullSpaceAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramClosedPositionAccAgrUnit10031" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramClosedPositionAccAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramClosedPositionPlanAccAgrUnit10032" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramClosedPositionPlanAccAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramFreeSpaceAgrUnit10033" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramFreeSpaceAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramFreeSpacePlanAgrUnit10034" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramFreeSpacePlanAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramPercFulnessSpaceAgrUnit10035" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramPercFulnessSpaceAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramMaxInputAgrUnit10036" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramMaxInputAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramMaxOutputAgrUnit10037" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramMaxOutputAgrUnit"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-AgreementStorage-ChangesSTRGUnit" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementStorage-ChangesSTRGUnit" ProgId="EnifCommon.CNTConst" Caption="Změny pozice v jednotce zásobníku" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementStorage.DiagramChangeBuyVTPGSSTRGUnit10039" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramChangeBuyVTPGSSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramChangeSellVTPGSSTRGUnit10040" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramChangeSellVTPGSSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramChangeSaldoVTPGSSTRGUnit10041" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramChangeSaldoVTPGSSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramPlanChangeSTRGUnit10042" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramPlanChangeSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramVolumeChangeOutputSTRGUnit10043" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramVolumeChangeOutputSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramVolumeChangeInputSTRGUnit10044" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramVolumeChangeInputSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeOutputSTRGUnit10045" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeOutputSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeOutputSTRGUnitRecount10045" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeOutputSTRGUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeInputSTRGUnit10046" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeInputSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramCapChangeInputSTRGUnitRecount10046" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramCapChangeInputSTRGUnitRecount"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-AgreementStorage-PositionsSTRGUnit" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementStorage-PositionsSTRGUnit" ProgId="EnifCommon.CNTConst" Caption="Pozice v jednotce zásobníku" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementStorage.DiagramFullSpaceSTRGUnit10048" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramFullSpaceSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramClosedPositionAccSTRGUnit10049" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramClosedPositionAccSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramFreeSpaceSTRGUnit10050" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramFreeSpaceSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementStorage.DiagramFreeSpacePlanSTRGUnit10051" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementStorage.DiagramFreeSpacePlanSTRGUnit"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <NodeTemplate Id="Data-X-AgreementStorageCapacity" ProgId="EnifCommon.CNTConst" Caption="Kapacitní smlouvy" NodeType="Data_Folder">
+      <ConTemplate Id="Data-AgreementStorage-Capacity" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select agc.Caption, agc.Id from AgreementCapacity agc where agc.AgreementStorageFK=:NodeId</Param>
+        </Params>
+        <NodeTemplateRef Ref="Data-X-AgreementCapacity"/>
+      </ConTemplate>
+    </NodeTemplate>
+
+    <ConTemplate Id="Data-AgreementStorage-SubDeal-Volume_List" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementStorage-SubDeal-Volume_List" ProgId="EnifCommon.CNTConst" Caption="Obchody - provozní objem" NodeType="Data_Folder">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-AgreementStorage-SubDeal-Volume" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select d.Id,d.Id from Deal d join d.DealType dt where d.AgreementStorageFK=:NodeId and dt.Key in ('STRGCAP', 'STRGCAP_m3')</Param>
+          </Params>
+          <NodeTemplateRef Ref="Data-X-Deal"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-AgreementGridPoint" ProgId="EnifCommon.CNTConst" Caption="Bod BGS Entry" NodeType="Data_FolderWithTS">
+    <Params>                 </Params>
+    <ConTemplate Id="AgreementGridPoint.DiagramSpaceSTRGAgrUnit10053" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramSpaceSTRGAgrUnit"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementGridPoint.DiagramSpaceSTRGUnitSTRG110054" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramSpaceSTRGUnitSTRG"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementGridPoint.DiagramCommSTRGAgrUnit10054" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramCommSTRGAgrUnit"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementGridPoint.DiagramCommSTRGUnitStrg10055" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramCommSTRGUnitStrg"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementGridPoint.DiagramCommAllSTRGAgrUnit10056" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramCommAllSTRGAgrUnit"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementGridPoint.DiagramVolumeInOutSTRGUnit110057" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramVolumeInOutSTRGUnit"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementGridPoint.DiagramAvailInOutSTRGUnitDeal110057" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramAvailInOutSTRGUnitDeal"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementGridPoint.DiagramCapInOutSTRGUnit110057" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGridPoint.DiagramCapInOutSTRGUnit"/>
+    </ConTemplate>
+    <ConTemplate Id="Data-AgreementGridPoint-Shipper" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select agps.SubjectIdentifier.IdentifierValue, agps.Id from AgreementGP_Shipper agps where agps.AgreementGridPointFK=:NodeId</Param>
+      </Params>
+      <NodeTemplateRef Ref="Data-X-AgreementGP_Shipper"/>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-AgreementCapacity" ProgId="EnifCommon.CNTConst" Caption="Kapacitní smlouva V/T" NodeType="Data_FolderWithTS">
+    <Params>                 </Params>
+    <ConTemplate Id="AgreementCapacity.DiagramEntryCapacity10074" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementCapacity.DiagramEntryCapacity"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementCapacity.DiagramExitCapacity10075" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementCapacity.DiagramExitCapacity"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementCapacity.DiagramSaldoVolume10076" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementCapacity.DiagramSaldoVolume"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementCapacity.DiagramSaldoVolumeSTRGUnit10076" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementCapacity.DiagramSaldoVolumeSTRGUnit"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementCapacity.DiagramSaldoVolumeRecount10078" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementCapacity.DiagramSaldoVolumeRecount"/>
+    </ConTemplate>
+    <ConTemplate Id="AgreementCapacity.DiagramSaldoVolumeRecountSTRGUnit10078" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementCapacity.DiagramSaldoVolumeRecountSTRGUnit"/>
+    </ConTemplate>
+
+    <!--
+      <NodeTemplate Id="AgreementCapacity_CurveInjWith10078" ProgId="EnifCommon.CNTConst" NodeType="CurveInjWith" Caption="Vtláčecí-těžební křivka" xmlns="Enif.TreeConfig">
+          <ConTemplate Id="AgreementCapacity.CurveInjWith10078" ProgId="EnifCommon.CCTConst">
+              <NodeTemplateRef Ref="AgreementCapacity.CurveInjWith"/>
+          </ConTemplate>
+      </NodeTemplate>
+        -->
+    <NodeTemplateRef Ref="AgreementCapacity.CurveInjWith"/>
+
+    <ConTemplate Id="Data-AgreementCapacity-SubDeal-Cap_List" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgreementCapacity-SubDeal-Cap_List" ProgId="EnifCommon.CNTConst" Caption="Obchody - kapacita" NodeType="Data_Folder">
+        <Params>                 </Params>
+        <ConTemplate Id="Data-AgreementCapacity-SubDeal-Cap" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select d.Id,d.Id from Deal d join d.DealType dt where d.AgreementCapacityFK=:NodeId and dt.Key in ('STRGCAPTRANS', 'STRGCAPTRCutOff')</Param>
+          </Params>
+          <NodeTemplateRef Ref="Data-X-Deal"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+
+  <NodeTemplate Id="Data-X-AgreementGP_Shipper" ProgId="EnifCommon.CNTConst" Caption="Shipper kód" NodeType="Data_FolderWithTS">
+    <Params>                 </Params>
+    <ConTemplate Id="Data-AgrGPShip-SumCapUnit" ProgId="EnifCommon.CCTConst">
+      <NodeTemplate Id="Data-AgrGPShip-SumCapUnit" ProgId="EnifCommon.CNTConst" Caption="Sumární hodnoty v jednotce kapacit" NodeType="Data_FolderWithTS">
+        <Params>
+          <Param Name="ParentIdSelect">Const;1</Param>
+        </Params>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramCapInOutCapUnit10060" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramCapInOutCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramCapInOutCapUnitRecount10060" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramCapInOutCapUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramAvailInOutCapUnitRecount10060" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramAvailInOutCapUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramVolumeInOutCapUnitDeal10061" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramVolumeInOutCapUnitDeal"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramVolumeInOutCapUnit10062" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramVolumeInOutCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramPlanInOutCapUnit10063" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramPlanInOutCapUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramVolumePlanInOutCapUnit10064" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramVolumePlanInOutCapUnit"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-AgrGPShip-SumSTRGUnit" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgrGPShip-SumSTRGUnit" ProgId="EnifCommon.CNTConst" Caption="Sumární hodnoty v jednotce zásobníku" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramCapInOutSTRGUnit10067" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramCapInOutSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramCapInOutSTRGUnitRecount10067" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramCapInOutSTRGUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramAvailInOutSTRGUnitRecount10067" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramAvailInOutSTRGUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramVolumeInOutSTRGUnit10068" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramVolumeInOutSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramPlanInOutSTRGUnit10069" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramPlanInOutSTRGUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramVolumePlanInOutSTRGUnit10070" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramVolumePlanInOutSTRGUnit"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="Data-AgrGPShip-SumAgrUnit" ProgId="EnifCommon.CCTConst">
+      <Params>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="Data-AgrGPShip-SumAgrUnit" ProgId="EnifCommon.CNTConst" Caption="Sumární hodnoty v jednotce smlouvy" NodeType="Data_FolderWithTS">
+        <Params>                 </Params>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramCapInOutAgrUnit10067" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramCapInOutAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramCapInOutAgrUnitRecount10067" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramCapInOutAgrUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramAvailInOutAgrUnitRecount10067" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramAvailInOutAgrUnitRecount"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramVolumeInOutAgrUnit10068" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramVolumeInOutAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramPlanInOutAgrUnit10069" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramPlanInOutAgrUnit"/>
+        </ConTemplate>
+        <ConTemplate Id="AgreementGP_Shipper.DiagramVolumePlanInOutAgrUnit10070" ProgId="EnifCommon.CCTConst">
+          <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramVolumePlanInOutAgrUnit"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-AgreementGP_Shipper-Plan" ProgId="EnifCommon.CNTConst" Caption="Shipper kód" NodeType="Data_FolderWithTS">
+    <Params>                 </Params>
+    <ConTemplate Id="AgreementGP_Shipper.DiagramPlanInOutAgrUnit11069" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="AgreementGP_Shipper.DiagramPlanInOutAgrUnit"/>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-CommAggGas" ProgId="EnifCommon.CNTConst" Caption="MU_GPGG_CO_GPGG_SPSP x CommAggGas" NodeType="Data_FolderWithTS">
+    <Params>                 </Params>
+    <ConTemplate Id="CommAggGas.TSEntry10030" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="CommAggGas.TSEntry"/>
+    </ConTemplate>
+    <ConTemplate Id="CommAggGas.TSExit10031" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="CommAggGas.TSExit"/>
+    </ConTemplate>
+    <ConTemplate Id="CommAggGas.TSEntryBalanced10032" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="CommAggGas.TSEntryBalanced"/>
+    </ConTemplate>
+    <ConTemplate Id="CommAggGas.TSExitBalanced10033" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="CommAggGas.TSExitBalanced"/>
+    </ConTemplate>
+    <ConTemplate Id="CommAggGas.TSEntryProved10034" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="CommAggGas.TSEntryProved"/>
+    </ConTemplate>
+    <ConTemplate Id="CommAggGas.TSExitProved10035" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="CommAggGas.TSExitProved"/>
+    </ConTemplate>
+  </NodeTemplate>
+
+  <NodeTemplate Id="Data-X-BalanceZone-PP" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóna" NodeType="Data_Folder_BZ">
+    <Params>                 </Params>
+    <ConTemplate Id="Data-X-BalanceZone-PP-BZ-SSO" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">
+          Hql;select 'Shipper kódy', mubz.Id from MU_BZ mubz where mubz.BalanceZone.BalanceZoneType.Key = 'Storage' and mubz.Id = :NodeId
+        </Param>
+      </Params>
+      <NodeTemplate Id="Data-X-BalanceZone-PP-Shp" ProgId="EnifCommon.CNTConst" Caption="Shipper kódy" NodeType="Data_Folder_BZ">
+        <ConTemplate Id="Data-MU_Commodity-MU_BZ-SSO-PVT" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">
+              Hql;select concat(agps.SubjectIdentifier.IdentifierValue, ' - ', case agps.AgreementGridPoint.GridPoint.IOType.Key when 'Entry' then 'Vtláčení' else 'Těžba' end ), agps.Id from AgreementGP_Shipper agps, MU_BZ mubz where agps.AgreementGridPoint.GridPoint.GridPointType.IsBorder = 1 and mubz.BalanceZone.Id = agps.AgreementGridPoint.GridPoint.GPGGrid.Grid.BalanceZone.Id and mubz.Id = :NodeId
+            </Param>
+          </Params>
+          <NodeTemplateRef Ref="Data-X-AgreementGP_Shipper-Plan"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+    <ConTemplate Id="MU_BZ.DiagramPrediction11025" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="MU_BZ.DiagramPrediction"/>
+    </ConTemplate>
+    <NodeTemplate Id="Data-X-BalanceZone-PP-Book-List" ProgId="EnifCommon.CNTConst" Caption="Knihy" NodeType="Data_Folder_BZ">
+      <ConTemplate Id="Data-Portfolio-Book-Sum-Subcommodity-BZ-PP" ProgId="EnifNhCommon.CCTHql">
+        <Params>
+          <Param Name="ChildSelect">Hql;select bbzc.Parent.Book.Caption, bbzc.Id from Book_BZComm bbzc, MU_BZ mubz where mubz.Id = :NodeId and mubz.BalanceZone.Id = bbzc.Parent.BalanceZone.Id</Param>
+        </Params>
+        <NodeTemplate Id="Data-Portfolio-Book-Sum-Subcommodity-BZ-PP" ProgId="EnifCommon.CNTConst" Caption="Bilanční zóna" NodeType="Data_FolderWithTS">
+          <Params>
+            <Param Name="CaptionsSelect"/>
+          </Params>
+
+          <ConTemplate Id="Book_BZComm.DiagramPrediction11061" ProgId="EnifCommon.CCTConst">
+            <NodeTemplateRef Ref="Book_BZComm.DiagramPrediction"/>
+          </ConTemplate>
+        </NodeTemplate>
+      </ConTemplate>
+    </NodeTemplate>
+  </NodeTemplate>
+</TreeConfig>

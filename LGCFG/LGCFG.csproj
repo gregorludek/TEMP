@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>d38358aa-fb09-4a69-97fa-4ae33c79a1c3</ProjectGuid>
+    <ProjectGuid>{D38358AA-FB09-4A69-97FA-4AE33C79A1C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LGCFG</RootNamespace>
@@ -31,22 +31,55 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\.gitignore">
+      <Link>.gitignore</Link>
+    </Content>
+    <Content Include="LGAggDataAdapter\EnifConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="LGAggDataAdapter\EnvironmentConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="LGAggDataAdapter\ETRMAggDataAdapterConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="LGAggDataAdapter\TreeConfigETRM.xml" />
+    <Content Include="LGAggDataAdapter\TreeConfigETRMActions.xml" />
+    <Content Include="LGAggDataAdapter\TreeConfigETRMData.xml" />
+    <Content Include="LGAggDataAdapter\TreeConfigETRMDesigner.xml" />
+    <Content Include="LGAggDataAdapter\TreeConfigETRMOteDataMirror.xml" />
+    <Content Include="LGAggDataAdapter\TreeConfigRoot.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="LGAggDataAdapter\TreeConfigSC.xml" />
+    <Content Include="StartParams.txt" />
+    <None Include="LGSBX\TreeConfigWorkspace.xml" />
+    <None Include="LGSBX\TreeConfigSC.xml" />
+    <None Include="LGSBX\TreeConfigRoot.xml" />
+    <None Include="LGSBX\TreeConfigIC.xml" />
+    <None Include="LGSBX\ShapeConfig.xml" />
+    <None Include="LGSBX\NaosGui.xml" />
+    <None Include="LGSBX\ManageCoreConfig.xml" />
+    <None Include="LGSBX\EnvironmentConfig.xml" />
+    <None Include="LGSBX\EnifConfig.xml" />
+    <None Include="LGSBX\ChartSetting.xml" />
+    <None Include="LGSBX\encal.CZ.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LGAggDataAdapter\Resources\TreeConfigETRM.xml.resx" />
+    <EmbeddedResource Include="LGAggDataAdapter\Resources\TreeConfigRoot.xml.resx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

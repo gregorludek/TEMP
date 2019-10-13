@@ -1,0 +1,54 @@
+Hql;select distinct item.Id from MU_GPGGridComm item, MU_BZ mubz inner join item.MU_GPGGrid mugpggrid inner join mugpggrid.GPGGrid gpggrid inner join gpggrid.Grid grid inner join grid.BalanceZone bz inner join mubz.BalanceZone mubzbz where item.Comm.AggKey='COMMODITY' and mubz.Id=:FormulaId and mubzbz.Id=bz.Id and gpggrid.GridPointType.IsBorder=1 
+
+Hql;select distinct item.Id from MU_GPGGridComm item, MU_BZ mubz inner join item.MU_GPGGrid mugpggrid inner join mugpggrid.GPGGrid gpggrid inner join gpggrid.Grid grid inner join grid.BalanceZone bz inner join mubz.BalanceZone mubzbz where item.Comm.AggKey='COMMODITY' and gpggrid.GridPointType.IsVTP=1 and mubz.Id=:FormulaId and mubzbz.Id=bz.Id
+
+Hql;select distinct mubz2bz_v.Id from MU_BZ mubz, MU_BZMain2BZ_BZ mubz2bz_v inner join mubz.BalanceZone bz_main inner join mubz.MarketUnit bz_mu inner join mubz2bz_v.BZBZ.BalanceZone bz_v_sup inner join mubz2bz_v.BZBZ.BZMain2BZ.BalanceZoneMain bz_v_main inner join mubz2bz_v.BZBZ.BZMain2BZ.BalanceZoneMain.BalanceZoneType bz_v_main_typ inner join mubz2bz_v.MarketUnit bz_v_mu where mubz.Id=:FormulaId and bz_main.Id=bz_v_sup.Id and bz_mu.Id=bz_v_mu.Id and bz_v_main_typ.Key='Storage'
+
+Hql;select distinct mubz2bz_v.Id from MU_BZ mubz, MU_BZMain2BZ_BZ mubz2bz_v inner join mubz.BalanceZone bz_main inner join mubz.MarketUnit bz_mu inner join mubz2bz_v.BZBZ.BalanceZone bz_v_sup inner join mubz2bz_v.BZBZ.BZMain2BZ.BalanceZoneMain bz_v_main inner join mubz2bz_v.BZBZ.BZMain2BZ.BalanceZoneMain.BalanceZoneType bz_v_main_typ inner join mubz2bz_v.MarketUnit bz_v_mu where mubz.Id=:FormulaId and bz_main.Id=bz_v_sup.Id and bz_mu.Id=bz_v_mu.Id and bz_v_main_typ.Key='Standard'
+
+Hql;select distinct mubz2bz_v.Id from MU_BZ mubz, MU_BZMain2BZ_BZ mubz2bz_v inner join mubz.BalanceZone bz_main inner join mubz.MarketUnit bz_mu inner join mubz2bz_v.BZBZ.BalanceZone bz_v_sup inner join mubz2bz_v.BZBZ.BZMain2BZ.BalanceZoneMain bz_v_main inner join mubz2bz_v.BZBZ.BalanceZone.BalanceZoneType bz_v_typ inner join mubz2bz_v.MarketUnit bz_v_mu where mubz.Id=:FormulaId and bz_main.Id=bz_v_main.Id and bz_mu.Id=bz_v_mu.Id and bz_v_typ.Key='Storage'
+
+Hql;select distinct mubz2bz_v.Id from MU_BZ mubz, MU_BZMain2BZ_BZ mubz2bz_v inner join mubz.BalanceZone bz_main inner join mubz.MarketUnit bz_mu inner join mubz2bz_v.BZBZ.BalanceZone bz_v_sup inner join mubz2bz_v.BZBZ.BZMain2BZ.BalanceZoneMain bz_v_main inner join mubz2bz_v.BZBZ.BalanceZone.BalanceZoneType bz_v_typ inner join mubz2bz_v.MarketUnit bz_v_mu where mubz.Id=:FormulaId and bz_main.Id=bz_v_main.Id and bz_mu.Id=bz_v_mu.Id and bz_v_typ.Key='Standard'
+
+
+
+
+Hql;select distinct item.Id from MU_GridComm item inner join item.Parent itemparent inner join itemparent.MUBZ MU_BZ inner join MU_BZ.bagMUBZComm sumcomm where item.Comm.Key=sumcomm.Comm.Key and sumcomm.Id=:FormulaId
+-- sumparent->MU_BZ
+
+Hql;select distinct mugpgg.Id from MU_BZMain2BZ_BZ mubzm2bz, MU_GPGGrid mugpgg, GridPipeGPGG gpgpgg_main_gp, GridPipeGPGG_2 gpgpgg_other_gp inner join mubzm2bz.BZBZ bzm2bzbz inner join bzm2bzbz.BZMain2BZ bzm2bz inner join bzm2bz.BalanceZoneMain bz_main inner join bzm2bzbz.BalanceZone bz_other inner join mugpgg.GPGGrid gpgg inner join gpgg.Grid get inner join get.BalanceZone bz_mugpgg inner join gpgpgg_main_gp.GridPipe gp_main_gp inner join gpgpgg_main_gp.GPGGrid gpgg_main_gp inner join gpgpgg_other_gp.GridPipe gp_other_gp inner join gpgpgg_other_gp.GPGGrid gpgg_other_gp inner join gpgg_other_gp.Grid get_other_gp inner join get_other_gp.BalanceZone bz_other_gp where bz_mugpgg.Id=bz_main.Id and gpgg_main_gp.Id=gpgg.Id and bz_other_gp.Id=bz_other.Id and gp_main_gp.Id=gp_other_gp.Id and mubzm2bz.Id=:FormulaId
+->
+Hql;select distinct mugpgg.Id from MU_BZMain2BZ_BZ mubzm2bz, MU_GPGGrid mugpgg, GridPipeGPGG gpgpgg_main_gp, GridPipeGPGG_2 gpgpgg_other_gp, MU_BZ mubz inner join mubzm2bz.BZBZ bzm2bzbz inner join bzm2bzbz.BZMain2BZ bzm2bz inner join bzm2bz.BalanceZoneMain bz_main inner join bzm2bzbz.BalanceZone bz_other inner join mugpgg.GPGGrid gpgg inner join gpgg.Grid get inner join get.BalanceZone bz_mugpgg inner join gpgpgg_main_gp.GridPipe gp_main_gp inner join gpgpgg_main_gp.GPGGrid gpgg_main_gp inner join gpgpgg_other_gp.GridPipe gp_other_gp inner join gpgpgg_other_gp.GPGGrid gpgg_other_gp inner join gpgg_other_gp.Grid get_other_gp inner join get_other_gp.BalanceZone bz_other_gp where bz_mugpgg.Id=bz_main.Id and gpgg_main_gp.Id=gpgg.Id and bz_other_gp.Id=bz_other.Id and gp_main_gp.Id=gp_other_gp.Id and mubzm2bz.Id=:FormulaId and mubzm2bz.MarketUnit=mubz.MarketUnit and mubzm2bz.BZBZ.BalanceZone.Id=mubz.BalanceZone.Id
+
+
+
+
+
+
+Hql;select distinct mugp.Id from MU_GridPoint mugp, MU_GPGGrid mugpgg inner join mugp.GridPoint gp inner join gp.GPGGrid gpgg inner join mugpgg.GPGGrid mugpgg_gpgg where mugpgg.Id=:FormulaId and mugpgg_gpgg.Id=gpgg.Id and gp.IOType.Key='Entry'
+Hql;select distinct mugp.Id from MU_GridPoint mugp, MU_GPGGrid mugpgg inner join mugp.GridPoint gp inner join gp.GPGGrid gpgg inner join mugpgg.GPGGrid mugpgg_gpgg where mugpgg.Id=:FormulaId and mugpgg_gpgg.Id=gpgg.Id and gp.IOType.Key='Exit'
+
+->
++ , MU_BZ mubz 
++ and mugpgg_gpgg.Grid.BalanceZone=mubz.BalanceZone and mugp.MarketUnit=mubz.MarketUnit 
+
++ and gpcomm_mu=mubz.MarketUnit and gpcomm_bz=mubz.BalanceZone
+
+
+Hql;select distinct gpcomm.Id from MU_GridPointComm gpcomm, MU_GPGGridComm gpggcomm inner join gpcomm.Parent.MarketUnit gpcomm_mu inner join gpcomm.Parent.GridPoint.Grid.BalanceZone gpcomm_bz inner join gpcomm.Comm gpcomm_com inner join gpcomm.Parent.GridPoint.GPGGrid gpgpg inner join gpggcomm.Comm gpggcomm_com inner join gpggcomm.MU_GPGGrid.GPGGrid.Grid.BalanceZone gpggcomm_bz inner join gpggcomm.MU_GPGGrid.MarketUnit gpggcomm_mu inner join gpggcomm.MU_GPGGrid.GPGGrid gpg where gpcomm_mu.Id=gpggcomm_mu.Id and gpcomm_bz.Id=gpcomm_bz.Id and gpggcomm_com.Id=gpcomm_com.Id and gpg.Id=gpgpg.Id and gpggcomm.Id=:FormulaId 
+
+ + and mugpgg_gpgg.Grid.BalanceZone=mubz.BalanceZone and mugp.MarketUnit=mubz.MarketUnit
+
+
+
+Hql;select distinct item.Id from MU_GridPointComm item inner join item.Parent itemparent inner join itemparent.MUGrid sumparent inner join sumparent.bagMUGridComm sumcomm where item.Comm.Key=sumcomm.Comm.Key and sumcomm.Id=:FormulaId
+
++ inner join sumparent.MUBZ mubz
+
+Hql;select distinct gpcomm.Id from MU_GridPointComm gpcomm, MU_GridPoint gp inner join gpcomm.Parent.GridPoint gpcomm_gp inner join gpcomm.Parent.MarketUnit gpcomm_mu inner join gpcomm.Parent.GridPoint.Grid gpcomm_grid inner join gpcomm.Parent.GridPoint.Grid.BalanceZone gpcomm_bz inner join gpcomm.Comm gpcomm_com inner join gp.MarketUnit gp_mu inner join gp.GridPoint gpgp inner join gp.GridPoint.Grid gp_grid inner join gp.GridPoint.Grid.BalanceZone gp_bz where gp.Id=:FormulaId and gpcomm_gp.Id=gpgp.Id and gpcomm_mu.Id=gp_mu.Id and gpcomm_grid.Id=gp_grid.Id and gpcomm_bz.Id=gp_bz.Id and gpcomm_com.Key='GASCom'
+
++ inner join gpcomm.Parent.MUGrid.MUBZ mubz
+
+Hql;select distinct d.Id from Deal d inner join d.GridPointInternal egp inner join egp.bagMU_GridPoint mugp inner join mugp.bagMUGridPointComm mugpcomm where d.DealType.Commodity.Key=mugpcomm.Comm.Key and d.DealState.AggType=1 and d.DealType.IsUnited=0 and mugpcomm.Id=:FormulaId
+
++  inner join mugpcomm.Parent.MUGrid.MUBZ

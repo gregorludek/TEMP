@@ -507,17 +507,6 @@
             </Param>
           </Param>
         </Param>
-        <!--<Param Name="ListAggDiag">
-          <Param Name="DefVal" Value="WOAgg"></Param>
-          <Param Name="List">
-            <Param Name="3" Value="WOAgg">
-              <Param Name="Caption" Value="Bez agregace"></Param>
-              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
-                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
-              </ParamClass>
-            </Param>
-          </Param>
-        </Param>-->
       </Params>
     </ModCommand>
   </NodeType>
