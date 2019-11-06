@@ -18,8 +18,7 @@
         <XmlFileName>TreeConfigETRMOteDataMirror.xml</XmlFileName>
         <Params>
           <Param Name="SessionFactory" Value="ETRM" />
-          <!--agg scitacka - potrebujeme, aby autorun trida
-          nasla instanci TreeControlleru-->
+          <!--agg scitacka - potrebujeme, aby autorun trida nasla instanci TreeControlleru-->
           <Param Name="ControllerModuleName" Value="TreeControllerETRM"/>
         </Params>
       </TreeConfig>
@@ -43,7 +42,7 @@
         <Param Name="WorkDir">AggDataAdapterWorkDir</Param>
         <Param Name="TreeConfigName">ETRMActionsAndData</Param>
         <Param Name="AggDataAdapterName">ETSDynamicAgg</Param>
-        
+
         <ParamClass Name="AggDataAdapterDataInfoProvider" ClassProgId="Enif.CClassInfo" ProgId="EnifEtrmAggDataAdapter.AggDataAdapterDataInfoProvider,EnifEtrmAggDataAdapter">
           <Params>
             <Param Name="Path">ETRMAggDataAdapterConfigManual.xml</Param>
@@ -63,27 +62,22 @@
       <ProgId>EnifNHGui.CXceedLicense</ProgId>
       <Params/>
     </Class>
-    <!--<Class Name="CheckAndRepairMarketStructure" Type="OtherCommand" ProgId="Enif.EDA.ETRM.CheckAndRepairMarketStructure,EnifETRMCommon">
-      <Params>
-        <Param Name="SessionFactory">ETRM</Param>
-      </Params>  
-    </Class>-->
-    <Class Name="MarketStructureModule" ProgId="Enif.EDA.ETRM.Modules.MarketStructureModule,EnifEtrmModules">
-      <Params>
-        <Param Name="AutorunClassType">AfterServiceCore</Param>
-        <Param Name="ListenType">Normal</Param>
-        <Param Name="ThreadCount">1</Param>
-        <Param Name="OnStartupSyncBase">True</Param>
-        <Param Name="OnStartupSyncAgreement">True</Param>
-        <Param Name="OnStartupSyncDeal">True</Param>
-        <Param Name="OnChangeSyncBase">True</Param>
-        <Param Name="OnChangeSyncAgreement">True</Param>
-        <Param Name="OnChangeSyncDeal">True</Param>
-        <Param Name="OnRegenerateUseFetchedDeal">True</Param>
-        <Param Name="OnChangeUseFetchedDeal">True</Param>
-      </Params>
-    </Class>
   </AutorunClasses>
+  <Class Name="MarketStructureModule" ProgId="Enif.EDA.ETRM.Modules.MarketStructureModule,EnifEtrmModules">
+    <Params>
+      <Param Name="AutorunClassType">AfterServiceCore</Param>
+      <Param Name="ListenType">Normal</Param>
+      <Param Name="ThreadCount">1</Param>
+      <Param Name="OnStartupSyncBase">True</Param>
+      <Param Name="OnStartupSyncAgreement">True</Param>
+      <Param Name="OnStartupSyncDeal">True</Param>
+      <Param Name="OnChangeSyncBase">True</Param>
+      <Param Name="OnChangeSyncAgreement">True</Param>
+      <Param Name="OnChangeSyncDeal">True</Param>
+      <Param Name="OnRegenerateUseFetchedDeal">True</Param>
+      <Param Name="OnChangeUseFetchedDeal">True</Param>
+    </Params>
+  </Class>
   <Class Name="NaosModuleStructured">
     <ProgId>Enif.Naos.CNaosModule,EnifNaos</ProgId>
     <Params>
@@ -633,10 +627,7 @@
   </SystemAdapters>-->
   <!--b) stylovani-->
   <Settings>
-    <!-- https://confluence.unicornsystems.eu/display/ENIF/EnifConfig.xml#EnifConfig.xml-SekceSettings -->
-    <!--<AppDataDir>i:\tmp\LGEtrmDemo\</AppDataDir>-->
-    <!--<AppDataDir>I:\TfsVyvoj\00_temp\LG\Configy\LGEtrmDemo\AppData\</AppDataDir>-->
-    <AppDataDir>i:\TM\ETRM_IS_04\ETRM_IS_04\AppServer\AppData\</AppDataDir>
+    <AppDataDir>f:\TM\AppData\LGAggFunction\</AppDataDir>
     <Gui>
       <ApplicationTitle>LGEtrmDemo</ApplicationTitle>
       <Style>VigDesign</Style>

@@ -2080,7 +2080,19 @@
     </Mods>
 
     <ModContainer ModProgId="EnifCommon.CModApplyIsId" Name="enGui">
-      <!-- Testovaci -->
+      <!-- LG-TEST -->
+      <ModCommand Name="egdAggDataAdapterSubModuleManage" Caption="SubModuly (OTE,GASPOOL)" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
+        <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
+        <ModParams>
+          <Param Name="TemplateId" Value="Act_ETRM-Actions-Root" />
+          <Param Name="Role">Admin</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">ETRM</Param>
+          <Param Name="TestForm">ETRM.egdAggDataAdapterSubModuleManage</Param>
+          <Param Name="AggDataAdapterModuleName">NaosModuleETRMAggDataAdapter</Param>
+        </Params>
+      </ModCommand>
       <ModCommand Name="egdMarketStructureHelper_MasterDataManagement" Caption="Market Structure (Debugger)" ProgId="EGCore.CExEGWindow,EGCore" Type="Tab">
         <ModProgId>EnifCommon.CModApplyHasRole</ModProgId>
         <ModParams>
