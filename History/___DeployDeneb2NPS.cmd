@@ -3,6 +3,6 @@ SET AssDir=i:\TfsVyvoj\00_EXE\Enif.NET\
 
 EnifEntityModelDeployApp.exe -t ORA -c %ConnectString% -a "%AssDir%EnifNHCommon.dll" --allowDropColumn -o _xxx.txt -m 
 
-rem test!
+rem test!sefsef
 pause 
 
