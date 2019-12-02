@@ -5,16 +5,16 @@
   <!--<SubModulesQuery>select mubz.Id,'AllInOne' from MU_BZ mubz where mubz.Id=1000000</SubModulesQuery>
   <SubModulesSelector>1000000</SubModulesSelector>-->
   <ResampleSettings>
-    <ResampleStrategyByPath Data="Deal.%Volume%" Expression="Path;d.Product.AggregationFxType.Key"/>
-    <ResampleStrategyByPath Data="Deal.%Payment%" Expression="Const;SUM"/>
+    <ResampleStrategy Data="Deal.%Volume%" Expression="Path;d.Product.AggregationFxType.Key"/>
+    <ResampleStrategy Data="Deal.%Payment%" Expression="Const;SUM"/>
   </ResampleSettings>
-  <Mapping Hql="select mubz.Id from MU_BZ mubz where mubz.Id=:FormulaId" Entity="MU_BZ">
+  <Mapping Hql="select mubz.Id from MU_BZ mubz where mubz.Id=:FormulaId">
     <Out Id="MU_BZ.DiagramClosedPosition">
       <In>MU_BZ.DiagramClosedPositionBorders</In>
       <In>MU_BZ.DiagramClosedPositionVTP</In>
     </Out>
   </Mapping>
-  <Mapping Hql="select mubzcomm.Id from MU_BZComm mubzcomm join mubzcomm.Parent mubz where mubzcomm.Id=:FormulaId" Entity="MU_BZComm">
+  <Mapping Hql="select mubzcomm.Id from MU_BZComm mubzcomm join mubzcomm.Parent mubz where mubzcomm.Id=:FormulaId">
     <Out Id="MU_BZComm.DiagramSaldoPayment">
       <In>MU_BZComm.DiagramEntryPayment</In>
       <In>MU_BZComm.DiagramExitPayment</In>
@@ -24,13 +24,13 @@
       <In>MU_BZComm.DiagramExitVolume</In>
     </Out>
   </Mapping>
-  <Mapping Hql="select distinct item.Id from MU_GPGGridComm item, MU_BZ mubz inner join item.MU_GPGGrid mugpggrid inner join mugpggrid.GPGGrid gpggrid inner join gpggrid.Grid grid inner join grid.BalanceZone bz inner join mubz.BalanceZone mubzbz where item.Id=:FormulaId and mubzbz.Id=bz.Id" Entity="MU_GPGGridComm">
+  <Mapping Hql="select distinct item.Id from MU_GPGGridComm item, MU_BZ mubz inner join item.MU_GPGGrid mugpggrid inner join mugpggrid.GPGGrid gpggrid inner join gpggrid.Grid grid inner join grid.BalanceZone bz inner join mubz.BalanceZone mubzbz where item.Id=:FormulaId and mubzbz.Id=bz.Id">
     <Out Id="MU_GPGGridComm.DiagramSaldoVolume">
       <In>MU_GPGGridComm.DiagramEntryVolume</In>
       <In>MU_GPGGridComm.DiagramExitVolume</In>
     </Out>
   </Mapping>
-  <Mapping Hql="select distinct gpcomm.Id from MU_GridPointComm gpcomm, MU_GPGGridComm gpggcomm, MU_BZ mubz inner join gpcomm.Parent.MarketUnit gpcomm_mu inner join gpcomm.Parent.GridPoint.Grid.BalanceZone gpcomm_bz inner join gpcomm.Comm gpcomm_com inner join gpcomm.Parent.GridPoint.GPGGrid gpgpg inner join gpggcomm.Comm gpggcomm_com inner join gpggcomm.MU_GPGGrid.GPGGrid.Grid.BalanceZone gpggcomm_bz inner join gpggcomm.MU_GPGGrid.MarketUnit gpggcomm_mu inner join gpggcomm.MU_GPGGrid.GPGGrid gpg where gpcomm_mu.Id=gpggcomm_mu.Id and gpcomm_bz.Id=gpcomm_bz.Id and gpggcomm_com.Id=gpcomm_com.Id and gpg.Id=gpgpg.Id and gpcomm.Id=:FormulaId and gpggcomm_bz.Id=mubz.BalanceZone.Id and gpggcomm_mu.Id=mubz.MarketUnit.Id" Entity="MU_GridPointComm">
+  <Mapping Hql="select distinct gpcomm.Id from MU_GridPointComm gpcomm, MU_GPGGridComm gpggcomm, MU_BZ mubz inner join gpcomm.Parent.MarketUnit gpcomm_mu inner join gpcomm.Parent.GridPoint.Grid.BalanceZone gpcomm_bz inner join gpcomm.Comm gpcomm_com inner join gpcomm.Parent.GridPoint.GPGGrid gpgpg inner join gpggcomm.Comm gpggcomm_com inner join gpggcomm.MU_GPGGrid.GPGGrid.Grid.BalanceZone gpggcomm_bz inner join gpggcomm.MU_GPGGrid.MarketUnit gpggcomm_mu inner join gpggcomm.MU_GPGGrid.GPGGrid gpg where gpcomm_mu.Id=gpggcomm_mu.Id and gpcomm_bz.Id=gpcomm_bz.Id and gpggcomm_com.Id=gpcomm_com.Id and gpg.Id=gpgpg.Id and gpcomm.Id=:FormulaId and gpggcomm_bz.Id=mubz.BalanceZone.Id and gpggcomm_mu.Id=mubz.MarketUnit.Id">
     <Out Id="MU_GridPointComm.DiagramSaldoVolume">
       <In>MU_GridPointComm.DiagramEntryVolume</In>
       <In>MU_GridPointComm.DiagramExitVolume</In>
@@ -138,17 +138,22 @@
     </Out>
   </Mapping>
   <Mapping Hql="select distinct d.Id from Deal d inner join d.GridPointInternal egp inner join egp.bagMU_GridPoint mugp inner join mugp.bagMUGridPointComm mugpcomm inner join mugpcomm.Parent.MUGrid.MUBZ mubz where d.DealType.Commodity.Key=mugpcomm.Comm.Key and d.DealState.AggType=1 and d.DealType.IsUnited=0 and mugpcomm.Id=:FormulaId">
+    <AllIdsHql>
+      select distinct mugpcomm.Id,mubz.Id from MU_GridPointComm mugpcomm inner join mugpcomm.Parent.MUGrid.MUBZ mubz
+      left join Deal d
+    </AllIdsHql>
+    <ResampleHqlPart>d.Product.AggregationFxType.Key</ResampleHqlPart>
     <Out Id="MU_GridPointComm.DiagramEntryPayment">
-      <In>Deal.DiagramAggBuyPaymentMU</In>
+      <In ResampleExpression="Const;SUM">Deal.DiagramBuyPaymentMSAgg</In>
     </Out>
     <Out Id="MU_GridPointComm.DiagramEntryVolume">
-      <In>Deal.DiagramAggBuyVolume</In>
+      <In ResampleExpression="HqlIdx;0">Deal.DiagramBuyVolumeMS</In>
     </Out>
     <Out Id="MU_GridPointComm.DiagramExitPayment">
-      <In>Deal.DiagramAggSellPaymentMU</In>
+      <In ResampleExpression="Const;SUM">Deal.DiagramSellPaymentMSAgg</In>
     </Out>
     <Out Id="MU_GridPointComm.DiagramExitVolume">
-      <In>Deal.DiagramAggSellVolume</In>
+      <In ResampleExpression="HqlIdx;0">Deal.DiagramSellVolumeMS</In>
     </Out>
   </Mapping>
 </ImmediateAdapterMapping>

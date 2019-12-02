@@ -57,7 +57,9 @@
     </Content>
     <Content Include="LGAggDataAdapter\TreeConfigETRM.xml" />
     <Content Include="LGAggDataAdapter\TreeConfigETRMActions.xml" />
-    <Content Include="LGAggDataAdapter\TreeConfigETRMData.xml" />
+    <Content Include="LGAggDataAdapter\TreeConfigETRMData.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="LGAggDataAdapter\TreeConfigETRMDesigner.xml" />
     <Content Include="LGAggDataAdapter\TreeConfigETRMOteDataMirror.xml" />
     <Content Include="LGAggDataAdapter\TreeConfigRoot.xml">

@@ -953,44 +953,19 @@
     <Params>
       <Param Name="CaptionsSelect"/>
     </Params>
-    <ConTemplate Id="Deal.DiagramAggBuyVolume" ProgId="EnifCommon.CCTConst">
-      <NodeTemplateRef Ref="Deal.DiagramAggBuyVolume"/>
+    <ConTemplate Id="Deal.DiagramBuyVolumeMS" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramBuyVolumeMS"/>
     </ConTemplate>
-    <ConTemplate Id="Deal.DiagramAggBuyPaymentMU" ProgId="EnifCommon.CCTConst">
-      <NodeTemplateRef Ref="Deal.DiagramAggBuyPaymentMU"/>
+    <ConTemplate Id="Deal.DiagramBuyPaymentMSAgg" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramBuyPaymentMSAgg"/>
     </ConTemplate>
-    <ConTemplate Id="Deal.DiagramAggSellVolume" ProgId="EnifCommon.CCTConst">
-      <NodeTemplateRef Ref="Deal.DiagramAggSellVolume"/>
+    <ConTemplate Id="Deal.DiagramSellVolumeMS" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramSellVolumeMS"/>
     </ConTemplate>
-    <ConTemplate Id="Deal.DiagramAggSellPaymentMU" ProgId="EnifCommon.CCTConst">
-      <NodeTemplateRef Ref="Deal.DiagramAggSellPaymentMU"/>
+    <ConTemplate Id="Deal.DiagramSellPaymentMSAgg" ProgId="EnifCommon.CCTConst">
+      <NodeTemplateRef Ref="Deal.DiagramSellPaymentMSAgg"/>
     </ConTemplate>
-    <ConTemplate Id="Deal.DiagramAggVolume" ProgId="EnifCommon.CCTConst">
-      <NodeTemplateRef Ref="Deal.DiagramAggVolume"/>
-    </ConTemplate>
-    <ConTemplate Id="Deal.DiagramAggPaymentMU" ProgId="EnifCommon.CCTConst">
-      <NodeTemplateRef Ref="Deal.DiagramAggPaymentMU"/>
-    </ConTemplate>
-    <ConTemplate Id="Deal.AggPaymentMU" ProgId="EnifCommon.CCTConst">
-      <NodeTemplateRef Ref="Deal.AggPaymentMU"/>
-    </ConTemplate>
-    <NodeTemplate Id="Data-Deal-IndexTS" ProgId="EnifCommon.CNTConst" Caption="00 Primární časové řady" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramVolumeCurve" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramVolumeCurve"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramPPCurve" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramPPCurve"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramIndexVolume" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramIndexVolume"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramIndexPrice" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramIndexPrice"/>
-      </ConTemplate>
-
-    </NodeTemplate>
-
+    
     <NodeTemplate Id="Data-Deal-PrimaryTS" ProgId="EnifCommon.CNTConst" Caption="01 Převzorkované časové řady" NodeType="Data_FolderWithTS">
       <Params>                 </Params>
 
@@ -1004,213 +979,6 @@
         <NodeTemplateRef Ref="Deal.DiagramSourcePayment"/>
       </ConTemplate>
 
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-TradedTS" ProgId="EnifCommon.CNTConst" Caption="02 Zobchodované časové řady" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramVolume" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramVolume"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramPayment" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramPayment"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramPrice" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramPrice"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.Volume" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.Volume"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.Payment" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.Payment"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.Price" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.Price"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.VolumeHourlyAvg" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.VolumeHourlyAvg"/>
-      </ConTemplate>
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-RatesTS" ProgId="EnifCommon.CNTConst" Caption="03 Kurzy" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramHedgingRate" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramHedgingRate"/>
-      </ConTemplate>
-
-      <ConTemplate Id="Deal.DiagramExchangeRate" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramExchangeRate"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramExchangeRateMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramExchangeRateMU"/>
-      </ConTemplate>
-
-      <ConTemplate Id="Deal.DiagramAccountExchangeRate" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramAccountExchangeRate"/>
-      </ConTemplate>
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-MUAggCurrTS" ProgId="EnifCommon.CNTConst" Caption="04 Časové řady v měně OJ" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramPaymentMUCurr" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramPaymentMUCurr"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramPriceMUCurr" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramPriceMUCurr"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.PaymentMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.PaymentMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.PriceMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.PriceMU"/>
-      </ConTemplate>
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-MUAccCurrTS" ProgId="EnifCommon.CNTConst" Caption="05 Časové řady v účetní měně OJ" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramPaymentAccCurr" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramPaymentAccCurr"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramPriceAccCurr" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramPriceAccCurr"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.PaymentAcc" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.PaymentAcc"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.PriceAcc" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.PriceAcc"/>
-      </ConTemplate>
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-NomTS" ProgId="EnifCommon.CNTConst" Caption="06 Nominační časové řady" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramNomVolumeInput" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramNomVolumeInput"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramNomVolume" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramNomVolume"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramNomPayment" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramNomPayment"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramNomPaymentMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramNomPaymentMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.NomPayment" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.NomPayment"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.NomPaymentMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.NomPaymentMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.NomVolume" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.NomVolume"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.NomPrice" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.NomPrice"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.NomPriceMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.NomPriceMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.NomVolumeHourlyAvg" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.NomVolumeHourlyAvg"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.NomDiffFlag" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.NomDiffFlag"/>
-      </ConTemplate>
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-InvTS" ProgId="EnifCommon.CNTConst" Caption="07 Fakturační časové řady" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramInvVolumeInput" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramInvVolumeInput"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramInvVolume" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramInvVolume"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramInvPayment" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramInvPayment"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.DiagramInvPaymentMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramInvPaymentMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.InvPayment" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.InvPayment"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.InvPaymentMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.InvPaymentMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.InvVolume" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.InvVolume"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.InvPrice" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.InvPrice"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.InvPriceMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.InvPriceMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.InvVolumeHourlyAvg" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.InvVolumeHourlyAvg"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.InvDiffFlag" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.InvDiffFlag"/>
-      </ConTemplate>
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-Charges" ProgId="EnifCommon.CNTConst" Caption="08 Poplatky" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.DiagramChargePaymentMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.DiagramChargePaymentMU"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.ChargePaymentMU" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.ChargePaymentMU"/>
-      </ConTemplate>
-
-      <ConTemplate Id="Data-Deal-Charge" ProgId="EnifNhCommon.CCTHql">
-        <Params>
-          <Param Name="ChildSelect">
-            Hql;
-            select mch.Caption, charge.Id
-            from DealMarketCharge charge
-            inner join charge.Deal deal
-            inner join charge.MarketCharge mch
-            where deal.Id=:NodeId
-          </Param>
-        </Params>
-        <NodeTemplate Id="Data-Deal-Charge" ProgId="EnifCommon.CNTConst" Caption="Poplatek" NodeType="Data_FolderWithTS">
-          <Params>
-            <Param Name="CaptionsSelect"/>
-          </Params>
-          <ConTemplate Id="DealMarketCharge.ChargeValue" ProgId="EnifCommon.CCTConst">
-            <NodeTemplateRef Ref="DealMarketCharge.ChargeValue"/>
-          </ConTemplate>
-          <ConTemplate Id="DealMarketCharge.DiagramCharge" ProgId="EnifCommon.CCTConst">
-            <NodeTemplateRef Ref="DealMarketCharge.DiagramCharge"/>
-          </ConTemplate>
-          <ConTemplate Id="DealMarketCharge.Charge" ProgId="EnifCommon.CCTConst">
-            <NodeTemplateRef Ref="DealMarketCharge.Charge"/>
-          </ConTemplate>
-          <ConTemplate Id="DealMarketCharge.DiagramChargeMU" ProgId="EnifCommon.CCTConst">
-            <NodeTemplateRef Ref="DealMarketCharge.DiagramChargeMU"/>
-          </ConTemplate>
-          <ConTemplate Id="DealMarketCharge.ChargeMU" ProgId="EnifCommon.CCTConst">
-            <NodeTemplateRef Ref="DealMarketCharge.ChargeMU"/>
-          </ConTemplate>
-        </NodeTemplate>
-      </ConTemplate>
-
-    </NodeTemplate>
-    <NodeTemplate Id="Data-Deal-DebugTS" ProgId="EnifCommon.CNTConst" Caption="09 Pomocné" NodeType="Data_FolderWithTS">
-      <Params>                 </Params>
-      <ConTemplate Id="Deal.SignAggBuy" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.SignAggBuy"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.SignAggSell" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.SignAggSell"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.SignAggSaldo" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.SignAggSaldo"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.MinPerToGridPer" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.MinPerToGridPer"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.VolumeRatio" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.VolumeRatio"/>
-      </ConTemplate>
-      <ConTemplate Id="Deal.PaymentRatio" ProgId="EnifCommon.CCTConst">
-        <NodeTemplateRef Ref="Deal.PaymentRatio"/>
-      </ConTemplate>
     </NodeTemplate>
   </NodeTemplate>
 
@@ -1405,22 +1173,6 @@
         <NodeTemplateRef Ref="Data-MarketUnit-Grid"/>
       </ConTemplate>
     </NodeTemplate>
-    <ConTemplate Id="Data-MarketUnit-BZ-Market-List" ProgId="EnifCommon.CCTConst">
-      <Params>
-        <Param Name="ParentIdSelect">Const;1</Param>
-      </Params>
-      <!--
-      <NodeTemplate Id="Data-MarketUnit-BZ-Market-List" ProgId="EnifCommon.CNTConst" Caption="Trhy" NodeType="Data_Folder">
-        <Params>                 </Params>
-        <ConTemplate Id="Data-MarketUnit-BZ-Market" ProgId="EnifNhCommon.CCTHql">
-          <Params>
-            <Param Name="ParentIdSelect">Const;1</Param>
-          </Params>
-          <NodeTemplateRef Ref="Data-MarketUnit-Market"/>
-        </ConTemplate>
-      </NodeTemplate>
-      -->
-    </ConTemplate>
     <ConTemplate Id="Data-X-BalanceZone_Comm" ProgId="EnifNhCommon.CCTHql">
       <Params>
         <Param Name="ChildSelect">Hql;select sc.Comm.Caption, sc.Id from MU_BZComm sc join sc.Parent p where p.Id=:NodeId and sc.Comm.BaseCommodityFK != null order by sc.Comm.Caption</Param>

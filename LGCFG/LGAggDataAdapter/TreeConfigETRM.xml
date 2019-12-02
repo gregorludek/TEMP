@@ -25,16 +25,7 @@
     </Params>
   </Adapter>
   <Adapter Name="EnifNhCommon.CHqlTreeAdapter" ProgId="EnifNhCommon.CHqlTreeAdapter,EnifNhCommon" />
-  <Adapter Name="TSDeal" ProgId="Enif.EDA.ETRM.Data.CAdapterTS_Deal,EnifEtrmCommon">
-    <Params>
-      <Param Name="DirName">DataStore\ETRM\</Param>
-      <Param Name="HistoryDirName">DataStoreHistory\ETRM\</Param>
-      <Param Name="TSFlags">WriteResizes</Param>
-      <Param Name="DefaultSample">Day</Param>
-      <Param Name="DefaultTimeZone">CEST</Param>
-      <Param Name="DefaultUnit">nezadano</Param>
-    </Params>
-  </Adapter>
+  
   <Adapter Name="CurveInjWith" ProgId="Enif.EDA.ETRM.Adapters.QuanParamAdapter,EnifEtrmCommon">
     <Params>
     </Params>

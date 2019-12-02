@@ -3,5 +3,14 @@
   <Process Id="0" Name="MainProcess">
     <Modules />
   </Process>
-  <Filters />
+  <Filters>
+    <Filter Reliable="false" ModuleName="NaosModuleETRMAggDataAdapter">
+      <FilterInfo ProgId="EnifEtrmAggDataAdapter.AggDataAdapterDataInfoProvider+CDataInfoProviderNotifyFilter,EnifEtrmAggDataAdapter">
+        <Params>
+          <Param Name="EnifMainId">1</Param>
+          <Param Name="SessionFactoryName">ETRM</Param>
+        </Params>
+      </FilterInfo>
+    </Filter>
+  </Filters>
 </ManageCoreConfig>

@@ -131,16 +131,16 @@
   </Mapping>
   <Mapping Hql="Hql;select distinct d.Id from Deal d inner join d.GridPointInternal egp inner join egp.bagMU_GridPoint mugp inner join mugp.bagMUGridPointComm mugpcomm where d.DealType.Commodity.Key=mugpcomm.Comm.Key and d.DealState.AggType=1 and d.DealType.IsUnited=0 and mugpcomm.Id=:FormulaId">
     <Out Id="MU_GridPointComm.DiagramEntryPayment">
-      <In>Deal.DiagramAggBuyPaymentMU</In>
+      <In>Deal.DiagramBuyPaymentMSAgg</In>
     </Out>
     <Out Id="MU_GridPointComm.DiagramEntryVolume">
-      <In>Deal.DiagramAggBuyVolume</In>
+      <In>Deal.DiagramBuyVolumeMS</In>
     </Out>
     <Out Id="MU_GridPointComm.DiagramExitPayment">
-      <In>Deal.DiagramAggSellPaymentMU</In>
+      <In>Deal.DiagramSellPaymentMSAgg</In>
     </Out>
     <Out Id="MU_GridPointComm.DiagramExitVolume">
-      <In>Deal.DiagramAggSellVolume</In>
+      <In>Deal.DiagramSellVolumeMS</In>
     </Out>
   </Mapping>
 </ImmediateAdapterMapping>

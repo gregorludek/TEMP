@@ -69,13 +69,13 @@
       <Param Name="ListenType">Normal</Param>
       <Param Name="ThreadCount">1</Param>
       <Param Name="OnStartupSyncBase">True</Param>
-      <Param Name="OnStartupSyncAgreement">True</Param>
-      <Param Name="OnStartupSyncDeal">True</Param>
-      <Param Name="OnChangeSyncBase">True</Param>
-      <Param Name="OnChangeSyncAgreement">True</Param>
-      <Param Name="OnChangeSyncDeal">True</Param>
-      <Param Name="OnRegenerateUseFetchedDeal">True</Param>
-      <Param Name="OnChangeUseFetchedDeal">True</Param>
+      <Param Name="OnStartupSyncAgreement">0</Param>
+      <Param Name="OnStartupSyncDeal">0</Param>
+      <Param Name="OnChangeSyncBase">0</Param>
+      <Param Name="OnChangeSyncAgreement">0</Param>
+      <Param Name="OnChangeSyncDeal">0</Param>
+      <Param Name="OnRegenerateUseFetchedDeal">0</Param>
+      <Param Name="OnChangeUseFetchedDeal">0</Param>
     </Params>
   </Class>
   <Class Name="NaosModuleStructured">
