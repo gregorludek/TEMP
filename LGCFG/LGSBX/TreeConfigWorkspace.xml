@@ -189,15 +189,16 @@
         </Param>-->
       </Params>
     </ModCommand>
-    <ModCommand Name="Grid-2DTab_Workspace">
-      <Caption>2D tabulka</Caption>
+    <ModCommand Name="Grid-2DTab_Workspace_CESTm6">
+      <Caption>2D tabulka_CESTm6</Caption>
       <Type>Tab</Type>
       <Icon>Folder</Icon>
       <ProgId>EnifGridEditor.GridEditor</ProgId>
       <Params>
         <Param Name="AggDiagVisibility">Collapsed</Param>
-        <Param Name="EditorType">Table2D</Param>
+        <!--<Param Name="EditorType">Table2D</Param>-->
         <Param Name="GridDataListWidth">1</Param>
+        <Param Name="TimeZone">CESTm6</Param>
         <Param Name="ListGranularity">
           <Param Name="DefVal" Value="day"></Param>
           <Param Name="List">
@@ -213,7 +214,101 @@
         <Param Name="ListCategory">
           <Param Name="DefVal" Value="ZakladniKategorie.HodinyVDni2DTab"></Param>
           <Param Name="List">
-            <Param Name="0" Value="ZakladniKategorie.HodinyVDni2DTab">
+            <Param Name="0" Value="ZakladniKategorie.HodinyVDni2DTabDeneb">
+              <Param Name="Caption" Value="Hodiny ve dni"></Param>
+              <Param Name="ShortCaption" Value="Hodiny ve dni"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="Grid-2DTab_Workspace_CEST">
+      <Caption>2D tabulka_CEST</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="AggDiagVisibility">Collapsed</Param>
+        <!--<Param Name="EditorType">Table2D</Param>-->
+        <Param Name="GridDataListWidth">1</Param>
+        <Param Name="TimeZone">CEST</Param>
+        <Param Name="ListGranularity">
+          <Param Name="DefVal" Value="day"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="day">
+              <Param Name="Caption" Value="Dny"></Param>
+              <Param Name="ShortCaption" Value="Dny"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="ZakladniKategorie.HodinyVDni2DTab"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="ZakladniKategorie.HodinyVDni2DTabDeneb">
+              <Param Name="Caption" Value="Hodiny ve dni"></Param>
+              <Param Name="ShortCaption" Value="Hodiny ve dni"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="Grid-2DTab_Workspace">
+      <Caption>2D tabulka_WOTZ</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="AggDiagVisibility">Collapsed</Param>
+        <!--<Param Name="EditorType">Table2D</Param>-->
+        <Param Name="GridDataListWidth">1</Param>
+        <!--<Param Name="TimeZone">CESTm6</Param>-->
+        <Param Name="ListGranularity">
+          <Param Name="DefVal" Value="day"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="day">
+              <Param Name="Caption" Value="Dny"></Param>
+              <Param Name="ShortCaption" Value="Dny"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="ZakladniKategorie.HodinyVDni2DTab"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="ZakladniKategorie.HodinyVDni2DTabDeneb">
               <Param Name="Caption" Value="Hodiny ve dni"></Param>
               <Param Name="ShortCaption" Value="Hodiny ve dni"></Param>
               <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
