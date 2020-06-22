@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <NodeTemplate Id="ecl_TestData.DiagA_Computed" ProgId="EnifCommon.CNTConst" NodeType="Diagram" Caption="ecl_TestData.DiagA_Computed" xmlns="Enif.TreeConfig">
+    <ConDataTemplate Id="ecl_TestData.DiagA_Computed" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="ecl_TestData.DiagA_Computed" Adapter="ETSAdapter" Sample="Hour" TimeZone="UTC" DataType="Double">
+        <Params>
+          <Param Name="EntityPath" Value="ecl_TestData.DiagA_Computed" />
+          <Param Name="XDataType" Value="TS" />
+          <Param Name="DefaultValue" Value="" />
+        </Params>
+      </DataTemplate>
+    </ConDataTemplate>
+    <Params>
+      <Param Name="HasChildren" Value="0" />
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="ecl_TestData.DiagA_Primary" ProgId="EnifCommon.CNTConst" NodeType="Diagram" Caption="ecl_TestData.DiagA_Primary" xmlns="Enif.TreeConfig">
+    <ConDataTemplate Id="ecl_TestData.DiagA_Primary" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="ecl_TestData.DiagA_Primary" Adapter="ETSAdapter" Sample="Hour" TimeZone="UTC" DataType="Double">
+        <Params>
+          <Param Name="EntityPath" Value="ecl_TestData.DiagA_Primary" />
+          <Param Name="XDataType" Value="TS" />
+          <Param Name="DefaultValue" Value="" />
+        </Params>
+      </DataTemplate>
+    </ConDataTemplate>
+    <Params>
+      <Param Name="HasChildren" Value="0" />
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="ecl_TestData.DiagB_Computed" ProgId="EnifCommon.CNTConst" NodeType="Diagram" Caption="ecl_TestData.DiagB_Computed" xmlns="Enif.TreeConfig">
+    <ConDataTemplate Id="ecl_TestData.DiagB_Computed" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="ecl_TestData.DiagB_Computed" Adapter="ETSAdapter" Sample="Hour" TimeZone="UTC" DataType="Double">
+        <Params>
+          <Param Name="EntityPath" Value="ecl_TestData.DiagB_Computed" />
+          <Param Name="XDataType" Value="TS" />
+          <Param Name="DefaultValue" Value="" />
+        </Params>
+      </DataTemplate>
+    </ConDataTemplate>
+    <Params>
+      <Param Name="HasChildren" Value="0" />
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="ecl_TestData.DiagB_Primary" ProgId="EnifCommon.CNTConst" NodeType="Diagram" Caption="ecl_TestData.DiagB_Primary" xmlns="Enif.TreeConfig">
+    <ConDataTemplate Id="ecl_TestData.DiagB_Primary" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="ecl_TestData.DiagB_Primary" Adapter="ETSAdapter" Sample="Hour" TimeZone="UTC" DataType="Double">
+        <Params>
+          <Param Name="EntityPath" Value="ecl_TestData.DiagB_Primary" />
+          <Param Name="XDataType" Value="TS" />
+          <Param Name="DefaultValue" Value="" />
+        </Params>
+      </DataTemplate>
+    </ConDataTemplate>
+    <Params>
+      <Param Name="HasChildren" Value="0" />
+    </Params>
+  </NodeTemplate>
+  <NodeTemplate Id="ecl_TestData.DiagSum_Computed" ProgId="EnifCommon.CNTConst" NodeType="Diagram" Caption="ecl_TestData.DiagSum_Computed" xmlns="Enif.TreeConfig">
+    <ConDataTemplate Id="ecl_TestData.DiagSum_Computed" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="ecl_TestData.DiagSum_Computed" Adapter="ETSAdapter" Sample="Hour" TimeZone="UTC" DataType="Double">
+        <Params>
+          <Param Name="EntityPath" Value="ecl_TestData.DiagSum_Computed" />
+          <Param Name="XDataType" Value="TS" />
+          <Param Name="DefaultValue" Value="" />
+        </Params>
+      </DataTemplate>
+    </ConDataTemplate>
+    <Params>
+      <Param Name="HasChildren" Value="0" />
+    </Params>
+  </NodeTemplate>
+</TreeConfig>

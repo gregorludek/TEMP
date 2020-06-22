@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <Adapter Name="EnifNhCommon.CHqlTreeAdapter" ProgId="EnifNhCommon.CHqlTreeAdapter,EnifNhCommon"/>
+  <Adapter Name="TreeMappingAdapter" ProgId="Enif.Entities.Tree.CEntityTreeMappingAdapter,EnifNh" />
+  <Adapter Name="ETSAdapter" ProgId="EnifCommon.CDataAdapterETSSimple">
+    <Params>
+      <Param Name="DirName">DataStore\ETS\</Param>
+      <Param Name="TSFlags">WriteResizes</Param>
+    </Params>
+  </Adapter>
+  <NodeType Id="1" Name="Folder" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditors" />
+  </NodeType>
+  <NodeType Id="2" Name="Diagram" NodeProgId="Enif.CNode">
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Diagram</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="TSEditors" />
+    <ModContainerRef Ref="MCNAOS" />
+  </NodeType>
+  <ModContainer Name="TSEditors">
+    <ModCommand Name="ChartLines">
+      <Caption>Graf</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="RangeSaveType" Value="User" />
+        <Param Name="Type">StepForward</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="Grid-full">
+      <Caption>Tabulka</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="AggDiagVisibility">Collapsed</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="Všechny hodnoty"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="DefVal" Value="GranularityBySample"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="Dle vzorku"></Param>
+              <Param Name="ShortCaption" Value="Vzorek"></Param>
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hodiny"></Param>
+              <Param Name="Sample" Value="Hour"></Param>
+              <Param Name="ShortCaption" Value="Hodiny"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Dny"></Param>
+              <Param Name="Sample" Value="Day"></Param>
+              <Param Name="ShortCaption" Value="Dny"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Týdny"></Param>
+              <Param Name="Sample" Value="WeekMon"></Param>
+              <Param Name="ShortCaption" Value="Týdny"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="Energetické týdny"></Param>
+              <Param Name="Sample" Value="WeekSat"></Param>
+              <Param Name="ShortCaption" Value="Energetické týdny"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Měsíce"></Param>
+              <Param Name="Sample" Value="Month"></Param>
+              <Param Name="ShortCaption" Value="Měsíce"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Čtvrtletí"></Param>
+              <Param Name="Sample" Value="QYear"></Param>
+              <Param Name="ShortCaption" Value="Čtvrtletí"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Roky"></Param>
+              <Param Name="Sample" Value="Year"></Param>
+              <Param Name="ShortCaption" Value="Roky"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="Vše"></Param>
+              <Param Name="Sample" Value="Const"></Param>
+              <Param Name="ShortCaption" Value="Vše"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListAggDiag">
+          <Param Name="DefVal" Value="WOAgg"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="WOAgg">
+              <Param Name="Caption" Value="Bez agregace"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+  <ModContainer Name="MCNAOS">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="[NaosCoreGuiAdapter]" />
+          <Param Name="GridEditorParams">
+            <Param Name="ListCategory">
+              <Param Name="DefVal" Value="All"></Param>
+              <Param Name="List">
+                <Param Name="0" Value="All">
+                  <Param Name="Caption" Value="Všechny hodnoty"></Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+            <Param Name="ListGranularity">
+              <Param Name="List">
+                <Param Name="0" Value="GranularityBySample">
+                  <Param Name="Caption" Value="Dle vzorku"></Param>
+                  <Param Name="ShortCaption" Value="Vzorek"></Param>
+                  <Param Name="DateFormat">dd.MM.yyyy HH</Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+            <Param Name="ListAggVal">
+              <Param Name="DefVal" Value="SumWONull"></Param>
+              <Param Name="List">
+                <Param Name="0" Value="SumWONull">
+                  <Param Name="Caption" Value="-"></Param>
+                  <Param Name="ShortCaption" Value="-"></Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CAggValSimple,EnifGridEditor</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+            <Param Name="ListAggDiag">
+              <Param Name="DefVal" Value="WOAgg"></Param>
+              <Param Name="List">
+                <Param Name="5" Value="WOAgg">
+                  <Param Name="Caption" Value="Bez agregace"></Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+          </Param>
+        </Params>
+      </ModCommand>
+      <ModCommand Name="LWDataTSEnGui" Caption="Vlastnosti TS" ProgId="EGCore.CExEGWindow,EGCore">
+        <Type>Tab</Type>
+        <Params>
+          <Param Name="TestForm">Common.egeTSProperties</Param>
+          <Param Name="ShowCommands">true</Param>
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+  <NodeTemplate Id="Test" NodeType="Folder" ProgId="EnifCommon.CNTConst" Caption="TestData">
+    <ConTemplate Id="ecl_TestData" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select td.Id from ecl_TestData td where ParentFK is null</Param>
+        <Param Name="ParentIdSelect">Const;1</Param>
+      </Params>
+      <NodeTemplate Id="ecl_TestData" NodeType="Folder" ProgId="EnifCommon.CNTConst">
+        <NodeTemplateRef Ref="ecl_TestData.DiagA_Computed"/>
+        <NodeTemplateRef Ref="ecl_TestData.DiagA_Primary"/>
+        <NodeTemplateRef Ref="ecl_TestData.DiagB_Computed"/>
+        <NodeTemplateRef Ref="ecl_TestData.DiagB_Primary"/>
+        <NodeTemplateRef Ref="ecl_TestData.DiagSum_Computed"/>
+        <ConTemplate Id="ecl_TestData_bag" ProgId="EnifNhCommon.CCTHql">
+          <Params>
+            <Param Name="ChildSelect">Hql;select td.Id from ecl_TestData td where ParentFK=:NodeId</Param>
+          </Params>
+          <NodeTemplateRef Ref="ecl_TestData"/>
+        </ConTemplate>
+      </NodeTemplate>
+    </ConTemplate>
+  </NodeTemplate>
+</TreeConfig>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Komunikační kanál" WindowCaption="Komunikační kanál" ProgId="" EntityType="Enif.Base.Entities.Alarms.AlarmChannelTemplate,EnifALARMSCommon">
+  <FieldSection Name="Default" Caption="Obecné">
+    <Columns />
+    <Field Name="ChannelType" Caption="Typ kanálu" FieldType="EnumField" SelectorType="Path" Selector="AlarmChannel" IsRequired="true" Occupation="Line">
+      <Params>
+        <Param Name="HQL">select a,a.Caption from AlarmChannel a</Param>
+      </Params>
+    </Field>
+    <Field Name="Subject" Caption="Předmět" FieldType="Text" SelectorType="Path" Selector="Subject" Occupation="Line" />
+    <Field Name="Text" Caption="Text" FieldType="Text" SelectorType="Path" Selector="Text" Occupation="CaptionBlock" Height="10" MaxHeight="20">
+      <Params>
+        <Param Name="Multiline">True</Param>
+        <Param Name="TextWrapping">NoWrap</Param>
+      </Params>
+    </Field>
+  </FieldSection>
+</Form>

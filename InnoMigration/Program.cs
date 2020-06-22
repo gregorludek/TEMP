@@ -14,7 +14,7 @@ namespace InnoMigration
   {
     static void Main(string[] args)
     {
-      var step = 2;
+      var step = 3;
       if (step == 0)
       {
         TruncateUATConfig();
@@ -26,6 +26,10 @@ namespace InnoMigration
       if (step == 2)
       {
         ConsolidateIds();
+      }
+      if (step == 3)
+      {
+        ConsolidateGridConfigs();
       }
     }
 
@@ -74,13 +78,13 @@ namespace InnoMigration
           {
             if (!fx.Data[a].TreeId.IsTemporary() && fx.Data[a].TreeId.EntityName() == entity)
             {
-              fx.Data[a].TreeId = ReplaceDataId(fx.Data[a].TreeId, oldId2Key, key2NewId);
+              fx.Data[a].TreeId = ReplaceTreeId(fx.Data[a].TreeId, oldId2Key, key2NewId);
             }
           }
         }
       }
     }
-    private static TTreeId ReplaceDataId(TTreeId treeId, Dictionary<string, string> oldId2Key, Dictionary<string, string> key2NewId)
+    private static TTreeId ReplaceTreeId(TTreeId treeId, Dictionary<string, string> oldId2Key, Dictionary<string, string> key2NewId)
     {
       var key = oldId2Key[treeId.Id];
       string newId;
@@ -98,7 +102,7 @@ namespace InnoMigration
 
       var allFormulas = new List<CNaosFormula>();
       foreach (var inFile in inFiles) allFormulas.AddRange(LoadFxStorageFromXmlFile(inFile));
-      //for (var a = 0; a < allFormulas.Count; a++) allFormulas[a].Id = new TFormulaId((a + 1).ToString(), allFormulas[a].Id.TemplateId, allFormulas[a].Id.ConfigName);
+      for (var a = 0; a < allFormulas.Count; a++) allFormulas[a].Id = new TFormulaId((a + 1).ToString(), allFormulas[a].Id.TemplateId, allFormulas[a].Id.ConfigName);
       SaveFxStorageToXmlFile(@"f:\tmp\InnoMigration\Result.xml", allFormulas);
     }
 
@@ -175,6 +179,42 @@ namespace InnoMigration
       {
         TTreeId tId = r.Data[i].TreeId;
         if (!tId.IsTemporary()) yield return (TDataId)tId;
+      }
+    }
+
+    private static void ConsolidateGridConfigs()
+    {
+      var srcDir = @"f:\tmp\InnoMigration\Grid\";
+      var targetDir = @"f:\tmp\InnoMigration\GridOut\";
+
+      foreach (var file in Directory.GetFiles(srcDir, "*.xml", SearchOption.TopDirectoryOnly))
+      {
+        var newFileName = Path.Combine(targetDir, "9" + Path.GetFileName(file).Substring(2));
+        File.Copy(file, newFileName, true);
+      }
+      ReplaceInFiles(targetDir, @"f:\tmp\InnoMigration\Mapping\", "PMEMMContractTypeTS");
+      ReplaceInFiles(targetDir, @"f:\tmp\InnoMigration\Mapping\", "PMEMMProduct");
+    }
+
+    private static void ReplaceInFiles(string srcDir, string mappingDir, string entity)
+    {
+      var oldId2Key = ReadMapping(Path.Combine(mappingDir, entity, "Old.Txt"), true);
+      var key2NewId = ReadMapping(Path.Combine(mappingDir, entity, "New.Txt"), false); ;
+
+      foreach (var file in Directory.GetFiles(srcDir, "*.xml", SearchOption.TopDirectoryOnly))
+      {
+        var element = XElement.Load(file);
+        foreach (var shapeElement in element.ReadElement("Shapes").ReadElement("Shape").ReadElement("Shapes").ReadElements("Shape"))
+        {
+          if (shapeElement.Attribute("Name").Value != shapeElement.Attribute("TreeId").Value) throw new Exception();
+          var treeId = new TTreeId(shapeElement.Attribute("Name").Value);
+          if (treeId.EntityName() == entity)
+          {
+            treeId = ReplaceTreeId(treeId, oldId2Key, key2NewId);
+            shapeElement.Attribute("Name").Value = shapeElement.Attribute("TreeId").Value = treeId.ToString();
+          }
+        }
+        element.Save(file);
       }
     }
   }

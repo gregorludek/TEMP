@@ -16,7 +16,7 @@
       <FilterInfo ProgId="EnifNaos.NaosModule.CNaosModuleNotifyFilter,EnifNaos">
         <Params>
           <Param Name="EnifMainId">1</Param>
-          <Param Name="ModuleId">-24</Param>
+          <Param Name="ModuleId">2</Param>
         </Params>
       </FilterInfo>
     </Filter>

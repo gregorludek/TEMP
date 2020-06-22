@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Alarm" WindowCaption="Alarm" ProgId="EnifALARMSGui.Behaviours.CAlarmNodeConsumerListBehaviour,EnifALARMSGui" EntityType="Enif.Base.Entities.Alarms.AlarmNode,EnifALARMSCommon" IsReadOnly="False" Scale="1.2" ValidationLevel="0" CanDelete="None" Background="#3E8791" SelectMode="None">
+  <FieldSection Name="Default" Caption="Obecné">
+    <Columns />
+    <Field Name="Key" Caption="Klíč" FieldType="Text" SelectorType="Path" Selector="AlarmDefinition.Key" Occupation="Line" />
+    <Field Name="Active" Caption="Aktivní" FieldType="BoolField" SelectorType="Path" Selector="Active"/>
+    <Field Name="NoteType" Caption="Povinnost poznámky" FieldType="BoolField" SelectorType="Path" Selector="AlarmDefinition.NoteType"/>
+    <Field Name="Subject" Caption="Předmět" FieldType="Text" SelectorType="Path" Selector="AlarmDefinition.Subject" Occupation="Line" />
+    <!--<Field Name="AlarmType" Caption="Typ alarmu" FieldType="EnumField" SelectorType="Path" Selector="AlarmDefinition.AlarmType" IsRequired="true" Occupation="Line">
+      <Params>
+        <Param Name="HQL">select a,a.Key from AlarmType a</Param>
+      </Params>
+    </Field>-->
+    <Field Name="Text" Caption="Text" FieldType="Text" SelectorType="Path" Selector="AlarmDefinition.Text" Occupation="CaptionBlock" Height="10" MaxHeight="20">
+      <Params>
+        <Param Name="Multiline">True</Param>
+        <Param Name="TextWrapping">NoWrap</Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Name="ChannelTemplates" Caption="Kanály">
+    <Columns />
+    <Field Name="bagAlarmChannelTemplate" Caption="bagAlarmChannelTemplate" FieldType="Grid" SelectorType="Path" Selector="AlarmDefinition.bagAlarmChannelTemplate" Occupation="Block">
+
+      <DetailsButton IsVisible="True" Form="egeAlarmChannelTemplate" UnionTransaction="True" />
+      <SelectButton IsVisible="False" Form="egeAlarmChannelTemplate" UnionTransaction="True" />
+
+      <Params>
+        <Param Name="DeleteMode">Single</Param>
+        <Param Name="SelectionMode">Single</Param>
+        <Param Name="RefreshColumns">False</Param>
+        <Param Name="HideHeaders">False</Param>
+        <Param Name="AskOnDelete">Opravdu smazat?</Param>
+        <Param Name="DeleteButton">
+          <Param Name="EntityDelegates">
+            <Param Name="Destroy_Complete" />
+          </Param>
+        </Param>
+        <Param Name="Columns">
+          <Param Name="Subject">
+            <Param Name="Field">Subject</Param>
+          </Param>
+          <Param Name="Type">
+            <Param Name="Field">AlarmChannel.Caption</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Name="Consumers" Caption="Příjemci" TextColor="Black" Columns="1">
+    <Field Name="Consumers" Caption="Příjemci" FieldType="Grid" SelectorType="Path"
+           Selector="bagAlarmNodeIdentity" Occupation="Block" IsReadOnly="False" Height="5" MaxHeight="22">
+      <NewButton IsVisible="True" Form="Alarms.egeAlarmNodeConsumer" UnionTransaction="True" Target="@Windows" />
+      <Params>
+        <Param Name="Columns">
+          <Param Name="Login">
+            <Param Name="Field">IdentityInfo.Name</Param>
+            <Param Name="Width">100*</Param>
+          </Param>
+          <Param Name="Jméno">
+            <Param Name="Field">IdentityInfo.FirstName</Param>
+            <Param Name="Width">100*</Param>
+          </Param>
+          <Param Name="Příjmení">
+            <Param Name="Field">IdentityInfo.LastName</Param>
+            <Param Name="Width">100*</Param>
+          </Param>
+        </Param>
+        <Param Name="DeleteMode">Multi</Param>
+      </Params>
+
+    </Field>
+  </FieldSection>
+  <FieldSection Name="bagAlarmLog" Caption="Vyhození alarmu" TextColor="Black" Columns="1" Collapsed="true">
+    <Field Name="bagAlarmLog" Caption="Vyhození alarmu" FieldType="Grid" SelectorType="Path"
+           Selector="AlarmDefinition.bagAlarmLog" Occupation="Block" IsReadOnly="True" Height="22">
+      <DetailsButton IsVisible="True" Form="Alarms.egeAlarmLog" UnionTransaction="True" Target="@Windows" />
+      <Params>
+        <Param Name="Columns">
+          <Param Name="Created">
+            <Param Name="Field">Created</Param>
+            <Param Name="Width">100*</Param>
+          </Param>
+          <Param Name="FinalSubject">
+            <Param Name="Field">FinalSubject</Param>
+            <Param Name="Width">100*</Param>
+          </Param>
+        </Param>
+      </Params>
+
+    </Field>
+  </FieldSection>
+</Form>

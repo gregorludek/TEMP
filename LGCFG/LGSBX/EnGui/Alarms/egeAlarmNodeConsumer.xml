@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Caption="Vyberte příjemce" WindowCaption="Vyberte příjemce" Type="Primitive" EntityType="Enif.Base.Entities.Alarms.AlarmNodeCM,EnifAlarmsCommon" ProgId="EnifALARMSGui.Behaviours.CAlarmNodeConsumerBehaviour,EnifALARMSGui">
+  <Field Name="Consumers" Caption="Příjemci" FieldType="Grid" SelectorType="Path"
+         Selector="Available" Occupation="Block" IsReadOnly="True" Height="22" MaxHeight="22">
+    <Params>
+      <Param Name="Columns">
+        <Param Name="Login">
+          <Param Name="Field">Name</Param>
+          <Param Name="Width">100*</Param>
+        </Param>
+        <Param Name="Jméno">
+          <Param Name="Field">FirstName</Param>
+          <Param Name="Width">100*</Param>
+        </Param>
+        <Param Name="Příjmení">
+          <Param Name="Field">LastName</Param>
+          <Param Name="Width">100*</Param>
+        </Param>
+      </Param>
+      <Param Name="DeleteMode">None</Param>
+      <Param Name="SelectionMode">Multi</Param>
+    </Params>
+  </Field>
+</Form>

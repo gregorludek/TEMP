@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Konzument alarmů" WindowCaption="Konzument alarmů" ProgId="" EntityType="Enif.Base.Entities.Alarms.AlarmConsumer" Scale="1" CanDelete="Multi" SelectMode="Single">
+  <Params>
+    <Param Name="ViewName">
+      SELECT AC.ID ID,AC.KEY AC_KEY FROM
+      BSE_ALARMCONSUMER AC
+      ORDER BY AC.ID
+    </Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="WhereCondition" />
+    <Param Name="DynamicLoading">False</Param>
+    <Param Name="AskOnDelete">Opravdu smazat?</Param>
+    <Param Name="Export">
+      <Param Name="Export" />
+    </Param>
+    <Param Name="DeleteButton" />
+    <Param Name="Columns">
+      <Param Name="AC_KEY">
+        <Param Name="Label">Klíč</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+    </Param>
+    <Param Name="PropagateHistoryContext">False</Param>
+    <Param Name="RefreshColumns">False</Param>
+    <Param Name="CaptionVisible">True</Param>
+    <Param Name="ButtonsEnable">True</Param>
+  </Params>
+  <DetailsButton IsVisible="True" ToolTip="Editovat" Form="egeAlarmConsumer" UnionTransaction="False" />
+  <SelectButton IsVisible="True" ToolTip="Nový" Form="egeAlarmConsumer" UnionTransaction="False" />
+</Form>

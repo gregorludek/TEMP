@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Caption="Alarm" WindowCaption="Alarm" Type="Entity" EntityType="Enif.Base.Entities.Alarms.AlarmLog,EnifALARMSCommon" ProgId="EnifALARMSGui.Behaviours.CAlarmLogBehaviour,EnifALARMSGui" IsReadOnly="False" Scale="1.2" ValidationLevel="0" CanDelete="None" Background="#3E8791" Foreground="White" SelectMode="None">
+  <!--<Params>
+    <Param Name="Buttons">
+      <Param Name="ReadOver" Value="Přečteno">
+        <Param Name="ToolTip">Označit, že poznámka je přečtená</Param>
+      </Param>
+    </Param>
+  </Params>-->
+  <FieldSection Name="Default" Caption="Obecné" Color="" TextColor="Black" Columns="1">
+    <Field Name="Subject" Caption="Předmět" Selector="FinalSubject" SelectorType="Path" FieldType="Text" IsReadOnly="True" IsRequired="false" IsReactive="True" IsVisible="true" IsEnabled="true" Dependents="" Occupation="Line" ValidationLevel="0" Column="0" Colspan="1" Rowspan="1" Ratio="22:26" IsBinded="true" />-->
+    <Field Name="Text" Caption="Text" Selector="FinalText" SelectorType="Path" FieldType="Text" ToolTip="Text" IsVisible="True" IsEnabled="True" IsReadOnly="True" Occupation="CaptionBlock" Height="5" MaxHeight="50">
+      <Params>
+        <Param Name="Multiline">true</Param>
+      </Params>
+    </Field>
+    <Field Name="Created" Caption="Vytvořeno" Selector="Created" SelectorType="Path" FieldType="DateTime" IsReadOnly="TRue" IsRequired="false" IsReactive="True" IsVisible="true" IsEnabled="true" Dependents="" Occupation="Line" ValidationLevel="0" Column="0" Colspan="1" Rowspan="1" Ratio="22:26" IsBinded="true" />
+    <Field Name="AlarmDefinition" Caption="Předpis alarmu" Selector="select AN from AlarmNode AN join AN.AlarmDefinition AD join AD.bagAlarmLog AL where AL.Id={0}" SelectorType="HQL" FieldType="Entity" IsReadOnly="true" IsRequired="false">
+      <DetailsButton IsVisible="True" Form="egeAlarmNode" UnionTransaction="True" />
+      <Params>
+        <Param Name="Format">{Key}</Param>
+        <Param Name="Arguments">
+          <Param Name="Path;AlarmDefinition.Key as Key" />
+        </Param>
+      </Params>
+    </Field>
+</FieldSection>
+  <FieldSection Name="LogNotes" Caption="Poznámky" Color="" TextColor="Black" Columns="1">
+    <Field Name="LogNotes" Caption="Poznámnky" FieldType="Grid" SelectorType="Path" Selector="bagAlarmLogNote" Occupation="Block" IsReadOnly="true" Height="5" MaxHeight="5" MinHeight="5">
+      <DetailsButton IsVisible="True" Form="egeAlarmLogNote" UnionTransaction="True" Target="@Self" />
+      <!--<DetailsButton IsVisible="True" Form="egpEditText" UnionTransaction="True" Target="@Self" />-->
+      <SelectButton IsVisible="False" Form="egeAlarmLogNote" UnionTransaction="True" />
+      <Params>
+        <Param Name="PrimaryKeyName">Id</Param>
+        <Param Name="Columns">
+          <Param Name="Kdo">
+            <Param Name="Field">IdentityName</Param>
+            <Param Name="Width">2*</Param>
+          </Param>
+          <Param Name="Kdy">
+            <Param Name="Field">Date</Param>
+            <Param Name="Width">3*</Param>
+          </Param>
+          <Param Name="Poznámka">
+            <Param Name="Field">Text</Param>
+            <Param Name="Width">9*</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Name="LogDeliveries" Caption="Stav doručení" Color="" TextColor="Black" Columns="1">
+    <Field Name="LogDeliveries" Caption="Stav doručení" FieldType="Grid" SelectorType="Path" Selector="bagAlarmLogDelivery" Occupation="Block" IsReadOnly="true" Height="8" MaxHeight="8" MinHeight="8">
+      <!--<DetailsButton IsVisible="True" Form="egeAlarmLogDelivery" UnionTransaction="True" Target="@Windows" />-->
+      <SelectButton IsVisible="False" Form="egeAlarmLogDelivery" UnionTransaction="True" />
+      <Params>
+        <Param Name="PrimaryKeyName">Id</Param>
+        <Param Name="Columns">
+          <Param Name="Kdo">
+            <Param Name="Field">AddressInChannelResolved</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+          <Param Name="Kdy">
+            <Param Name="Field">ChangeDate</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+          <Param Name="Stav">
+            <Param Name="Field">AlarmLogState.Caption</Param>
+            <Param Name="Width">1*</Param>
+          </Param>
+        </Param>
+        <!--<Param Name="Buttons">
+          <Param Name="Readed" Value="Přečteno">
+            <Param Name="ToolTip">Označit, že poznámka je přečtená</Param>
+          </Param>
+        </Param>-->
+      </Params>
+    </Field>
+  </FieldSection>
+</Form>

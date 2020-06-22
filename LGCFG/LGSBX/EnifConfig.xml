@@ -18,6 +18,13 @@
           <Param Name="SessionFactory" Value="Workspace"/>
         </Params>
       </TreeConfig>
+      <TreeConfig Name="Alarms" AutoAddName="">
+        <IconPath>RootIcons</IconPath>
+        <XmlFileName>TreeConfigAlarms.xml</XmlFileName>
+        <Params>
+          <Param Name="SessionFactory" Value="Workspace"/>
+        </Params>
+      </TreeConfig>
     </TreeConfigs>
     <GuiItemAdapters>
       <GuiItemAdapter Name="Disc" ProgId="Enif.Tree.CGuiItemDisc,EnifCommon">
@@ -62,6 +69,44 @@
         <Param Name="Password"></Param>
       </Params>
     </Class>
+    <Class Name="CMORequestGeneratorModule" ProgId="Enif.CMO.Modules.RequestGeneratorRunCommand,EnifCMOCommon">
+      <Params>
+        <Param Name="ModuleName" Value="CMORequestGeneratorModule"/>
+        <Param Name="SessionFactory" Value="Workspace"/>
+        <Param Name="IntervalSec" Value="10"/>
+      </Params>
+    </Class>
+    <Class Name="ETRMCMOWorkflow" ProgId="Enif.WF.CWorkflowModule,EnifWF">
+      <Params>
+        <Param Name="ThreadCount">1</Param>
+        <Param Name="ConfigFiles">
+          <Param Value="ETRMCMOWorkflow.xml"/>
+        </Param>
+      </Params>
+    </Class>
+
+    <Class Name="ALARMY">
+      <ProgId>EnifALARMSModules.CAlarmModule</ProgId>
+      <Params>
+        <Param Name="SessionFactory">Workspace</Param>
+        <Param Name="LocalModuleName">AlarmLocalModule</Param>
+        <Param Name="TreeConfigName">Alarms</Param>
+        <Param Name="TemplateName">TS-VALUE-ALARMNODE</Param>
+        <Param Name="SDOTextTemplateName">Text</Param>
+        <Param Name="Channels">
+          <Param Name="1">
+            <ParamClass ClassProgId="Enif.CClassInfo" Name="Window" ProgId="EnifALARMSModules.CAlarmChannelWindow"/>
+          </Param>
+          <Param Name="2">
+            <ParamClass ClassProgId="Enif.CClassInfo" Name="Email" ProgId="EnifALARMSModules.CAlarmChannelLMS">
+              <Params>
+                <Param Name="LMSModulename">LMS_PMG</Param>
+              </Params>
+            </ParamClass>
+          </Param>
+        </Param>
+      </Params>
+    </Class>
     <Class Name="Licencovani Xceed">
       <Type>OtherCommand</Type>
       <ProgId>EnifNHGui.CXceedLicense</ProgId>
@@ -92,7 +137,7 @@
       <Param Name="dialect">NHibernate.Dialect.Oracle10gDialect</Param>
       <Param Name="ConnectionString">Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1522))(CONNECT_DATA=(SID=LGORACLE12C)));User ID=PME_01;Password=x</Param>
       <!--<Param Name="ConnectionString">Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.18.6.88)(PORT=1521))(CONNECT_DATA=(SID=ORCL)));User ID=PME_01;Password=x</Param>-->
-      <Param Name="connection.driver_class">NHibernate.Driver.OracleDataClientDriver</Param>
+      <Param Name="connection.driver_class">NHibernate.Driver.OracleClientDriver</Param>
       <Param Name="default_schema"></Param>
       <Param Name="Proxy">EntityProxy:Default</Param>
       <Param Name="DefaultType">Local</Param>
@@ -117,6 +162,7 @@
         <Param>EnifPMCommon.dll</Param>
         <Param>EnifCRMCommon.dll</Param>
         <Param>EnifImportExportExcelCommon.dll</Param>
+        <Param>EnifALARMSCommon.dll</Param>
       </Param>
     </SessionFactory>
   </EntityCoreMain>

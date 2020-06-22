@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<WorkflowConfigs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="" xmlns="Enif.WorkflowCore">
+  <Workflow Name="CMO">
+    <ErrHandler ProgId="Enif.WF.NH.CDefaultErrHandler,EnifWFNH">
+      <Params>
+        <Param Name="ErrorState" Value="Error" />
+      </Params>
+    </ErrHandler>
+    <Persister ProgId="Enif.WF.CPersisterInMemory,EnifWF" />
+    <States>
+      <State Name="In"/>
+      <State Name="Done"/>
+      <State Name="Error"/>
+    </States>
+    <Actions>
+      <Action Name="CMOCreator" ProgId="Enif.CMO.Workflows.CProcessCreatorCMO,EnifCMOCommon">
+        <Params>
+          <Param Name="SFName" Value="Workspace" />
+          <Param Name="IntervalSec" Value="5" />
+          <Param Name="StatusSelect" Value="810000" />
+          <Param Name="StatusDone" Value="810001" />
+          <Param Name="StatusError" Value="810002" />
+          <Param Name="TModuleFK" Value="810000" />
+        </Params>
+      </Action>
+      <Action Name="CMOWorkflowFileNameSetter" ProgId="EnifPREDCMO.CMOWorkflowFileNameSetter"/>
+      <Action Name="SaveToDirectory" ProgId="Enif.WF.CActionSaveToDirectory,EnifWF">
+        <Params>
+          <Param Name="Directory" Value="ETRM2OTE" />
+          <Param Name="FileContentParamPath" Value="Content" />
+          <Param Name="FileNameParamPath" Value="FileName" />
+        </Params>
+      </Action>
+    </Actions>
+    <Connections>
+      <Connection>
+        <Input Type="Action" Name="CMOCreator"/>
+        <Output Type="State" Name="In"/>
+      </Connection>
+      <Connection>
+        <Input Type="State" Name="In"/>
+        <Output Type="Action" Name="CMOWorkflowFileNameSetter"/>
+      </Connection>
+      <Connection>
+        <Input Type="Action" Name="CMOWorkflowFileNameSetter"/>
+        <Output Type="Action" Name="SaveToDirectory"/>
+      </Connection>
+      <Connection>
+        <Input Type="Action" Name="SaveToDirectory"/>
+        <Output Type="State" Name="Done"/>
+      </Connection>
+    </Connections>
+  </Workflow>
+</WorkflowConfigs>

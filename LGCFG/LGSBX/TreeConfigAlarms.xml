@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <!--RightsWorkSpace-->
+  <Adapter Name="TreeAdapter" ProgId="Enif.EDA.ENV.CSBXTreeAdapter,EnifENVModules">
+  </Adapter>
+  <Adapter Name="NotifyAdapter">
+    <ProgId>Enif.Entities.CEntityNotifyAdapter,EnifNH</ProgId>
+  </Adapter>
+  <Adapter Name="EnifNhCommon.CHqlTreeAdapter" ProgId="EnifNhCommon.CHqlTreeAdapter,EnifNhCommon"/>
+  <Adapter Name="ETSAlarmAdapter">
+    <ProgId>EnifALARMSModules.CTSDataAdapter</ProgId>
+    <Params>
+      <Param Name="DirName">AlarmDataStore</Param>
+      <Param Name="TSFlags">WriteResizes</Param>
+    </Params>
+  </Adapter>
+  <Adapter Name="SDOAdapter" ProgId="EnifCommon.CSDOSimpleDataAdapterBase">
+    <Params>
+      <Param Name="DirName">AlarmSDOStore</Param>
+      <Param Name="Serializers">
+        <Param Name="Date">Enif.Data.Serializers.CSerializerXDate,EnifData</Param>
+        <Param Name="Text">Enif.Data.Serializers.CSerializerXString,EnifData</Param>
+      </Param>
+    </Params>
+  </Adapter>
+
+  <ModContainer Name="LWNaosFxEditorMain">
+    <Mods>
+      <ModCommand Name="LWNaosFxEditorMain">
+        <Type>Tab</Type>
+        <ProgId>EnifNaosGUI.LWNaosFxEditorMain</ProgId>
+        <Caption>Editor vzorců</Caption>
+        <Params>
+          <Param Name="NaosModuleName" Value="[NaosCoreGuiAdapter]"/>
+          <Param Name="GridEditorParams">
+            <Param Name="ListCategory">
+              <Param Name="DefVal" Value="ZakladniKategorie.HodinyVDni2DTab"></Param>
+              <Param Name="List">
+                <Param Name="0" Value="All">
+                  <Param Name="Caption" Value="All"></Param>
+                  <Param Name="ShortCaption" Value="All"></Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+            <Param Name="ListGranularity">
+              <Param Name="List">
+                <Param Name="0" Value="GranularityBySample">
+                  <Param Name="Caption" Value="Dle vzorku"></Param>
+                  <Param Name="ShortCaption" Value="Vzorek"></Param>
+                  <Param Name="DateFormat">dd.MM.yyyy HH</Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+            <Param Name="ListAggVal">
+              <Param Name="DefVal" Value="SumWONull"></Param>
+              <Param Name="List">
+                <Param Name="0" Value="SumWONull">
+                  <Param Name="Caption" Value="-"></Param>
+                  <Param Name="ShortCaption" Value="-"></Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CAggValSimple,EnifGridEditor</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+            <Param Name="ListAggDiag">
+              <Param Name="DefVal" Value="WOAgg"></Param>
+              <Param Name="List">
+                <Param Name="0" Value="WOAgg">
+                  <Param Name="Caption" Value="Bez agregace"></Param>
+                  <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                    <ProgId>EnifGridEditor.CAggDiagSimple,EnifGridEditor</ProgId>
+                  </ParamClass>
+                </Param>
+              </Param>
+            </Param>
+          </Param>
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+
+  <ModContainer Name="Visuals" ModProgId="EnifCommon.CModContainerFilterTemplateId">
+    <ModCommand Name="LWAlarmList" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Caption>Seznam vyvolaných popup alarmů</Caption>
+      <Icon>Folder</Icon>
+      <ModParams>
+        <Param Name="TemplateId">Fo</Param>
+      </ModParams>
+      <Params>
+        <Param Name="TestForm">Alarms.eggAlarmListAll</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="LWAlarmList" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Caption>Seznam definicí alarmů</Caption>
+      <Icon>Folder</Icon>
+      <ModParams>
+        <Param Name="TemplateId">Fo</Param>
+      </ModParams>
+      <Params>
+        <Param Name="TestForm">Alarms.eggAlarmDefinitionNode</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand>
+      <Type>AddCommandAndPopup</Type>
+      <ProgId>EnifALARMSGui.CCommandAddAlarm,EnifALARMSGui</ProgId>
+      <Caption>Přidat alarm</Caption>
+      <Icon>Alarm.png</Icon>
+      <Params>
+        <Param Name="NodeTypeFK">1000</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand>
+      <Type>AddCommandAndPopup</Type>
+      <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+      <Caption>Přidat složku</Caption>
+      <Icon>Folder.ico</Icon>
+      <Params>
+        <Param Name="NodeTypeFK">1</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand>
+      <Type>AddCommandAndPopup</Type>
+      <ProgId>Enif.EDA.ENV.CCommandRename,EnifENVGui</ProgId>
+      <Caption>Přejmenovat</Caption>
+      <Icon>Modify</Icon>
+    </ModCommand>
+  </ModContainer>
+
+  <NodeType Id="1" Name="Fo">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>vd_Folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Visuals"/>
+
+
+
+
+  </NodeType>
+  <NodeType Id="100" Name="FoRoot">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Alarms</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Visuals"/>
+    <ModCommand>
+      <Type>AddCommandAndPopup</Type>
+      <ProgId>EnifALARMSGui.CCommandAddAlarm,EnifALARMSGui</ProgId>
+      <Caption>Přidat alarm</Caption>
+      <Icon>Alarm.png</Icon>
+      <Params>
+        <Param Name="NodeTypeFK">1</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand>
+      <Type>AddCommandAndPopup</Type>
+      <ProgId>Enif.EDA.ENV.CCommandAdd,EnifENVGui</ProgId>
+      <Caption>Přidat složku</Caption>
+      <Icon>Folder.ico</Icon>
+      <Params>
+        <Param Name="NodeTypeFK">1</Param>
+      </Params>
+    </ModCommand>
+
+
+  </NodeType>
+  <NodeType Id="2" Name="AlarmNodeType">
+    <!--ENGUI nesmysly, mozna by sly dat do jednoho, ale je to voser-->
+
+    <ModCommand Name="LWAlarmNodeProp" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Caption>Vlastnosti</Caption>
+      <Icon>Folder</Icon>
+      <ModParams>
+        <Param Name="TemplateId">Fo</Param>
+      </ModParams>
+      <Params>
+        <Param Name="TestForm">Alarms.egeAlarmNode</Param>
+        <!--<Param Name="EntityIdSelect">HQL;select AlarmDefFK from AlarmNode where Id=:NodeId</Param>-->
+      </Params>
+    </ModCommand>
+    <!--ModCommand Name="LWDataTSEnGui" Caption="Vlastnosti TS" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Params>
+        <Param Name="TestForm">Common.egeTSProperties</Param>
+      </Params>
+    </ModCommand-->
+
+    <ModCommand Name="ChartLines">
+      <Caption>Chart</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>Enif.Gui.Chart.LWChart,EnifChart</ProgId>
+      <Params>
+        <Param Name="RangeSaveType" Value="User"/>
+        <Param Name="Type">Lines</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="Grid-full">
+      <Caption>Table</Caption>
+      <Type>Tab</Type>
+      <Icon>Folder</Icon>
+      <ProgId>EnifGridEditor.GridEditor</ProgId>
+      <Params>
+        <Param Name="DateUtilsSettingCol">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="DateUtilsSettingRow">DateFormat=1;TimeFormat=1</Param>
+        <Param Name="EditorType">Table</Param>
+        <Param Name="ViewMode">View</Param>
+        <Param Name="ListCategory">
+          <Param Name="DefVal" Value="All"></Param>
+          <Param Name="List">
+            <Param Name="0" Value="All">
+              <Param Name="Caption" Value="All values"></Param>
+              <Param Name="ShortCaption" Value="All values"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="ZakladniKategorie.HodinyVDni2DTab">
+              <Param Name="Caption" Value="Hours in a day"></Param>
+              <Param Name="ShortCaption" Value="Hours in a day"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryEnifCat,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="P-N-D-N">
+              <Param Name="Caption" Value="Daily zones"></Param>
+              <Param Name="ShortCaption" Value="Daily zones"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="P-N">
+              <Param Name="Caption" Value="Working/nonworking"></Param>
+              <Param Name="ShortCaption" Value="Working/nonworking"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="D-N">
+              <Param Name="Caption" Value="Day/night"></Param>
+              <Param Name="ShortCaption" Value="Day/night"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CCategoryPNDN,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+        <Param Name="ListGranularity">
+          <Param Name="List">
+            <Param Name="0" Value="GranularityBySample">
+              <Param Name="Caption" Value="By sample"></Param>
+              <Param Name="ShortCaption" Value="Sample"></Param>
+              <Param Name="DateFormat">dd.MM.yyyy HH:mm</Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityBySample</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="9" Value="min15">
+              <Param Name="Caption" Value="15 Min"></Param>
+              <Param Name="ShortCaption" Value="15 Min"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="1" Value="hour">
+              <Param Name="Caption" Value="Hours"></Param>
+              <Param Name="ShortCaption" Value="Hours"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="2" Value="day">
+              <Param Name="Caption" Value="Days"></Param>
+              <Param Name="ShortCaption" Value="Days"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="3" Value="week">
+              <Param Name="Caption" Value="Weeks"></Param>
+              <Param Name="ShortCaption" Value="Weeks"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="4" Value="enweek">
+              <Param Name="Caption" Value="Energy weeks"></Param>
+              <Param Name="ShortCaption" Value="Energy weeks"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="5" Value="month">
+              <Param Name="Caption" Value="Months"></Param>
+              <Param Name="ShortCaption" Value="Months"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="6" Value="qyear">
+              <Param Name="Caption" Value="Quarters"></Param>
+              <Param Name="ShortCaption" Value="Quarters"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="7" Value="year">
+              <Param Name="Caption" Value="Years"></Param>
+              <Param Name="ShortCaption" Value="Years"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+            <Param Name="8" Value="all">
+              <Param Name="Caption" Value="All"></Param>
+              <Param Name="ShortCaption" Value="All"></Param>
+              <ParamClass Name="ProgID" ClassProgId="Enif.CClassInfo">
+                <ProgId>EnifGridEditor.CGranularityDT,EnifGridEditor</ProgId>
+              </ParamClass>
+            </Param>
+          </Param>
+        </Param>
+      </Params>
+    </ModCommand>
+    <ModContainerRef Ref="LWNaosFxEditorMain"/>
+
+    <ModCommand>
+      <Type>OtherCommandAndPopup</Type>
+      <ProgId>EnifALARMSGui.CCommandRenameAlarm,EnifALARMSGui</ProgId>
+      <Caption>Přejmenovat alarm</Caption>
+      <Icon>Modify</Icon>
+    </ModCommand>
+    <ModCommand>
+      <Type>DeleteCommandAndPopup</Type>
+      <ProgId>EnifALARMSGui.CCommandDeleteAlarm,EnifALARMSGui</ProgId>
+      <Caption>Smazat alarm</Caption>
+      <Icon>Delete</Icon>
+    </ModCommand>
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>Alarm</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+  </NodeType>
+  <NodeType Id="3" Name="Text">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModCommand Name="StringProp" Caption="Test" ProgId="EGCore.CExEGWindow,EGCore">
+      <Type>Tab</Type>
+      <Params>
+        <Param Name="TestForm">Common.egeStringProperties</Param>
+      </Params>
+    </ModCommand>
+    <ModContainerRef Ref="LWNaosFxEditorMain"/>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>String</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+      <!--<ModContainerRef Ref="MCViews"/>-->
+    </Mods>
+  </NodeType>
+
+  <NodeTemplate Id="Fo" ProgId="Enif.EDA.ENV.CSBXNT,EnifENVModules" NodeType="FoRoot">
+    <Params/>
+    <ConTemplate Id="Folder" ProgId="Enif.EDA.ENV.CSBXCT,EnifENVModules">
+      <Params>
+        <Param Name="NodeType" Value="1"/>
+      </Params>
+      <NodeTemplateRef Ref="Fo"/>
+    </ConTemplate>
+    <ConTemplate Id="CTAlarmNode" ProgId="EnifNhCommon.CCTHql">
+      <Params>
+        <Param Name="ChildSelect">Hql;select AD.Key,AN.Id from NodeOther NOO,AlarmNode AN JOIN AN.AlarmDefinition AD JOIN NOO.Node NO where NO.ParentFK=:NodeId and NOO.ConName = 'CTAlarmNode' and AN.Id=NOO.ChildNodeId</Param>
+      </Params>
+      <NodeTemplateRef Ref="NTAlarmNode"/>
+    </ConTemplate>
+  </NodeTemplate>
+  <NodeTemplate Id="NTAlarmNode" ProgId="EnifCommon.CNTConst" NodeType="AlarmNodeType">
+    <ConDataTemplate Id="AlarmTS" ProgId="EnifCommon.CCDTConst">
+      <DataTemplate Id="TS-VALUE-ALARMNODE" Adapter="ETSAlarmAdapter"/>
+    </ConDataTemplate>
+    <NodeTemplate Id="Text" ProgId="EnifCommon.CNTConst" NodeType="Text" Caption="Text">
+      <Params>
+        <Param Name="HasChildren" Value="false"/>
+      </Params>
+      <ConDataTemplate Id="Text" ProgId="EnifCommon.CCDTConst">
+        <DataTemplate Id="Text" Adapter="SDOAdapter"/>
+      </ConDataTemplate>
+    </NodeTemplate>
+  </NodeTemplate>
+  <RootNode Id="2000" TemplateId="Fo"/>
+</TreeConfig>

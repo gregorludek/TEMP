@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Komunikační kanál" WindowCaption="Komunikační kanál" ProgId="" EntityType="Enif.Base.Entities.Alarms.AlarmChannelConsumer,EnifALARMSCommon">
+  <FieldSection Name="Default" Caption="Obecné">
+    <Columns />
+    <Field Name="ChannelType" Caption="Typ kanálu" FieldType="EnumField" SelectorType="Path" Selector="AlarmChannel" IsRequired="true" Occupation="Line">
+      <Params>
+        <Param Name="HQL">select a,a.Key from AlarmChannel a</Param>
+      </Params>
+    </Field>
+    <Field Name="AddressInChannel" Caption="Identifikátor" FieldType="Text" SelectorType="Path" Selector="AddressInChannel" Occupation="Line" IsRequired="true"/>
+  </FieldSection>
+</Form>

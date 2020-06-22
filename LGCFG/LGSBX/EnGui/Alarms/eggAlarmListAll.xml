@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Alarmy" WindowCaption="Alarmy" ProgId="EGCore.EGBaseBehavior,EGCore" EntityType="Enif.Base.Entities.Alarms.AlarmLog,EnifALARMSCommon" IsReadOnly="False" Scale="1" ValidationLevel="0" CanDelete="None">
+  <Params>
+    <Param Name="ViewName">
+      <![CDATA[with nodes (id)
+       as (select id 
+       from BSE_Node where id={NodeId} union all 
+       select inn.id
+       from BSE_Node inn 
+       inner join nodes on inn.parentfk=nodes.id)
+SELECT AL2.ID, AL2.FinalSubject SUBJECT, AL2.Created CREATED, ALS.caption as MAXSTATE FROM
+      (
+      SELECT id, FinalSubject, created, Max(state) MState, MAX(FORME) FORME,ALARMDEFINITIONFK FROM
+      (
+      SELECT AL.ID, AL.FinalSubject as FinalSubject, ALS.ID as State, AL.Created as Created, (CASE WHEN ALD.ADDRESSINCHANNEL='{CurrentIdentityId}' THEN 1 ELSE 0 END) FORME,
+             AL.ALARMDEFINITIONFK AS ALARMDEFINITIONFK
+      FROM BSE_AlarmLog AL
+      LEFT OUTER JOIN BSE_AlarmLogDelivery ALD ON ALD.alarmlogfk = AL.id
+      LEFT OUTER JOIN BSE_AlarmLogState ALS ON ALS.id = ALD.alarmlogstatefk
+      LEFT OUTER JOIN BSE_AlarmChannel ALC ON ALC.id = ALS.alarmchannelfk
+      WHERE ALC.[KEY] = 'Window'
+      ) X
+      GROUP BY id, FinalSubject, created, ALARMDEFINITIONFK
+      )
+      AL2 LEFT OUTER JOIN BSE_AlarmLogState ALS ON AL2.MState = ALS.ID
+      INNER JOIN
+      (
+      select BSE_Alarmnode.alarmdeffk from nodes 
+      join BSE_Nodeother on parentnodefk=nodes.id and conname='CTAlarmNode'
+      join BSE_Alarmnode on BSE_Nodeother.childnodeid=BSE_Alarmnode.id
+      ) as VISIBLE_DEFINITIONS ON VISIBLE_DEFINITIONS.alarmdeffk=AL2.ALARMDEFINITIONFK
+      ORDER BY CREATED DESC	Exp;string CurrentIdentityId=CurrentIdentity.IdentityId.ToString()]]>
+    </Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="WhereCondition"/>
+    <Param Name="DynamicLoading">False</Param>
+    <Param Name="AskOnDelete">Opravdu smazat?</Param>
+    <Param Name="Export">
+      <Param Name="Export"/>
+    </Param>
+    <Param Name="DeleteButton"/>
+    <Param Name="Columns">
+      <Param Name="SUBJECT">
+        <Param Name="Label">Předmět</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="MAXSTATE">
+        <Param Name="Label">Stav</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="CREATED">
+        <Param Name="Label">Vytvořeno</Param>
+        <Param Name="DataType">DateTime</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+    </Param>
+    <Param Name="ButtonsEnable">True</Param>
+  </Params>
+  <DetailsButton IsVisible="True" ToolTip="Editovat" Form="egeAlarmLog" UnionTransaction="False"/>
+  <SelectButton IsVisible="False" ToolTip="Nový" Form="egeAlarmLog" UnionTransaction="False"/>
+</Form>
+

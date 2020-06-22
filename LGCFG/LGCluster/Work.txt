@@ -1,0 +1,41 @@
+﻿Notifikace - vyřešeny Reliable notifikace (zbývá balíčkování notifikací a error handling),
+Unreliable zřejmě používá jen gui tlusťocha
+- pro broadcast notifikace synchronizovány pouze některé enumy - projít
+- SenderId - zafixované module Id pro pojmenované moduly (exkluzivní i neexkluzivní)
+
+Principaly/autentifikace 
+- Gui requesty napřímo z frontendu - Vypadá funkčně - I:\gitRepos\uu_lancelot_coreg01-webapi-net\src\EnifWebApi.Security.EnifIdToken\Authentication\Service\BrowserSessionProvider.cs
+- Mezinodové volání 
+-- z gui - tak zachovat CPrincipalIdentity - neprozkoumáno
+-- z asynchronního procesu - Každý proces pod enif identitou (basic authentication) 
+-- TODO thin client,ESB - role AllowWebConnect - zamezit servisním účtům připojení přes RestAPI
+
+Autorizace
+-- TODO - změny v identitách notifikovat přes všechny nody
+
+DataSourceProvider a příbuzné informace pro gui - ROZHODNOUT - a)
+a) Exkluzivní modul na ostatních nodech nechává "ocásek", který funguje jen jako callback pro gui
+'-- obecně vyžaduje poslouchání na entitních notifikacích (pokud je netriviální AllIdsSelect)
+'-- pro manuálně overridovatelné moduly, respektive pro pískoviště, vyžaduje synchronní nebo near-realtime cache
+'-- může zároveň obsluhovat GUI requesty (předchůdci/následníci, zobrazení vzorce, ale už ne třeba stav dat)
+'-- zamyslet se nad aktualizací NaosConfig.xml
+b) Provolání přes všechny nody (na všech nodech je provolané GetDataSourceInfo)
+-- problém, pokud node zrovna startuje, respektive modul neběží
+-- v případě málo nodů výkonový problém zřejmě není
+-- symetricky by se zjišťoval stav dat, vzorce... (zde stačí jen na node, kde je DataSource)
+
+Bezodstávkové hotfixy
+- IManageableModule (konfigurace, knihovny) - stejně potřebujem na innogy
+- TreeConfig --- místo RemoveConfig a AddConfig mít nějaké ReplaceConfigs
+-- aktuálně se celý TreeConfig odstraní a poté vrací; při nekonzistenci mezi nody nestabilní gui
+
+
+ManageCore - správa reliable filtrů a notify completorů
+-- zajistit synchronizaci, využít DB persister
+
+NaosModule
+-- TODO - ack pouze pokud při výpočtu nenastal infrastrukturní==DB problém 
+----- pokud budou SQL fronty, všechna data ve stejné DB, a request-scope DB připojení pro všechno, tak problém odpadá
+
+
+-- 11.3. pokracovani - 11:30-13:00

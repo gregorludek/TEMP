@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Form Type="Dummy" Caption="{{VlastnostiTs}}Vlastnosti TS" WindowCaption="{{windowcaption_VlastnostiTs}}Vlastnosti TS" ProgId="EnifGuiEG.EGTSProperties,EnifGuiEG" IsReadOnly="False" Scale="2" ValidationLevel="0" EntityType="">
+  <Params>
+    <Param Name="Buttons">
+      <Param Name="Remove" Value="{{Odstranit}}Odstranit">
+        <Param Name="Tooltip">Odstraní časovou řadu</Param>
+        <Param Name="IsVisible">{IsVisible}	Exp;bool IsVisible=NVL2(IsRemoveVisible,false)</Param>
+      </Param>
+    </Param>
+  </Params>
+  <FieldSection Caption="{{Zakladni}}Základní" Name="Základní">
+    <Field Name="NodeCaption" Caption="{{NazevNodu}}Název nodu" FieldType="Text" Tooltip="{{tooltip_NazevNodu}}Název nodu" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="False" Ratio="10:50" />
+    <Field Name="NodeId" Caption="{{IdNode}}Id Node" FieldType="Text" Tooltip="{{tooltip_IdNode}}Id Node" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="10:50" />
+    <Field Name="DataId" Caption="{{IdData}}Id Data" FieldType="Text" Tooltip="{{tooltip_IdData}}Id Data" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="10:50" />
+  </FieldSection>
+  <FieldSection Caption="{{Vlastnosti}}Vlastnosti" Name="Vlastnosti">
+    <Field Name="Sample" Caption="{{Vzorek}}Vzorek" FieldType="EnumField" Tooltip="{{tooltip_Vzorek}}Vzorek" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Ratio="10:50"></Field>
+    <Field Name="TimeZone" Caption="{{CasovaZona}}Časová zóna" FieldType="EnumField" Tooltip="{{tooltip_CasovaZona}}Časová zóna" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Ratio="10:50"></Field>
+    <Field Name="DataType" Caption="{{DatovyTyp}}Datový typ" FieldType="EnumField" Tooltip="{{tooltip_DatovyTypHodnotCasoveRady}}Datový typ hodnot časové řady" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Ratio="10:50" />
+    <Field Name="Units" Caption="{{Jednotky}}Jednotky" FieldType="EnumField" Tooltip="{{tooltip_Jednotky}}Jednotky" IsVisible="True" IsEnabled="True" IsRequired="True" IsReadOnly="False" Occupation="Line" IsBinded="false" Ratio="10:50"/>
+  </FieldSection>
+  <FieldSection Caption="{{StatistickaData}}Statistická data" Name="Statistická data">
+    <Field Name="RangeValid" Caption="{{RozsahPlatnychHodnot}}Rozsah platných hodnot" FieldType="Text" Tooltip="{{tooltip_RozsahPlatnychHodnot}}Rozsah platných hodnot" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="30:50" />
+    <Field Name="ValidCount" Caption="{{PocetPlatnychHodnotVRozsahu}}Počet platných hodnot v rozsahu" FieldType="Text" Tooltip="{{tooltip_PocetPlatnychHodnotVRozsahu}}Počet platných hodnot v rozsahu" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="30:50" />
+    <Field Name="InvalidCountInValidRange" Caption="{{PocetNeplatnychHodnotVRozsahuPlatnychHodnot}}Počet neplatných hodnot v rozsahu platných hodnot" FieldType="Text" Tooltip="{{tooltip_PocetNeplatnychHodnotVRozsahuPlatnychHodnot}}Počet neplatných hodnot v rozsahu platných hodnot" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="30:50" />
+    <Field Name="Sum" Caption="{{Suma}}Suma" FieldType="Text" Tooltip="{{tooltip_Suma}}Suma" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="30:50" />
+    <Field Name="Max" Caption="{{Maximum}}Maximum" FieldType="Text" Tooltip="{{tooltip_Maximum}}Maximum" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="30:50" />
+    <Field Name="Min" Caption="{{Minimum}}Minimum" FieldType="Text" Tooltip="{{tooltip_Minimum}}Minimum" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="30:50" />
+    <Field Name="Average" Caption="{{Prumer}}Průměr" FieldType="Text" Tooltip="{{tooltip_Prumer}}Průměr" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" Ratio="30:50" />
+  </FieldSection>
+  <FieldSection Caption="{{StatistickaDataPoRocich}}Statistická data po rocích" Collapsed="True" Name="Statistická data po rocích">
+    <Field Name="YearInfos" Caption="" FieldType="Grid" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Block" IsBinded="true">
+      <Params>
+        <Param Name="Columns">
+          <Param Name="{{Rok}}Rok">
+            <Param Name="Field">Year</Param>
+            <Param Name="Alignment">Left</Param>
+          </Param>
+          <Param Name="{{PocetVsechHodnot}}Počet všech hodnot">
+            <Param Name="Field">AllCount</Param>
+            <Param Name="Alignment">Right</Param>
+          </Param>
+          <Param Name="{{PocetPlatnych}}Počet platných">
+            <Param Name="Field">ValidCount</Param>
+            <Param Name="Alignment">Right</Param>
+          </Param>
+          <Param Name="{{PocetNeplatnych}}Počet neplatných">
+            <Param Name="Field">InvalidCount</Param>
+            <Param Name="Alignment">Right</Param>
+          </Param>
+          <Param Name="{{Minimum}}Minimum">
+            <Param Name="Field">MinValue</Param>
+            <Param Name="Alignment">Right</Param>
+            <Param Name="Format">{0:#,0.00}</Param>
+          </Param>
+          <Param Name="{{Maximum}}Maximum">
+            <Param Name="Field">MaxValue</Param>
+            <Param Name="Alignment">Right</Param>
+            <Param Name="Format">{0:#,0.00}</Param>
+          </Param>
+          <Param Name="{{Soucet}}Součet">
+            <Param Name="Field">Sum</Param>
+            <Param Name="Alignment">Right</Param>
+            <Param Name="Format">{0:#,0.00}</Param>
+          </Param>
+          <Param Name="{{Prumer}}Průměr">
+            <Param Name="Field">Average</Param>
+            <Param Name="Alignment">Right</Param>
+            <Param Name="Format">{0:#,0.00}</Param>
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+  <FieldSection Name="DataSourcesSection" Caption="{{VlastnostiZdrojeDat}}Vlastnosti zdroje dat">
+    <Field Name="SourceName" Caption="{{NazevZdroje}}Název zdroje" FieldType="Text" Tooltip="{{tooltip_NazevZdroje}}Název zdroje" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" IsReactive="false" Ratio="10:50" />
+    <Field Name="Exclusive" Caption="{{Exkluzivni}}Exkluzivní" FieldType="BoolField" Tooltip="{{tooltip_Exkluzivni}}Exkluzivní" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" IsReactive="false" Ratio="10:50" />
+    <Field Name="SourceDescription" Caption="Popis zdrojexx" FieldType="Text" Tooltip="{{tooltip_PopisZdroje}}Popis zdroje" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" IsReactive="false" Ratio="10:50" />
+    <Field Name="DataDescription" Caption="{{PopisDat}}Popis dat" FieldType="Text" Tooltip="{{tooltip_PopisDat}}Popis dat" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" IsReactive="false" Ratio="10:50" />
+    <Field Name="DataState" Caption="{{StavDat}}Stav dat" FieldType="Text" Tooltip="{{tooltip_StavDat}}Stav dat" IsVisible="True" IsEnabled="True" IsRequired="False" IsReadOnly="True" Occupation="Line" IsBinded="false" IsReactive="false" Ratio="10:50" />
+  </FieldSection>
+</Form>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EnvironmentConfig>
+  <TimeZones>
+    <TimeZone Name="UTC" ShortCaption="UTC" Caption="Koordinovaný světový čas" Visible="false" />
+    <TimeZone Name="CET" ShortCaption="SEČ" Caption="Středoevropský čas" Visible="false" />
+    <TimeZone Name="CEST" Path="i:\gitRepos\uu_lancelot_coreg01\Core\EnifLogView\Resources\encal.CZ.ini" ShortCaption="SELČ" Caption="Středoevropský letní čas" Visible="true" />
+    <TimeZone Name="CESTm6" Path="i:\gitRepos\uu_lancelot_coreg01\Core\EnifLogView\Resources\encal.CZ.ini" ShortCaption="GAS" Visible="true"/>
+  </TimeZones>
+  <EnCals>
+    <EnCal Name="Empty" ShortCaption="Prázdný" Caption="Prázdný kalendář bez svátků." Visible="true" />
+  </EnCals>
+</EnvironmentConfig>

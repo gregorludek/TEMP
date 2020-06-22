@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Předpisy alarmů" WindowCaption="Předpisy alarmů" ProgId="" EntityType="Enif.Base.Entities.Alarms.AlarmDefinition" Scale="1.5" CanDelete="None" SelectMode="Single">
+  <Params>
+    <Param Name="ViewName">
+      <![CDATA[with nodes (id)
+       as (select id 
+       from BSE_Node where id={NodeId} union all 
+       select inn.id
+       from BSE_Node inn 
+        inner join nodes on inn.parentfk=nodes.id)
+       
+       SELECT an.ID ID,AD.[KEY] AD_KEY,AD.SUBJECT AD_SUBJECT,AT.[KEY] AT_KEY,AT.CAPTION AT_CAPTION FROM
+      BSE_ALARMDEFINITION AD left JOIN BSE_ALARMTYPE AT ON AD.ALARMTYPEFK=AT.ID
+      join BSE_Alarmnode an on an.alarmdeffk=ad.id
+      INNER JOIN
+      (
+      select BSE_Alarmnode.alarmdeffk from nodes 
+      join BSE_Nodeother on parentnodefk=nodes.id and conname='CTAlarmNode'
+      join BSE_Alarmnode on BSE_Nodeother.childnodeid=BSE_Alarmnode.id
+      ) as VISIBLE_DEFINITIONS ON VISIBLE_DEFINITIONS.alarmdeffk=AD.id
+      ORDER BY AD.ID
+      	Exp;string CurrentIdentityId=CurrentIdentity.IdentityId.ToString()]]>
+    </Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="WhereCondition"/>
+    <Param Name="DynamicLoading">False</Param>
+    <Param Name="Export">
+      <Param Name="Export"/>
+    </Param>
+    <Param Name="DeleteButton"/>
+    <Param Name="Columns">
+      <Param Name="AD_KEY">
+        <Param Name="Label">Klíč</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="AD_SUBJECT">
+        <Param Name="Label">Předmět</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">2*</Param>
+      </Param>
+    </Param>
+    <Param Name="PropagateHistoryContext">False</Param>
+    <Param Name="RefreshColumns">False</Param>
+    <Param Name="CaptionVisible">True</Param>
+    <Param Name="ButtonsEnable">True</Param>
+  </Params>
+  <DetailsButton IsVisible="True" ToolTip="Editovat" Form="egeAlarmNode" UnionTransaction="False"/>
+</Form>
+

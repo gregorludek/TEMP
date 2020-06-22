@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ManageCoreConfig>
+  <Process Id="0" Name="MainProcess">
+    <Modules />
+  </Process>
+  <Filters>
+    <Filter Reliable="true" ModuleName="NaosModuleA" FilterName="QueriesCache">
+      <FilterInfo ProgId="EnifNhCommon.CQueriesCacheNotifyFilter,EnifNHCommon">
+        <Params>
+          <Param Name="EnifMainId">1</Param>
+          <Param Name="ModuleId">-21</Param>
+        </Params>
+      </FilterInfo>
+    </Filter>
+    <Filter Reliable="true" ModuleName="NaosModuleA">
+      <FilterInfo ProgId="EnifNaos.NaosModule.CNaosModuleNotifyFilter,EnifNaos">
+        <Params>
+          <Param Name="EnifMainId">1</Param>
+          <Param Name="ModuleId">-21</Param>
+        </Params>
+      </FilterInfo>
+    </Filter>
+    <Filter Reliable="true" ModuleName="NaosModuleB" FilterName="QueriesCache">
+      <FilterInfo ProgId="EnifNhCommon.CQueriesCacheNotifyFilter,EnifNHCommon">
+        <Params>
+          <Param Name="EnifMainId">1</Param>
+          <Param Name="ModuleId">-21</Param>
+        </Params>
+      </FilterInfo>
+    </Filter>
+    <Filter Reliable="true" ModuleName="NaosModuleB">
+      <FilterInfo ProgId="EnifNaos.NaosModule.CNaosModuleNotifyFilter,EnifNaos">
+        <Params>
+          <Param Name="EnifMainId">1</Param>
+          <Param Name="ModuleId">-21</Param>
+        </Params>
+      </FilterInfo>
+    </Filter>
+  </Filters>
+</ManageCoreConfig>

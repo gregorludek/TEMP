@@ -1,0 +1,1 @@
+runas /netonly /user:bufvsh\ludek "cmd.exe"

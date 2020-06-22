@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Alarmy" WindowCaption="Alarmy" ProgId="EGCore.EGBaseBehavior,EGCore" EntityType="Enif.Base.Entities.Alarms.AlarmLog,EnifALARMSCommon" IsReadOnly="False" Scale="1" ValidationLevel="0" CanDelete="None">
+  <Params>
+    <Param Name="ViewName">
+      <![CDATA[
+      SELECT AL2.ID, AL2.FinalSubject SUBJECT, AL2.Created CREATED, ALS.caption as MAXSTATE, (CASE WHEN BACK=0 AND ALDEF.NOTETYPE <> 0 THEN '#FF0000' ELSE '' END) as Color FROM
+      (
+      SELECT id, FinalSubject, created, Max(state) MState, MAX(FORME) FORME, COUNT(BACK) BACK, alDefinition FROM
+      (
+      SELECT AL.ID, AL.FinalSubject as FinalSubject, ALS.ID as State, AL.Created as Created, (CASE WHEN ALD.ADDRESSINCHANNEL='IdentityAdapterNH:1' THEN 1 ELSE 0 END) FORME, ANOTE.ID BACK, AL.ALARMDEFINITIONFK as alDefinition
+      FROM BSE_AlarmLog AL
+      LEFT OUTER JOIN BSE_AlarmLogDelivery ALD ON ALD.alarmlogfk = AL.id
+      LEFT OUTER JOIN BSE_AlarmLogState ALS ON ALS.id = ALD.alarmlogstatefk
+      LEFT OUTER JOIN BSE_AlarmChannel ALC ON ALC.id = ALS.alarmchannelfk
+      LEFT OUTER JOIN BSE_AlarmLogNote ANOTE ON AL.id = ANOTE.ALARMLOGFK
+      WHERE ALC.KEY = 'Window'
+      ) AS X
+      GROUP BY id, FinalSubject, created, alDefinition
+      )
+      AL2 
+      LEFT OUTER JOIN BSE_AlarmLogState ALS ON AL2.MState = ALS.ID
+      LEFT OUTER JOIN BSE_ALARMDEFINITION ALDEF ON AL2.alDefinition = ALDEF.ID
+      WHERE FORME=1
+      ORDER BY CREATED DESC	Exp;string CurrentIdentityId=CurrentIdentity.IdentityId.ToString()
+      ]]>
+    </Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="WhereCondition"/>
+    <Param Name="DynamicLoading">False</Param>
+    <Param Name="AskOnDelete">Opravdu smazat?</Param>
+    <Param Name="Export">
+      <Param Name="Export"/>
+    </Param>
+    <Param Name="DeleteButton"/>
+    <Param Name="Columns">
+      <Param Name="SUBJECT">
+        <Param Name="Label">Subject</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+        <Param Name="Background">Color</Param>
+      </Param>
+      <Param Name="MAXSTATE">
+        <Param Name="Label">Stav</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+        <Param Name="Background">Color</Param>
+      </Param>
+      <Param Name="CREATED">
+        <Param Name="Label">Vytvořeno</Param>
+        <Param Name="DataType">DateTime</Param>
+        <Param Name="Width">1*</Param>
+        <Param Name="Background">Color</Param>
+      </Param>
+    </Param>
+    <Param Name="ButtonsEnable">True</Param>
+  </Params>
+  <DetailsButton IsVisible="True" ToolTip="Editovat" Form="egeAlarmLog" UnionTransaction="False"/>
+  <SelectButton IsVisible="False" ToolTip="Nový" Form="egeAlarmLog" UnionTransaction="False"/>
+</Form>

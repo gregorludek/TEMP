@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <EnifConfig Name="LGAggFunction" System="true">
-  <!--a) lze se prihlasit klientem-->
   <ModuleCore>
-    <!-- https://confluence.unicornsystems.eu/display/ENIF/EnifConfig.xml#EnifConfig.xml-SekceModuleCore -->
     <MCIdRangeFrom>1</MCIdRangeFrom>
-    <MCIdRangeTo>99999</MCIdRangeTo>
-    <ListeningPort>2205</ListeningPort>
+    <MCIdRangeTo>1</MCIdRangeTo>
+    <ListeningPort>0</ListeningPort>
   </ModuleCore>
   <TreeCore>
     <TreeConfigs>
@@ -18,7 +16,7 @@
         <XmlFileName>TreeConfigETRMOteDataMirror.xml</XmlFileName>
         <Params>
           <Param Name="SessionFactory" Value="ETRM" />
-          <!--agg scitacka - potrebujeme, aby autorun trida nasla instanci TreeControlleru-->
+          <!--aggdataadapter needs to find instance of treeContoller-->
           <Param Name="ControllerModuleName" Value="TreeControllerETRM"/>
         </Params>
       </TreeConfig>
@@ -45,7 +43,7 @@
 
         <ParamClass Name="AggDataAdapterDataInfoProvider" ClassProgId="Enif.CClassInfo" ProgId="EnifEtrmAggDataAdapter.AggDataAdapterDataInfoProvider,EnifEtrmAggDataAdapter">
           <Params>
-            <Param Name="Path">ETRMAggDataAdapterConfigManual.xml</Param>
+            <Param Name="Path">ETRMAggDataAdapterConfig.xml</Param>
             <!--<Param Name="Path">ETRMAggDataAdapterConfig.xml</Param>-->
           </Params>
         </ParamClass>
@@ -111,7 +109,8 @@
     <SessionFactory Name="Enif">
       <Param Name="dialect">NHibernate.Dialect.Oracle10gDialect</Param>
       <!--<Param Name="ConnectionString">Data Source=LGORACLE12C;User ID=ETRM_IS_02;Password=x</Param>-->
-      <Param Name="ConnectionString">Data Source=LGORACLE12C;User ID=ETRM_IS_04;Password=x</Param>
+      <!--<Param Name="ConnectionString">Data Source=LGORACLE12C;User ID=ETRM_IS_04;Password=x</Param>-->
+      <Param Name="ConnectionString">Data Source=LGORACLE12C;User ID=ETRMIS;Password=x</Param>
       <!--<Param Name="ConnectionString">Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.18.6.75)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=PREDB01)));User ID=PRE_ETRM_GAS_03;Password=Deneb6</Param>-->
       <Param Name="default_schema"></Param>
       <Param Name="connection.driver_class">NHibernate.Driver.OracleClientDriver</Param>
@@ -119,15 +118,9 @@
       <Param Name="DefaultType">Local</Param>
       <Param Name="DefaultSessionImplementorType">v2</Param>
       <Param Name="AllowSavePoints">true</Param>
-      <Param Name="ModelCompletion">true</Param>
       <Param Name="Assemblies">
         <Param>EnifNH.dll</Param>
       </Param>
-      <RightsAdapters>
-        <RightsAdapter Name="TSCopy">
-          <ProgId>Enif.Gui.TSCopy.Gui.Validators.TSCopyValidator, EnifTSCopyGui</ProgId>
-        </RightsAdapter>
-      </RightsAdapters>
       <EntityNotifications>
         <Include>*,*</Include>
       </EntityNotifications>
@@ -139,7 +132,6 @@
         <Param>EnifETRMCommon.dll</Param>
         <Param>EnifETRMCOMOTE.dll</Param>
         <Param>EnifGECommon.dll</Param>
-        <!--<Param>CygLMSEnif.dll</Param>-->
       </Param>
       <EntityNotifications>
         <Include>*,*</Include>
@@ -620,12 +612,6 @@
       </Params>
     </Adapter>
   </IdentityCoreMain>
-  <!--<SystemAdapters>
-    <Adapter Name="ServiceCore">
-      <ProgId>EnifManagement.CServiceCoreAdapterXml,EnifManagement</ProgId>
-    </Adapter>
-  </SystemAdapters>-->
-  <!--b) stylovani-->
   <Settings>
     <AppDataDir>f:\TM\AppData\LGAggFunction\</AppDataDir>
     <Gui>

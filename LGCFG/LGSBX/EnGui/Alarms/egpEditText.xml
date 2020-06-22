@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Primitive" Caption="Text" WindowCaption="Edit text" ProgId="" EntityType="Enif.EDA.ENV.MF.EGForm,EnifModelFirstCommon" IsReadOnly="false" Scale="2" ValidationLevel="0">
+  <Field Name="FormXml" Caption="XML" FieldType="Text" SelectorType="Path" Selector="." IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Block" IsBinded="false" Height="30" MaxHeight="31">
+    <Params>
+      <Param Name="Multiline">true</Param>
+    </Params>
+  </Field>
+</Form>

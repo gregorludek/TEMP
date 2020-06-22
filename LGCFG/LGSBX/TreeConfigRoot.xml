@@ -127,5 +127,18 @@
         </Param>
       </Params>
     </ConTemplate>
+    <ConTemplate Id="Alarms" ProgId="EnifCommon.CCTFixed">
+      <Params>
+        <Param Name="CheckChildConfigPresent">1</Param>
+        <Param Name="Parent">
+          <Param Name="AId" Value="[ROOT]"/>
+        </Param>
+        <Param Name="Child">
+          <Param Name="AId" Value="2000"/>
+          <Param Name="TemplateId" Value="Fo"/>
+          <Param Name="ConfigName" Value="Alarms"/>
+        </Param>
+      </Params>
+    </ConTemplate>
   </NodeTemplate>
 </TreeConfig>

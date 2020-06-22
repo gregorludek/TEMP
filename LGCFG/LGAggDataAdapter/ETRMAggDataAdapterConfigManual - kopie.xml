@@ -1,5 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-16"?>
-<AggDataAdapterMapping>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--<SubModulesQuery>select mubz.Id,'AllInOne' from MU_BZ mubz where mubz.Id=1000000</SubModulesQuery>
+  <SubModulesSelector>1000000</SubModulesSelector>-->
+<ImmediateAdapterMapping>
   <SubModulesQuery>select mubz.Id,mubz.MarketUnit.Subject.ExternalId1||'-'||mubz.BalanceZone.Key from MU_BZ mubz</SubModulesQuery>
   <SubModulesSelector>mubz.Id</SubModulesSelector>
   <Mapping Hql="select mubz.Id from MU_BZ mubz where mubz.Id=:FormulaId">
@@ -35,7 +37,7 @@
       <In>MU_GPGGridComm.DiagramSaldoVolume</In>
     </Out>
   </Mapping>
-  <Mapping Hql="select distinct item.Id from MU_GPGGridComm item, MU_BZ mubz inner join item.MU_GPGGrid mugpggrid inner join mugpggrid.GPGGrid gpggrid inner join gpggrid.Grid grid inner join grid.BalanceZone bz inner join mubz.BalanceZone mubzbz where item.Comm.AggKey='COMMODITY' and gpggrid.GridPointType.IsVTP=1 and mubz.Id=:FormulaId and mubzbz.Id=bz.Id">
+  <Mapping Hql="select distinct item.Id from MU_GPGGridComm item, MU_BZ mubz inner join item.MU_GPGGrid mugpggrid inner join mugpggrid.GPGGrid gpggrid inner join gpggrid.Grid grid inner join grid.BalanceZone bz inner join mubz.BalanceZone mubzbz where item.Comm.AggKey='COMMODITY' and mubz.Id=:FormulaId and mubzbz.Id=bz.Id and gpggrid.GridPointType.IsVTP=1">
     <Out Id="MU_BZ.DiagramClosedPositionVTP">
       <In>MU_GPGGridComm.DiagramSaldoVolume</In>
     </Out>
@@ -132,6 +134,10 @@
     </Out>
   </Mapping>
   <Mapping Hql="select distinct d.Id from Deal d inner join d.GridPointInternal egp inner join egp.bagMU_GridPoint mugp inner join mugp.bagMUGridPointComm mugpcomm inner join mugpcomm.Parent.MUGrid.MUBZ mubz where d.DealType.Commodity.Key=mugpcomm.Comm.Key and d.DealState.AggType=1 and d.DealType.IsUnited=0 and mugpcomm.Id=:FormulaId">
+    <AllIdsHql>
+      select distinct mugpcomm.Id,mubz.Id from MU_GridPointComm mugpcomm inner join mugpcomm.Parent.MUGrid.MUBZ mubz
+      left join Deal d
+    </AllIdsHql>
     <ResampleHqlPart>d.Product.AggregationFxType.Key</ResampleHqlPart>
     <Out Id="MU_GridPointComm.DiagramEntryPayment">
       <In ResampleExpression="Const;SUM">Deal.DiagramBuyPaymentMSAgg</In>
@@ -146,4 +152,4 @@
       <In ResampleExpression="HqlIdx;0">Deal.DiagramSellVolumeMS</In>
     </Out>
   </Mapping>
-</AggDataAdapterMapping>
+</ImmediateAdapterMapping>

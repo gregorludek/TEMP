@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Entity" Caption="Konzument alarmů" WindowCaption="Konzument alarmů" ProgId="" EntityType="Enif.Base.Entities.Alarms.AlarmConsumer,EnifALARMSCommon" IsReadOnly="False" Scale="1.2" ValidationLevel="0" CanDelete="None" Background="#3E8791" SelectMode="None">
+  <FieldSection Name="Default" Caption="Obecné">
+    <Columns />
+    <Field Name="Key" Caption="Klíč" FieldType="Text" SelectorType="Path" Selector="Key" Occupation="Line" />
+  </FieldSection>
+  <FieldSection Name="ChannelTemplates" Caption="Kanály">
+    <Columns />
+    <Field Name="bagAlarmChannelConsumer" Caption="bagAlarmChannelConsumer" FieldType="Grid" SelectorType="Path" Selector="bagAlarmChannelConsumer" Occupation="Block">
+      <DetailsButton IsVisible="True" Form="egeAlarmChannelConsumer" UnionTransaction="True" />
+      <SelectButton IsVisible="False" Form="egeAlarmChannelConsumer" UnionTransaction="True" />
+      <Params>
+        <Param Name="DeleteMode">Single</Param>
+        <Param Name="SelectionMode">Single</Param>
+        <Param Name="RefreshColumns">False</Param>
+        <Param Name="HideHeaders">False</Param>
+        <Param Name="AskOnDelete">Opravdu smazat?</Param>
+        <Param Name="Columns">
+          <Param Name="Identifikátor">
+            <Param Name="Field">AddressInChannel</Param>
+          </Param>
+          <Param Name="Kanál">
+            <Param Name="Field">AlarmChannel.Caption</Param>
+          </Param>
+        </Param>
+        <Param Name="DeleteButton">
+          <Param Name="EntityDelegates">
+            <Param Name="Destroy_Complete" />
+          </Param>
+        </Param>
+      </Params>
+    </Field>
+  </FieldSection>
+</Form>

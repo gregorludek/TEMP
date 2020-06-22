@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Grid" Caption="Předpisy alarmů" WindowCaption="Předpisy alarmů" ProgId="" EntityType="Enif.Base.Entities.Alarms.AlarmDefinition" Scale="1.5" CanDelete="Multi" SelectMode="Single">
+  <Params>
+    <Param Name="ViewName">
+      SELECT AD.ID ID,AD.KEY AD_KEY,AD.SUBJECT AD_SUBJECT,AT.KEY AT_KEY,AT.CAPTION AT_CAPTION FROM
+      BSE_ALARMDEFINITION AD JOIN BSE_ALARMTYPE AT ON AD.ALARMTYPEFK=AT.ID
+      ORDER BY AD.ID
+    </Param>
+    <Param Name="PrimaryKeyName">ID</Param>
+    <Param Name="WhereCondition"/>
+    <Param Name="DynamicLoading">False</Param>
+    <Param Name="AskOnDelete">Opravdu smazat?</Param>
+    <Param Name="Export">
+      <Param Name="Export"/>
+    </Param>
+    <Param Name="DeleteButton"/>
+    <Param Name="Columns">
+      <Param Name="AD_KEY">
+        <Param Name="Label">Klíč</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">1*</Param>
+      </Param>
+      <Param Name="AD_SUBJECT">
+        <Param Name="Label">Předmět</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">2*</Param>
+      </Param>
+      <Param Name="AT_CAPTION">
+        <Param Name="Label">Typ alarmu</Param>
+        <Param Name="DataType">String</Param>
+        <Param Name="Width">2*</Param>
+      </Param>
+    </Param>
+    <Param Name="PropagateHistoryContext">False</Param>
+    <Param Name="RefreshColumns">False</Param>
+    <Param Name="CaptionVisible">True</Param>
+    <Param Name="ButtonsEnable">True</Param>
+  </Params>
+  <DetailsButton IsVisible="True" ToolTip="Editovat" Form="egeAlarmDefinition" UnionTransaction="False"/>
+  <SelectButton IsVisible="True" ToolTip="Nový" Form="egeAlarmDefinition" UnionTransaction="False"/>
+</Form>
+

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<EnifConfig Name="LGCluster" System="true">
+  <ModuleCore>
+    <MCIdRangeFrom>1</MCIdRangeFrom>
+    <MCIdRangeTo>1</MCIdRangeTo>
+    <ListeningPort>1114</ListeningPort>
+  </ModuleCore>
+  <TreeCore>
+    <TreeConfigs>
+      <TreeConfig Name="Test">
+        <IconPath>RootIcons</IconPath>
+        <Params>
+          <Param Name="SessionFactory" Value="Enif"/>
+        </Params>
+        <XmlFileName>TreeConfigTest_Generated.xml</XmlFileName>
+        <XmlFileName>TreeConfigTest_Manual.xml</XmlFileName>
+      </TreeConfig>
+    </TreeConfigs>
+    <GuiItemAdapters>
+      <GuiItemAdapter Name="Disc" ProgId="Enif.Tree.CGuiItemDisc,EnifCommon">
+        <Params>
+          <Param Name="DirName">GuiItems</Param>
+          <Param Name="TextExtensions">
+            <Param>xml</Param>
+            <Param>txt</Param>
+          </Param>
+        </Params>
+      </GuiItemAdapter>
+    </GuiItemAdapters>
+  </TreeCore>
+  <AutorunClasses>
+    <Class Name="NaosModuleA" Type="OtherCommand" ProgId="Enif.Naos.CNaosModule,EnifNaos">
+      <Params>
+        <Param Name="TargetProcess">EnifCluster_A</Param>
+        <Param Name="ListenType">Reliable</Param>
+        <Param Name="CycleTestType">LocalTest</Param>
+        <Param Name="Register">true</Param>
+        <ParamClass Name="Storage" ProgId="Enif.Naos.CNaosFormulaStorageMulti,EnifNaos" ClassProgId="Enif.CClassInfo">
+          <Params>
+            <Param Name="InnerStorages">
+              <ParamClass Name="Structure" ClassProgId="Enif.CClassInfo">
+                <ProgId>Enif.Naos.CNaosFormulaStorageStructure,EnifNaos</ProgId>
+                <Params>
+                  <Param Name="Path">NaosConfigA.xml</Param>
+                  <Param Name="Name">NaosModuleTestA</Param>
+                </Params>
+              </ParamClass>
+            </Param>
+          </Params>
+        </ParamClass>
+      </Params>
+    </Class>
+    <Class Name="NaosModuleB" Type="OtherCommand" ProgId="Enif.Naos.CNaosModule,EnifNaos">
+      <Params>
+        <Param Name="TargetProcess">EnifCluster_B</Param>
+        <Param Name="ListenType">Reliable</Param>
+        <Param Name="CycleTestType">LocalTest</Param>
+        <Param Name="Register">true</Param>
+        <ParamClass Name="Storage" ProgId="Enif.Naos.CNaosFormulaStorageMulti,EnifNaos" ClassProgId="Enif.CClassInfo">
+          <Params>
+            <Param Name="InnerStorages">
+              <ParamClass Name="Structure" ClassProgId="Enif.CClassInfo">
+                <ProgId>Enif.Naos.CNaosFormulaStorageStructure,EnifNaos</ProgId>
+                <Params>
+                  <Param Name="Path">NaosConfigB.xml</Param>
+                  <Param Name="Name">NaosModuleTestB</Param>
+                </Params>
+              </ParamClass>
+            </Param>
+          </Params>
+        </ParamClass>
+      </Params>
+    </Class>
+    <Class Name="WebApiMainModule">
+      <Type>OtherCommand</Type>
+      <ProgId>Enif.WebApi.Main.Core.WebApiModule,EnifWebApi.Main</ProgId>
+      <Params>
+        <Param Name="BasePort">6000</Param>
+        <Param Name="AuthenticationType">EnifIdToken</Param>
+        <Param Name="Debug">true</Param>
+        <Param Name="AlarmModuleName">AlarmsModule</Param>
+        <Param Name="Sandbox">
+          <Param Name="SessionFactory">Enif</Param>
+          <Param Name="TreeConfig">LGCluster:Test</Param>
+        </Param>
+        <!--<Param Name="Assemblies">
+          <Param Value="EnifWebApi.Template"/>
+        </Param>-->
+      </Params>
+    </Class>
+    <Class Name="WebApiTemplateModule">
+      <Type>OtherCommand</Type>
+      <ProgId>Enif.WebApi.Template.Core.WebApiTemplateModule,EnifWebApi.Template</ProgId>
+      <Params>
+        <Param Name="BasePort">6001</Param>
+        <Param Name="Debug">true</Param>
+      </Params>
+    </Class>
+
+  </AutorunClasses>
+  <EntityCoreMain>
+    <SessionFactory Name="Enif">
+      <Param Name="dialect">NHibernate.Dialect.MsSql2005Dialect</Param>
+      <Param Name="ConnectionString">Server=localhost\SQLEXPRESS;Database=CLUSTER_01;User Id=CLUSTER_01;Password=x</Param>
+      <Param Name="connection.driver_class">NHibernate.Driver.SqlClientDriver</Param>
+      <Param Name="Proxy">EntityProxy:Default</Param>
+      <Param Name="DefaultType">Local</Param>
+      <Param Name="DefaultSessionImplementorType">v2</Param>
+      <Param Name="AllowSavePoints">true</Param>
+      <Param Name="Assemblies">
+        <Param>EnifNH.dll</Param>
+        <Param>EnifCluster.dll</Param>
+        <Param>EnifWebApi.Security.EnifIdToken.dll</Param>
+      </Param>
+      <EntityNotifications>
+        <Include>*,*</Include>
+      </EntityNotifications>
+    </SessionFactory>
+  </EntityCoreMain>
+  <EntityCore>
+    <LogLevel>2</LogLevel>
+    <SessionFactory Name="Enif">
+      <Param Name="Type">Server</Param>
+    </SessionFactory>
+  </EntityCore>
+  <IdentityCoreMain>
+    <Params>
+      <!--zatim nemame treeconfig, nechceme se zobrazovat ve stromecku-->
+      <Param Name="RolesToShow"></Param>
+      <Param Name="RolesToEdit"></Param>
+      <Param Name="AutoAdd"></Param>
+      <Param Name="IsLoginCaseSensitive">false</Param>
+    </Params>
+    <Adapter Name="IA">
+      <ProgId>Enif.Identities.CIdentityAdapterConst,Enif</ProgId>
+      <Params>
+        <Param Name="Identities">
+          <Param>
+            <Param Name="Name" Value="Admin"/>
+            <Param Name="Type" Value="User"/>
+            <Param Name="Password" Value=""/>
+            <Param Name="Inherits">
+              <Param>
+                <Param Name="Name" Value ="Admin"/>
+                <Param Name="Type" Value="Role"/>
+              </Param>
+            </Param>
+          </Param>
+          <Param>
+            <Param Name="Name" Value="Admin"/>
+            <Param Name="Type" Value="Role"/>
+          </Param>
+        </Param>
+      </Params>
+    </Adapter>
+    <Adapter Name="EnifWebTokenIA">
+      <ProgId>Enif.WebApi.Security.EnifIdToken.Authentication.IdentityAdapter.EnifWebTokenIdentityAdapter,EnifWebApi.Security.EnifIdToken</ProgId>
+      <Params>
+      </Params>
+    </Adapter>
+  </IdentityCoreMain>
+  <Settings>
+    <AppDataDir>f:\TM\AppData\EnifCluster_01\</AppDataDir>
+    <Gui>
+      <ApplicationTitle>EnifCluster_01</ApplicationTitle>
+      <Style>VigDesign</Style>
+    </Gui>
+  </Settings>
+  <TransactionCoreMain>
+    <DefaultOptions>NativeOnePhaseCommit</DefaultOptions>
+    <NotificationPersister ProgId="Enif.Transactions.DiscNotificationPersister,Enif"/>
+    <Adapter>
+      <ProgId>Enif.Transactions.CTransactionCoreAdapterNH,EnifNh</ProgId>
+      <Params/>
+    </Adapter>
+  </TransactionCoreMain>
+  <NotifyCoreMain>
+    <Adapter ProgId="EnifCluster.NotifyCoreAdaper,EnifCluster">
+      <Params>
+        <Param Name="HostName" Value="localhost"/>
+        <Param Name="UserName" Value="lancelot"/>
+        <Param Name="Password" Value="x"/>
+      </Params>
+    </Adapter>
+  </NotifyCoreMain>
+  <NaosCoreMain>
+    <DateFrom>1.1.2018</DateFrom>
+    <DateToEx>1.1.2021</DateToEx>
+    <TimeZone>CET</TimeZone>
+    <FxClasses>
+      <FxClass>EnifNaosC1.CFxListManager,EnifNaosC164 64</FxClass>
+    </FxClasses>
+  </NaosCoreMain>
+  <SystemAdapters>
+    <Adapter Name="ServiceCore" ProgId="EnifManagement.CServiceCoreAdapterXml,EnifManagement"/>
+  </SystemAdapters>
+  <Params>
+    <Param Name="WatchConfigDirChanges">0</Param>
+  </Params>
+</EnifConfig>

@@ -30,6 +30,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,8 +46,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\00_EXE\Enif.DEBUG\Config\ApplicationConfig.xml">
+      <Link>ApplicationConfig.xml</Link>
+    </Content>
     <Content Include="..\.gitignore">
       <Link>.gitignore</Link>
+    </Content>
+    <Content Include="ETRMAggDataAdapterConfigXslt.xslt">
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="LGAggDataAdapter\EnifConfig.xml">
       <SubType>Designer</SubType>
@@ -66,6 +75,17 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="LGAggDataAdapter\TreeConfigSC.xml" />
+    <Content Include="LGCluster\EnifConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="LGCluster\EnvironmentConfig.xml" />
+    <Content Include="LGCluster\ManageCoreConfig.xml" />
+    <Content Include="LGCluster\NaosConfigA.xml" />
+    <Content Include="LGCluster\NaosConfigB.xml" />
+    <Content Include="LGCluster\TreeConfigRoot.xml" />
+    <Content Include="LGCluster\TreeConfigTest_Manual.xml" />
+    <Content Include="LGCluster\TreeConfigTest_Generated.xml" />
+    <Content Include="LGCluster\Work.txt" />
     <Content Include="StartParams.txt" />
     <None Include="LGSBX\TreeConfigWorkspace.xml" />
     <None Include="LGSBX\TreeConfigSC.xml" />

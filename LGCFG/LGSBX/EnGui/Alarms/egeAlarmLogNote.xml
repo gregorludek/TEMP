@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Form Type="Primitive" Caption="Text" WindowCaption="Edit text" EntityType="Enif.Base.Entities.Alarms.AlarmLogNote,EnifALARMSCommon" IsReadOnly="False" Scale="0.9" ValidationLevel="0" >
+  <!--<Field Name="Notes" Caption="Popis" Selector="Text" SelectorType="Path" FieldType="AvalonEdit" ToolTip="Poznámky" IsVisible="True" IsEnabled="True" IsReadOnly="False" IsRequired="{IsRequired}&#x9;Path;EGFormType.Key as FormType&#x9;Exp;bool IsRequired=(FormType==&quot;Grid&quot;)" Occupation="CaptionBlock" Height="5" MaxHeight="5">-->
+  <Field Name="FormXml" Caption="XML" FieldType="Text" SelectorType="Path" Selector="Text" IsVisible="True" IsEnabled="True" IsReadOnly="False" Occupation="Block" IsBinded="false" Height="10" MaxHeight="10">
+    <Params>
+      <Param Name="Multiline">true</Param>
+    </Params>
+  </Field>
+</Form>

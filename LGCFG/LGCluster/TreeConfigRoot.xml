@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TreeConfig xmlns="Enif.TreeConfig">
+  <ModContainer Name="Static">
+    <ModCommand Name="Logout">
+      <Type>Menu</Type>
+      <ProgId>EnifClient.CCommandLogOff</ProgId>
+      <Caption>Nástroje|Odhlásit se</Caption>
+    </ModCommand>
+    <ModCommand Name="mnRecomputeAllAll" Caption="Nástroje|Přepočítat vše (vše)" ProgId="Enif.Naos.CCommandRecomputeAll,EnifNaos" Type="Menu">
+      <Params>
+        <Param Name="NaosModuleName">NaosCore</Param>
+      </Params>
+    </ModCommand>
+    <ModCommand Name="lwLeftTree" Type="LeftPanel" ProgId="EnifGui.LWLeftTree">
+      <Params>
+        <Param Name="OrderByType" Value="None" />
+        <Param Name="AllowDrop" Value="true" />
+        <Param Name="RootNodes">
+          <Param>[ROOT]|System|[ROOT]</Param>
+          <Param>1|Test|Test</Param>
+        </Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+
+  <ModContainer Name="Global">
+    <ModCommand Name="ServiceKeys">
+      <ModProgId>Enif.ServiceKeys.CModCommandClassServiceKeys</ModProgId>
+    </ModCommand>
+    <ModCommand Name="LWProperties">
+      <ModProgId>EnifCommon.CModCommandAddToBegin</ModProgId>
+      <Type>Tab Editor</Type>
+      <ProgId>EnifGui.LWProperties</ProgId>
+      <Caption>Vlastnosti</Caption>
+      <Params>
+        <Param Name="ShowCommands">true</Param>
+      </Params>
+    </ModCommand>
+  </ModContainer>
+
+  <NodeType Id="100" Name="[ERROR]">
+    <NodeProgId>Enif.Tree.CNodeError</NodeProgId>
+    <ModFormat>
+      <ForeColor>White</ForeColor>
+      <BackColor>Crimson</BackColor>
+      <FontStyleChange>Bold1</FontStyleChange>
+      <IconParams>Error</IconParams>
+      <IconOperation>Set</IconOperation>
+    </ModFormat>
+
+    <ModCommand Name="LWError">
+      <Type>Tab</Type>
+      <ProgId>Enif.Tree.LWErrorNode,Enif</ProgId>
+      <Caption>Information</Caption>
+    </ModCommand>
+  </NodeType>
+
+  <NodeType Id="200" Name="[ROOT]">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <ModFormat>
+      <ForeColor>Black</ForeColor>
+      <FontStyleChange>Bold1</FontStyleChange>
+      <IconParams>Root</IconParams>
+      <IconOperation>Set</IconOperation>
+    </ModFormat>
+  </NodeType>
+  <ModContainer Name="Commands" ModProgId="EnifCommon.CModContainerFilterTemplateId">
+    <Mods>
+      <ModCommand Icon="PlusCreate" ProgId="EnifClient.CCommandLogOff">
+        <Type>DirectCommand</Type>
+        <ModParams>
+          <Param Name="TemplateId">Disconnect</Param>
+        </ModParams>
+      </ModCommand>
+      <ModCommand Type="Tab" ProgId="EnifHqlEditor.LWHqlEditor,EnifHqlEditor" Caption="HqlEditorEnif">
+        <ModParams>
+          <Param Name="TemplateId">HqlEditorEnif</Param>
+        </ModParams>
+        <Params>
+          <Param Name="SessionFactory">Enif</Param>
+        </Params>
+      </ModCommand>
+    </Mods>
+  </ModContainer>
+
+  <NodeType Id="300" Name="Folder">
+    <NodeProgId>Enif.CNode</NodeProgId>
+    <Mods>
+      <ModFormat>
+        <ForeColor>Black</ForeColor>
+        <FontStyleChange>Bold1</FontStyleChange>
+        <IconParams>folder</IconParams>
+        <IconOperation>Set</IconOperation>
+      </ModFormat>
+    </Mods>
+    <ModContainerRef Ref="Commands" />
+  </NodeType>
+
+  <NodeTemplate Id="[ROOT]" ProgId="EnifCommon.CNTConst">
+    <NodeType>[ROOT]</NodeType>
+    <Caption>Cluster</Caption>
+    <NodeTemplate Caption="Systém" Id="System" ProgId="EnifCommon.CNTConst" NodeType="Folder">
+      <NodeTemplate Caption="Odhlásit" ProgId="EnifCommon.CNTConst" Id="Disconnect" NodeType="Folder">
+        <Params>
+          <Param Name="HasChildren">false</Param>
+        </Params>
+      </NodeTemplate>
+      <NodeTemplate Caption="Hql editor enif" ProgId="EnifCommon.CNTConst" Id="HqlEditorEnif" NodeType="Folder">
+        <Params>
+          <Param Name="HasChildren">false</Param>
+        </Params>
+      </NodeTemplate>
+    </NodeTemplate>
+    <ConTemplate Id="Test" ProgId="EnifCommon.CCTFixed">
+      <Params>
+        <Param Name="CheckChildConfigPresent">1</Param>
+        <Param Name="Parent">
+          <Param Name="AId" Value="[ROOT]"/>
+        </Param>
+        <Param Name="Child">
+          <Param Name="AId" Value="1"/>
+          <Param Name="TemplateId" Value="Test"/>
+          <Param Name="ConfigName" Value="Test"/>
+        </Param>
+      </Params>
+    </ConTemplate>
+
+  </NodeTemplate>
+
+</TreeConfig>
+
